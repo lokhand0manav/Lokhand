@@ -1,0 +1,93 @@
+<html>
+<head>
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+ <form action="home.html">
+  <input type="submit" class="btn btn-success" value="Main Menu">
+  </form>
+
+
+	<div class="container">
+		<h2>Organized</h2>
+		<form class="form-horizontal" method="post" action="organized.php" enctype="multipart/form-data">
+
+			<div class="form-group">
+				<label>Date of visit:</label>
+				<input type="date" name="ivdate" class="form-control">
+
+			</div>
+
+			<div class="form-group">
+				<label >Faculty Name:</label>      
+				<input type="text" class="form-control" name="f_name">
+			</div>
+
+			<div class="form-group">
+				<label >Staff Name:</label>      
+				<input type="text" class="form-control" name="s_name">
+			</div>
+
+			<div class="form-group">
+				<label >Industry Details</label>         
+				<input type="textarea" rows="5" cols="5" class="form-control" name="ind">
+			</div>
+
+			<div class="form-group">
+				<label>City</label>
+				<input type="text" class="form-control" name="city">
+			</div>
+
+			<div class="form-group">
+				<label>Purpose</label>
+				<input type="text" class="form-control" name="purpose">
+			</div>
+            	
+            <div class="form-group">
+				<label>Target audience</label>
+				<select class= "form-control" name="t_audience">
+  						<option value="1">1</option>
+  						<option value="2">2</option>
+  						<option value="3">3</option>
+  						<option value="4">4</option>
+				</select>
+			</div>
+            
+            <div class="form-group">
+            	 <label>Duration</label><br>
+	             From: <input type="date" name="from" placeholder="From">
+	             To :<input type="date" name="to" placeholder="To"><br>
+	        </div>  
+			
+						<div class="form-group">
+				<label>Attach Attendance Record</label><br>
+			    <input type="file" class="btn btn-file" value="Browse.." name="attendance" id="attendance">
+			</div>
+
+			<div class="form-group">
+				<label>Attach Permission Letter</label><br>
+			    <input type="file" class="btn btn-file" value="Browse..." name="permission" id="permission">
+			</div>	
+			<div class="form-group">
+				<label>Attach Report</label><br>
+			    <input type="file" class="btn btn-file" value="Browse.." name="report" id="report">
+			</div>
+
+			<div class="form-group">
+				<label>Attach Certificate</label><br>
+			    <input type="file" class="btn btn-file" value="Browse..." name="certificate" id="certificate">
+			</div>	
+
+			<div class="form-group">        
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
