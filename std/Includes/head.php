@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<style type="text/css">
+	.required{
+		color:red;
+		}
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Organized View</title>
