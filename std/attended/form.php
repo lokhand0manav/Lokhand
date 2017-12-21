@@ -39,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		//the form was submitted
     
 		$ivdate_array = $_POST['ivdate'];
-		$fname_array = $_POST['fname'];
 		$ind_array = $_POST['ind'];
 		$city_array = $_POST['city'];
 		$purpose_array = $_POST['purpose'];
@@ -47,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		for($i=0; $i<count($ivdate_array);$i++)
 		{
 			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
-			$fname = mysqli_real_escape_string($conn,$fname_array[$i]);
+			$fname = $username;
 			$ind = mysqli_real_escape_string($conn,$ind_array[$i]);
 			$city = mysqli_real_escape_string($conn,$city_array[$i]);
 			$purpose = mysqli_real_escape_string($conn,$purpose_array[$i]);	
@@ -57,11 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$dateerr="Please enter a date";
 				$flag++;
 			}
-			if(empty($_POST['fname[]']))
-			{
-				$nameerr="Enter a name";
-				$flag++;
-			}
+			
 			else   
 			{
 				$name = test_input($_POST['fname[]']);
@@ -118,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 
   <!-- Content Header (Page header) -->
-  <!-- Ma'am Kaa Form -->
+  
 
   <div class="content-wrapper">
     
@@ -137,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				<div class="form-group col-md-12">
 
                          <label for="faculty-name">Faculty Name</label>
-                         <input required type="text" class="form-control input-lg" id="faculty-name" name="facultyName" value="<?php echo $username; ?>" readonly>
+                         <input required type="text" class="form-control input-lg" id="faculty-name" name="fname" value="<?php echo $username; ?>" readonly>
                      </div><br/> <br/> <br/> <br/> 
 				
 				<?php
@@ -147,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 				?>
             <p>********************************************************************</p>
-			<form role="form" method="POST" class="row" action= "../attended/form.php" style= "margin:10px;" >
+			<form role="form" method="POST" class="row" action= "template.php?x=../attended/form.php" style= "margin:10px;" >
 					
 				
                 <div class="form-group col-md-6">
@@ -163,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="ind[]">
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]">
           				</textarea>
           				<span class="error"><?php echo $inderr; ?></span>
                      </div>
@@ -179,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 					?>
 					<br/>
                     <div class="form-group col-md-12">
-                         <a href="2_dashboard.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
+                         <a href="template.php?x=../select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
 
                          <input name="add" type="submit" class="btn btn-success pull-right btn-lg">
                     </div>
