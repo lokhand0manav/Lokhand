@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			//if($flag=0)
 			//{
 				$sql="INSERT INTO attended (f_name,ind,city,purpose,date) VALUES ('$fname','$ind','$city','$purpose','$ivdate')";
-				if(a!mysqli_query($conn,$sql))
+				if(!mysqli_query($conn,$sql))
 				{
 					echo"Not Inserted";
 				}
