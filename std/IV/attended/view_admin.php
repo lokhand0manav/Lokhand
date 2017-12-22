@@ -11,7 +11,7 @@ if(session_status() == PHP_SESSION_NONE){
 }
   if($_SESSION['username']=="")
   {
-  header("refresh:1,url=../login.php");
+  header("refresh:1,url=../../login.php");
   die("Login Required");
   }
   else
@@ -113,7 +113,7 @@ if(session_status() == PHP_SESSION_NONE){
                     <?php $_SESSION['table_name'] = 'attended';
                                         $_SESSION['table_query'] = $sql;
                                     ?>
-                    <a href="../Includes/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
+                    <a href="../../includes/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
                   </div>
 
                 </div><!-- /.box-body -->

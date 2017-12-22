@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function(){
-  $(".4").attr("class","active");
+  $(".1").attr("class","active");
 });
 </script>
 <?php 

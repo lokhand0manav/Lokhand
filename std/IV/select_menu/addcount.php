@@ -62,12 +62,12 @@ $(document).ready(function(){
 								$_SESSION['activity']=$_POST['activity'];
 								if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 								{
-									header("location:template.php?x=../".$_SESSION['activity']."/form_admin.php");
+									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php");
 
 								}
 								else
 								{
-									header("location:template.php?x=../".$_SESSION['activity']."/form.php");
+									header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php");
 								}
 							}
 						}

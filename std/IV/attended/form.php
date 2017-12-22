@@ -39,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		//the form was submitted
     
 		$ivdate_array = $_POST['ivdate'];
-		$fname_array = $_POST['fname'];
 		$ind_array = $_POST['ind'];
 		$city_array = $_POST['city'];
 		$purpose_array = $_POST['purpose'];
@@ -47,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		for($i=0; $i<count($ivdate_array);$i++)
 		{
 			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
-			$fname = mysqli_real_escape_string($conn,$fname_array[$i]);
+			$fname = $username;
 			$ind = mysqli_real_escape_string($conn,$ind_array[$i]);
 			$city = mysqli_real_escape_string($conn,$city_array[$i]);
 			$purpose = mysqli_real_escape_string($conn,$purpose_array[$i]);	
@@ -57,11 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$dateerr="Please enter a date";
 				$flag++;
 			}
-			if(empty($_POST['fname[]']))
-			{
-				$nameerr="Enter a name";
-				$flag++;
-			}
+			
 			else   
 			{
 				$name = test_input($_POST['fname[]']);
@@ -111,68 +106,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			//}
 		}
 				mysqli_close($conn);
-				header("location:template.php?x=../attended/view_admin.php");
+				header("location:template.php?x=../IV/attended/view.php");
 	}
 }
 ?>
 
 
   <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container " style="border: 1px solid black;padding: 10px 60px;width:50%">
-	<h2>Attended</h2>
-	<label for="faculty-name">HOD</label>
-	<?php
+  
+
+
+    
+    <section class="content">
+          <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">IV Activity Attended Form</h3>
+				 
+                </div><!-- /.box-header -->
+                <!-- form start -->
+	
+				<div class="form-group col-md-12">
+
+                         <label for="faculty-name">Faculty Name</label>
+                         <input required type="text" class="form-control input-lg" id="faculty-name" name="fname" value="<?php echo $username; ?>" readonly>
+                     </div><br/> <br/> <br/> <br/> 
+				
+				<?php
 			
 					for($k=0; $k<$_SESSION['count'] ; $k++)
 					{
 
 				?>
-				____________________________________________________________
-      <form class="form-horizontal" method="post" action="">
-        <div class="form-group">
-          
-        </div>  
-        <div class="form-group">
-          <label>Date of visit:</label>
-          <input type="date" name="ivdate[]" class="form-control">
-          <span class="error"><?php echo $dateerr; ?></span>
-        </div>
+            <p>********************************************************************</p>
+			<form role="form" method="POST" class="row" action= "" style= "margin:10px;" >
+					
+				
+                <div class="form-group col-md-6">
+                <label >Industry Name</label><span class="required">*</span>         
+         	 	<input type="textarea" rows="5" cols="5" class="form-control" name="ind[]">
+          		<span class="error"><?php echo $inderr; ?></span>
+                </div>
 
-        <div class="form-group">
-          <label >Faculty Name:</label>      
-           <?php
-					//include("includes/connection.php");
-        			$conn=mysqli_connect('localhost','root','','preyash');
-					$query="SELECT * from signin";
-					$result=mysqli_query($conn,$query);
-					echo "<select name='fname[]' id='fname' class='form-control input-lg'>";
-					while ($row =mysqli_fetch_assoc($result)) {
-						echo "<option value='" . $row['Username'] ."'>" . $row['Username'] ."</option>";
+                     <div class="form-group col-md-6">
+                         <label>Date of visit:</label><span class="required">*</span>
+          				 <input type="date" name="ivdate[]" class="form-control">
+         				 <span class="error"><?php echo $dateerr; ?></span>
+                     </div>
+                     <div class="form-group col-md-12">
+                         <label >Purpose</label><span class="required">*</span>        
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]">
+          				</textarea>
+          				<span class="error"><?php echo $inderr; ?></span>
+                     </div>
+
+                     <div class="form-group col-md-8"> 
+                         <label>City</label><span class="required">*</span>
+          				 <input type="text" class="form-control" name="city[]">
+          				 <span class="error"><?php echo $cityerr; ?></span>
+                     </div>
+                     
+                   <?php
 					}
-					echo "</select>";
-		   ?>
+					?>
+					<br/>
+                    <div class="form-group col-md-12">
+                         <a href="template.php?x=../IV/select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
 
-        </div>
-
-        <div class="form-group">
-          <label >Industry Details</label>         
-          <input type="textarea" rows="5" cols="5" class="form-control" name="ind[]">
-          <span class="error"><?php echo $inderr; ?></span>
-        </div>
-
-        <div class="form-group">
-          <label>City</label>
-          <input type="text" class="form-control" name="city[]">
-          <span class="error"><?php echo $cityerr; ?></span>
-        </div>
-
-        <div class="form-group">
-          <label>Purpose</label>
-          <input type="text" class="form-control" name="purpose[]">
-          <span class="error"><?php echo $perr; ?></span>
-        </div>
-        
+                         <input name="add" type="submit" class="btn btn-success pull-right btn-lg">
+                    </div>
+                </form>
+                </div>
+              </div>
+         
+        </section>
+       
         <!-- <div class="form-group">
           <label>Attach Permission Letter</label><br>
           <input type="file" class="btn btn-file" value="Browse..." name="permission" id="permission">
@@ -186,13 +197,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
           <label>Attach Certificate</label><br>
           <input type="file" class="btn btn-file" value="Browse..." name="certificate" id="certificate">
         </div> --> 
-		<?php
-					}
-		?>
-        <div class="form-group">        
+        <!-- <div class="form-group">        
           <button type="submit" name="add" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
-    </div>
-  </section>
-
+        </div> -->

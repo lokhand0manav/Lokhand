@@ -41,7 +41,7 @@ session_start();
             if($row['Username']==$username && $row['Password']==$password ) {
              session_start();
               $_SESSION['username'] = $username; 
-              header("refresh:1,url= Includes/template.php");
+              header("refresh:1,url= includes/template.php");
 
               exit();
             }

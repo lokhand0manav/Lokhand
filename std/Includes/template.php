@@ -14,24 +14,63 @@ else
 {
   $username = $_SESSION['username'];
 }
+$alert = "";
+ if(isset($_GET['alert']))  
+    $alert = $_GET['alert'];
 
+$successMessage="";
+if(isset($_GET['alert']))
+{
+
+    if($alert=="success"){
+
+        $successMessage='<div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+            </button>
+        <strong>Record added successfully</strong>
+        </div>';  
+
+    }
+    elseif($alert=="update"){
+        $successMessage='<div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+            </button>
+        <strong>Record updated successfully</strong>
+        </div>';  
+
+    }
+    elseif($alert=="delete"){
+        $successMessage='<div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+            </button>
+        <strong>Record deleted successfully</strong>
+        </div>';  
+
+    }
+}
 ?>
 
-<?php include_once('../Includes/head.php'); ?>
-<?php include_once('../Includes/header.php'); ?>
+<?php include_once('../includes/head.php'); ?>
+<?php include_once('../includes/header.php'); ?>
 <?php 
   
   if($_SESSION['username'] == 'hodextc@somaiya.edu')
   {
-      include_once('../Includes/sidebar_admin.php');
+      include_once('../includes/sidebar_admin.php');
 
   }
   else
-      include_once('../Includes/sidebar.php'); 
+      include_once('../includes/sidebar.php'); 
 ?>
 
 <div class="content-wrapper">
+ <?php 
+      {
+        
+          echo $successMessage;
 
+      }
+    ?>
 <!-- Main content -->
         <section class="content">
           <div class="row">
@@ -42,8 +81,9 @@ else
                  <?php 
                     if(isset($_GET['x']))
                     {
-                      $url = $_GET['x'];  
-                      include_once($url);
+                      $url = $_GET['x'];
+                     
+                        include_once($url);                  
                     }
                  ?>
               </div>
@@ -51,4 +91,4 @@ else
         </section>               
   </div><!-- /.content-wrapper -->        
    
-<?php include_once('../Includes/footer.php'); ?>
+<?php include_once('../includes/footer.php'); ?>
