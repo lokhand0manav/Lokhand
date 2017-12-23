@@ -50,7 +50,7 @@ $(document).ready(function(){
 					  		{
 					  			$count = 0;
 					  		}
-							$_SESSION['count'] = $count;
+							
 							if($count <=0 )
 							{
 								$result="Don't enter zero or negative value<br>";
@@ -62,12 +62,12 @@ $(document).ready(function(){
 								$_SESSION['activity']=$_POST['activity'];
 								if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 								{
-									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php");
+									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php&count=".$count);
 
 								}
 								else
 								{
-									header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php");
+									header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php&count=".$count);
 								}
 							}
 						}

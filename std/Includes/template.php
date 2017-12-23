@@ -15,8 +15,11 @@ else
   $username = $_SESSION['username'];
 }
 $alert = "";
- if(isset($_GET['alert']))  
+$count ="";
+if(isset($_GET['alert']))  
     $alert = $_GET['alert'];
+if(isset($_GET['count']))  
+    $count = $_GET['count'];
 
 $successMessage="";
 if(isset($_GET['alert']))

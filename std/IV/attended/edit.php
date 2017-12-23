@@ -40,7 +40,7 @@ $(document).ready(function(){
    $username = $_SESSION['username'];
   }
 
-if(isset($_POST))
+ //if(isset($_POST))
 $conn=mysqli_connect('localhost','root','','preyash');
 $sql="SELECT * FROM attended where f_name='$username'";
 $records=mysqli_query($conn,$sql);
@@ -53,6 +53,11 @@ if(isset($_POST['upload']))
   header("location:template.php?x=../IV/upload.php");
 }
 
+if (isset($_POST['edit']))
+{
+  $_SESSION['id'] = $_POST['id'];
+  header("location:template.php?x=../IV/attended/form.php"); 
+}
 ?>
 <style>
   th{
@@ -187,8 +192,9 @@ if(isset($_POST['upload']))
                             echo"</tr></table></td>";
 
                              echo "<td>
-                                    <form action = '3_edit_review.php' method = 'POST'>
-                                      <button type = 'submit' class = 'btn btn-primary btn-sm'>
+                                    <form action = '' method = 'POST'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
+                                      <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-edit'></span>
                                       </button>
                                     </form>

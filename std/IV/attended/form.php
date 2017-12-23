@@ -18,12 +18,14 @@ else
 {
   $username = $_SESSION['username'];
 }
+$count = $GLOBALS['count'];
 $flag=0;
 $dateerr = "";
 $nameerr = "";
 $inderr = "";
 $cityerr = "";
 $perr = "";
+$id = -999;
 function test_input($data) 
 {
 	$data = trim($data);
@@ -31,6 +33,20 @@ function test_input($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
+//this cond is must, if user jumps from page of updating to add, session[id] wiil be considered from update
+if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
+{
+ $id = $_SESSION['id'];
+ $sql="SELECT * FROM attended where f_id = $id";
+ $records=mysqli_query($conn,$sql); 
+ $employee=mysqli_fetch_assoc($records);
+ $count = 1;
+}
+else if(!isset($_SESSION['id']) && !isset($_GET['count']))
+{
+	header("location:template.php?x=../IV/attended/addcount.php"); //go to add once refreshed
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	if(isset($_POST['add']))
@@ -94,7 +110,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			//echo $flag;
 			//if($flag=0)
 			//{
-				$sql="INSERT INTO attended (f_name,ind,city,purpose,date) VALUES ('$fname','$ind','$city','$purpose','$ivdate')";
+				//if edit or not
+				if($id!=-999)
+				{
+					$sql="UPDATE attended set f_name ='$fname' ,ind ='$ind', city='$city', purpose='$purpose', date='$ivdate' where f_id= $id;";		
+				}
+				else
+				{
+				
+				 	$sql="INSERT INTO attended (f_name,ind,city,purpose,date) VALUES ('$fname','$ind','$city','$purpose','$ivdate')";
+				}
+
 				if(!mysqli_query($conn,$sql))
 				{
 					echo"Not Inserted";
@@ -106,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			//}
 		}
 				mysqli_close($conn);
+				unset($_SESSION['id']);
 				header("location:template.php?x=../IV/attended/view.php");
 	}
 }
@@ -137,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				
 				<?php
 			
-					for($k=0; $k<$_SESSION['count'] ; $k++)
+					for($k=0; $k<$count ; $k++)
 					{
 
 				?>
@@ -147,25 +174,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				
                 <div class="form-group col-md-6">
                 <label >Industry Name</label><span class="required">*</span>         
-         	 	<input type="textarea" rows="5" cols="5" class="form-control" name="ind[]">
+         	 	<input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value=<?php if($id!=-999){ echo $employee['ind'];}?>>
           		<span class="error"><?php echo $inderr; ?></span>
                 </div>
 
                      <div class="form-group col-md-6">
                          <label>Date of visit:</label><span class="required">*</span>
-          				 <input type="date" name="ivdate[]" class="form-control">
+          				 <input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>
          				 <span class="error"><?php echo $dateerr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
           				<textarea rows="5" cols="5" class="form-control" name="purpose[]">
+          					<?php if($id!=-999){ echo $employee['purpose'];}?>
           				</textarea>
           				<span class="error"><?php echo $inderr; ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                          <label>City</label><span class="required">*</span>
-          				 <input type="text" class="form-control" name="city[]">
+          				 <input type="text" class="form-control" name="city[]" value=<?php if($id!=-999){ echo $employee['city'];}?>>
           				 <span class="error"><?php echo $cityerr; ?></span>
                      </div>
                      

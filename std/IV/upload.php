@@ -14,7 +14,9 @@ if(session_status() == PHP_SESSION_NONE)
 //setting error variables
 $error="";
 $conn=mysqli_connect('localhost','root','','preyash');
+
 //for which id=id, type=attended or organized and for the fine="permission/report or other"
+  
   $type = $_SESSION['type'] ; 
   $id   = $_SESSION['id']   ; 
   $file = $_SESSION['file'] ; 
