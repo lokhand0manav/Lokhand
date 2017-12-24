@@ -85,7 +85,6 @@ if(isset($_GET['alert']))
                     if(isset($_GET['x']))
                     {
                       $url = $_GET['x'];
-                     
                         include_once($url);                  
                     }
                  ?>

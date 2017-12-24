@@ -1,133 +1,265 @@
 <script>
 $(document).ready(function(){
-  $(".5").attr("class","active");
+  $(".2").attr("class","active");
 });
 </script>
 
+<script>
+$(document).ready(function(){
+    // $("select").change(function(){
+    //     $(location).attr('href', 'template.php?x=../IV/'+$(this).val()+'/edit.php');
+    // });
+    var table = $('#viewOrganized').DataTable( {       
+        scrollX:  true,
+        scrollCollapse: true,
+        autoWidth:      true,  
+        paging:         true,  
+        columnDefs: [
+        { "width": "100px", "targets": [5,6,7,8] }
+      
+    ]     
+     
+    } );
+});
+</script>
+
+
 <?php
-    if(session_status() == PHP_SESSION_NONE)
-    {
+  if(session_status() == PHP_SESSION_NONE)
+   {
     //session has not started
     session_start();
+   }
+  if($_SESSION['username']=="")
+   {
+    header("refresh:2,url=../login.php");
+    die("Login Required");
+   }
+  else
+  {
+   $username = $_SESSION['username'];
+  }
+
+ //if(isset($_POST))
+$conn=mysqli_connect('localhost','root','','preyash');
+$sql="SELECT * FROM organized where f_name='$username'";
+$records=mysqli_query($conn,$sql);
+
+if(isset($_POST['upload']))
+{
+  $_SESSION['type']   = $_POST['type']; 
+  $_SESSION['id']   = $_POST['id']; 
+  $_SESSION['file']   = $_POST['file']; 
+  header("location:template.php?x=../IV/upload.php");
+}
+
+if (isset($_POST['edit']))
+{
+  $_SESSION['id'] = $_POST['id'];
+  header("location:template.php?x=../IV/Organized/form.php"); 
+}
+?>
+<style>
+  th{
+    padding:0px;
+    border: 1px solid black;
+    background-color: #4CAF50;
+      color: white;
     }
 
-  if($_SESSION['username']=="")
-  {
-  header("refresh:1,url=../login.php");
-  die("Login Required");
-  }
-   else
-  {
-    $username = $_SESSION['username'];
-  }
-
-$conn=mysqli_connect('localhost','root','','preyash');
-$sql="SELECT * FROM organized where f_name = '$username'";
-$records=mysqli_query($conn,$sql);
-?>
-
-      <style>
-       th{
-        padding:0px;
-         border: 1px solid black;
-          background-color: #4CAF50;
-          color: white;
-         }   
-
-      </style>
-    </head>
-
-
+</style>
+ 
+  </head>
+  
         <!-- Main content -->
-        <section class="content">
-          <div class="row">
-            <div class="col-xs-12">
-              
-
               <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Organized</h3>
-                </div><!-- /.box-header -->
+           
                 <div class="box-body">
-                  <div style="overflow-x:auto;">
-                  <table id="example1" class="table table-bordered ">
+                        <br>
+                  <div class="scroll">
+                  <table id="viewOrganized" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
-                     <tr>
-    <th>Faculty Id</th>
-    <th>Faculty name</th>
-    <th>Industry Name</th>
-    <th>City</th>
-    <th>Purpose</th>
-    <th>Date</th>
-    <th>Target Audience</th>
-    <th>Staff</th>
-    <th>from</th>
-    <th>To</th>
-        <th>Permission</th>
-        <th>Report</th>
-        <th>Certificate</th>
-        <th>Attendance</th>
-        <th>Action</th>
+                      <th>Faculty Id</th>
+                      <th>Faculty name</th>
+                      <th>Industry Name</th>
+                      <th>City</th>
+                      <th>Purpose</th>
+                      <th>Date</th>
+                      <th>Target Audience</th>
+                      <th>Staff</th>
+                      <th>from</th>
+                      <th>To</th>
+                      <th>Permission</th>
+                      <th>Report</th>
+                      <th>Certificate</th>
+                      <th>Attendence</th>
+                      <th>Edit</th>
+                      <th>delete</th>  
                     </tr>
                     </thead>
                     <tbody>
-                     <?php
-while($employee=mysqli_fetch_assoc($records))
-{
-  echo"<tr><form action=../organized/update.php method=POST enctype=multipart/form-data>";
-  echo"<td><input type=hidden name=id value='".$employee['f_id']."'>".$employee['f_id']."</td>";
-  echo"<td><input type=hidden name=fname value='".$employee['f_name']."'>".$employee['f_name']."</td>";
-  echo"<td><input type=text name=ind value='".$employee['ind']."'></td>";
-  echo"<td><input type=text name=city value='".$employee['city']."'></td>";
-  echo"<td><input type=text name=purp value='".$employee['purpose']."'></td>";
-  echo"<td><input type=text name=date value='".$employee['date']."'></td>";
-  // echo"<td><input type=text name=from value='".$employee['frm']."'></td>";
-  // echo"<td><input type=text name=to value='".$employee['tu']."'></td>";
-    echo"<td>Selected: ".$employee['t_Audience']."<br><select class= 'form-control' name='t_audience'>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-        </select></td>";
-    echo"<td><input type=text name=staff value='".$employee['staff']."'></td>";
-    echo"<td><input type=date name=t_from value='".$employee['t_from']."'></td>";
-    echo"<td><input type=date name=t_to value='".$employee['t_to']."'></td>";
-  echo"<td><input type=file name=permission id='permission' value=''></td>";
-  echo"<td><input type=file name=report id='report' value=''></td>";
-  echo"<td><input type=file name=certificate id='certificate' value=''></td>";
-  echo"<td><input type=file name=attendance id='attendance' value=''></td>";
+                    <?php
+                        //the values for id of user will be also sent from her (upload)
+                        if(mysqli_num_rows($records)>0)
+                        {
+                          while($employee=mysqli_fetch_assoc($records))
+                          {
+                            echo"<tr>";
+                            echo"<td>".$employee['f_id']."</td>";
+                            echo"<td>".$employee['f_name']."</td>";
+                            echo"<td>".$employee['ind']."</td>";
+                            echo"<td>".$employee['city']."</td>";
+                            echo"<td>".$employee['purpose']."</td>";
+                            echo"<td>".$employee['date']."</td>";
+                            echo"<td>".$employee['tAudience']."</td>";
+                            echo"<td>".$employee['s_name']."</td>";
+                            echo"<td>".$employee['t_from']."</td>";
+                            echo"<td>".$employee['t_to']."</td>";
+                          
+                            echo"<td><table class='table-bordered' ><tr>";
+                            
+                            if(($employee['permission']) != "")
+                            {
+                              if(($employee['permission']) == "NULL")
+                                echo "<td>not yet available</td>";
+                              else if(($employee['permission']) == "not_applicable") 
+                                echo "<td>not applicable</td>";
+                              else
+                                echo "<td> <a href = '".$employee['permission']."'>View permission</td>";
+                            }
+                            else
+                              echo "<td>no status</td>";
 
-  echo"<td>&nbsp<input type=submit name=update value=Update class='btn btn-primary' >";
-  echo"<br><br><input type=submit name=delete value=Delete class='btn btn-primary' >&nbsp</td>";
-  echo"</form></tr>";
-}
-?>
+                             echo "<td>
+                                    <form action = '' method = 'POST'>
+                                      <input type = 'hidden' name = 'file' value = 'permission'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                        <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-upload'></span>
+                                        </button>
+                                    </form>
+                                  </td>";
+                            echo"</tr></table></td>";  
+                            
+                            echo"<td><table class='table-bordered' ><tr>";
+                            if(($employee['report']) != "")
+                            {
+                              if(($employee['report']) == "NULL")
+                                echo "<td>not yet available</td>";
+                              else if(($employee['report']) == "not_applicable") 
+                                echo "<td>not applicable</td>";
+                              else
+                                echo "<td> <a href = '".$employee['report']."'>View report</td>";
+                            }
+                            else
+                              echo "<td>no status </td>";
+
+                            echo "<td>
+                                    <form action = '' method = 'POST'>
+                                      <input type = 'hidden' name = 'file' value = 'report'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                        <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-upload'></span>
+                                        </button>
+                                    </form>
+                                  </td>";
+                            echo"</tr></table></td>";
+
+                            echo"<td><table class='table-bordered' ><tr>";
+                            if(($employee['certificate']) != "")
+                            {
+                              if(($employee['certificate']) == "NULL")
+                                echo "<td>not yet available</td>";
+                              else if(($employee['certificate']) == "not_applicable") 
+                                echo "<td>not applicable</td>";
+                              else
+                                echo "<td> <a href = '".$employee['certificate']."'>View certificate</td>";
+                            }
+                            else
+                              echo "<td>no status </td>";
+
+                            echo "<td>
+                                    <form action = '' method = 'POST'>
+                                      <input type = 'hidden' name = 'file' value = 'certificate'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                        <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-upload'></span>
+                                        </button>
+                                    </form>
+                                  </td>";
+                             //echo "<td></td>";     
+                            
+                            echo "</tr></table></td>";
+                            /// Attendence
+
+                            echo"<td><table class='table-bordered' ><tr>";
+                            if(($employee['attendance']) != "")
+                            {
+                              if(($employee['attendance']) == "NULL")
+                                echo "<td>not yet available</td>";
+                              else if(($employee['attendance']) == "not_applicable") 
+                                echo "<td>not applicable</td>";
+                              else
+                                echo "<td> <a href = '".$employee['attendance']."'>View attendance</td>";
+                            }
+                            else
+                              echo "<td>no status </td>";
+
+                            echo "<td>
+                                    <form action = '' method = 'POST'>
+                                      <input type = 'hidden' name = 'file' value = 'certificate'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                        <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-upload'></span>
+                                        </button>
+                                    </form>
+                                  </td>";
+                             //echo "<td></td>";     
+                            
+                            echo "</tr></table>";
+
+                             echo "<td>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
+                                      <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-edit'></span>
+                                      </button>
+                                    </form>
+                                  </td>";
+
+                             echo "<td>
+                                    <form action = '4_delete_review.php' method = 'POST'>
+                                      <button type = 'submit' class = 'btn btn-primary btn-sm'>
+                                        <span class='glyphicon glyphicon-trash'></span>
+                                      </button>
+                                    </form>
+                                  </td>";
+                            echo"</tr>";
+                          }
+                         }
+                         else
+                         {
+                           echo "<div class='alert alert-warning'>You have no papers</div>";
+                         } 
+                    ?>
                     </tbody>
                    
                   </table>
+               
                 </div>
-                  <form action="template.php?x=../organized/form.php">
-<input type=submit name="add" value="Add Activity To Organized" class="btn btn-primary">
-</form>
+                <form method='POST' action="template.php?x=../IV/select_menu/addcount.php">
+                    
+                  <button type=submit name='add' class="btn btn-primary" >Add Activity
+                  </button>
+                  </form>
+
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </section><!-- /.content -->
-     
-    <script>
-      $(function () {
-        $("#example1").DataTable();
-        $('#example2').DataTable({
-          "paging": true,
-          "lengthChange": false,
-          "searching": false,
-          "ordering": true,
-          "info": true,
-          "autoWidth": false
-        });
-      });
-    </script>
+
   </body>
   </html>

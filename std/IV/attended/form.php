@@ -185,8 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="purpose[]">
-          					<?php if($id!=-999){ echo $employee['purpose'];}?>
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if($id!=-999){ echo $employee['purpose'];}?>
           				</textarea>
           				<span class="error"><?php echo $inderr; ?></span>
                      </div>

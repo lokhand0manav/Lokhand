@@ -6,9 +6,9 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
-    $("select").change(function(){
-        $(location).attr('href', 'template.php?x=../IV/'+$(this).val()+'/edit.php');
-    });
+    // $("select").change(function(){
+    //     $(location).attr('href', 'template.php?x=../IV/'+$(this).val()+'/edit.php');
+    // });
     var table = $('#viewAttended').DataTable( {       
         scrollX:  true,
         scrollCollapse: true,
@@ -75,15 +75,6 @@ if (isset($_POST['edit']))
               <div class="box">
            
                 <div class="box-body">
-                    
-                        <!-- ===== Select Activity==== -->
-                        <div class='box-header with-border'>
-                          <h3 class='box-title'>View</h3>
-                           <select name="activity" class="box-title">
-                            <option value="attended">Attended</option>
-                            <option value="organized">Organized</option>
-                           </select>
-                        </div><!-- /.box-header -->  
                         <br>
                   <div class="scroll">
                   <table id="viewAttended" class="table table-striped table-bordered ">
@@ -192,7 +183,7 @@ if (isset($_POST['edit']))
                             echo"</tr></table></td>";
 
                              echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
                                       <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-edit'></span>
@@ -220,10 +211,12 @@ if (isset($_POST['edit']))
                   </table>
                
                 </div>
-                <form action="template.php?x=../attended/form.php"> 
-                  <input type=submit name="add" value="Add Activity To Attended Section" class="btn btn-primary">
-                </form>
-
+                  <form method='POST' action="template.php?x=../IV/select_menu/addcount.php">
+                    
+                  <button type=submit name='add' class="btn btn-primary" >Add Activity
+                  </button>
+                  </form>
+    
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
 

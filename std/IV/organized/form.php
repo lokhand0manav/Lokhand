@@ -19,6 +19,7 @@ else
 {
   $username = $_SESSION['username'];
 }
+$count = $GLOBALS['count'];
 $flag=0;
 $dateerr = "";
 $fnameerr = "";
@@ -34,6 +35,25 @@ function test_input($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
+//this cond is must, if user jumps from page of updating to add, session[id] wiil be considered from update
+if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
+{
+ $id = $_SESSION['id'];
+ $sql="SELECT * FROM organized where f_id = $id";
+ $records=mysqli_query($conn,$sql); 
+ $employee=mysqli_fetch_assoc($records);
+ $count = 1;
+}
+else if(!isset($_SESSION['id']) && !isset($_GET['count']))
+{
+
+	header("location:template.php?x=../IV/organized/addcount.php"); //go to add once refreshed
+}
+else
+	$id=-999;
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	if(isset($_POST['add']))
@@ -118,31 +138,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$flag++;
 			}
 
-			$sql="INSERT INTO organized (f_name,ind,city,purpose,date,t_audience,s_name) VALUES ('$fname','$ind','$city','$purpose','$ivdate','$t_audience','$staff')";
+			if($id!=-999)
+				{
+					$sql="UPDATE organized set ind ='$ind', city='$city', purpose='$purpose', date='$ivdate',s_name='$staff',t_from='$from',t_to='$to' where f_id= $id;";		
+				}
+			else
+			{		
+			$sql="INSERT INTO organized (f_name,ind,city,purpose,date,tAudience,s_name,t_from,t_to) VALUES ('$fname','$ind','$city','$purpose','$ivdate','$t_audience','$staff','$from','$to')";
+			}
 
 			if(!mysqli_query($conn,$sql))
 			{
 				echo"Not Inserted";
+				echo mysqli_error($conn);
+				exit(0);
+
 			}
 			else
 			{
-				echo"Record Inserted Successfully !";
-				header("refresh:1; url=template.php?x=../organized/view.php");
-				exit(0);
-				
+				//echo"Record Inserted Successfully !";
 			}
 		}
 				mysqli_close($conn);
+				unset($_SESSION['id']);
+				header("refresh:1; url=template.php?x=../IV/organized/view.php");
 				
 	}
 }
 
 ?>
-	
-
-
-	
-    
     <section class="content">
           <div class="row">
             <!-- left column -->
@@ -162,50 +186,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                      </div><br/> <br/> <br/> <br/> 
 				
 				<?php
-			
-					for($k=0; $k<$_SESSION['count'] ; $k++)
+					for($k=0; $k<$count ; $k++)
 					{
 
 				?>
             <p>***************************************************************************************</p>
-			<form role="form" method="POST" class="row" action= "template.php?x=../organized/form.php" style= "margin:10px;" >
+			<form role="form" method="POST" class="row" action= "template.php?x=../IV/organized/form.php" style= "margin:10px;" >
 					
 				
                 <div class="form-group col-md-6">
                	<label>Date of Visit:</label><span class="required">*</span>
-					<input type="date" name="ivdate[]" class="form-control">
+					<input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>
 					<span class="error"><?php echo $dateerr; ?></span>
                 </div>
 
                      <div class="form-group col-md-6"><span class="required">*</span>
                          <label >Industry Name</label>         
-						<input type="text" class="form-control" name="ind[]">
+						<input type="text" class="form-control" name="ind[]" value=<?php if($id!=-999){ echo $employee['ind'];}?>>
 					<span class="error"><?php echo $inderr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="purpose[]">
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if($id!=-999){ echo $employee['purpose'];}?>
           				</textarea>
           				<span class="error"><?php echo $perr; ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                      <label>City</label><span class="required">*</span>
-					<input type="text" class="form-control" name="city[]">
+					<input type="text" class="form-control" name="city[]" value=<?php if($id!=-999){ echo $employee['city'];}?>>
 					<span class="error"><?php echo $cityerr; ?></span>
                          
                      </div>
                      
                      <div class="form-group col-md-8"> 
                      <label>Target Audience</label><span class="required">*</span>
-					<input type="text" class="form-control" name="t_audience[]">
+					<input type="text" class="form-control" name="t_audience[]" value=<?php if($id!=-999){ echo $employee['tAudience'];}?>>
 					<span class="error"><?php echo $taerror; ?></span>
 					</div>
 
 
 					<div class="form-group col-md-8">
 					<label>Staff</label><span class="required"> *</span>
-					<input type="text" class="form-control" name="staff[]">
+					<input type="text" class="form-control" name="staff[]" value=<?php if($id!=-999){ echo $employee['s_name'];}?>>
 					<span class="error"><?php echo $serror; ?></span>
 					</div>
 
@@ -213,10 +236,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 					<label>Duration</label><span class="required"> *</span>
 					<br>
-					<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from">
+					<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from" value=<?php if($id!=-999){ echo $employee['t_from'];}?>>
 					
 					&emsp;
-					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to"><br>
+					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value=<?php if($id!=-999){ echo $employee['t_to'];}?>><br>
 					</div>
 
                    <?php
