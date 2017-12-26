@@ -2,9 +2,8 @@
 session_start();
 include '../Includes/connection.php';
 $table = $_SESSION['table_name']; 
-$filename = "attented_file"; 
+$filename = "Activity_file"; 
 $sql = $_SESSION['table_query'];
-//$sql = "Select * from $table";
 $result = mysqli_query($conn,$sql) or die("Couldn't execute query:<br>" . mysqli_error($conn). "<br>" . mysqli_errno($conn)); 
 
 $file_ending = "xls";
@@ -30,36 +29,9 @@ while($row = mysqli_fetch_row($result)) {
     }
     $schema_insert = str_replace($sep."$", "", $schema_insert);
     $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
-    $schema_insert .= "\t";
+    //$schema_insert .= "\t";
     print(trim($schema_insert));
     print "\n";
 }
-/*$connect = mysqli_connect("localhost", "root", "", "department");
-$output = '';
-
- $query = "SELECT * FROM faculty";
- $result = mysqli_query($connect, $query);
- if(mysqli_num_rows($result) > 0)
- {
-  $output .= '
-   <table class="table" bordered="1">  
-                    
-  ';
-  while($row = mysqli_fetch_array($result))
-  {
-   $output .= '
-    <tr>  
-                         <td>'.$row["Fac_ID"].'</td>  
-                         <td>'.$row["Date_from"].'</td>  
-           
-                    </tr>
-   ';
-  }
-  $output .= '</table>';
-  header('Content-Type: application/xls');
-  header('Content-Disposition: attachment; filename=download.xls');
-  echo $output;
- }*/
-
 ?>
 
