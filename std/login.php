@@ -39,7 +39,6 @@ session_start();
           while($row=mysqli_fetch_array($return))
           {
             if($row['Username']==$username && $row['Password']==$password ) {
-             session_start();
               $_SESSION['username'] = $username; 
               header("refresh:1,url= includes/template.php");
 
