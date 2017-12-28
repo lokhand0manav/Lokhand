@@ -17,15 +17,17 @@ else
 $alert = "";
 $count ="";
 if(isset($_GET['alert']))  
-    $alert = $_GET['alert'];
+   {
+     $alert = $_GET['alert'];
+   }
+
 if(isset($_GET['count']))  
     $count = $_GET['count'];
 
 $successMessage="";
-if(isset($_GET['alert']))
-{
 
-    if($alert=="success"){
+    if($alert=="success")
+    {
 
         $successMessage='<div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
@@ -34,7 +36,8 @@ if(isset($_GET['alert']))
         </div>';  
 
     }
-    elseif($alert=="update"){
+    elseif($alert=="update")
+    {
         $successMessage='<div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
             </button>
@@ -42,7 +45,8 @@ if(isset($_GET['alert']))
         </div>';  
 
     }
-    elseif($alert=="delete"){
+    elseif($alert=="delete")
+    {
         $successMessage='<div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
             </button>
@@ -50,7 +54,8 @@ if(isset($_GET['alert']))
         </div>';  
 
     }
-}
+
+
 ?>
 
 <?php include_once('../includes/head.php'); ?>
@@ -71,9 +76,10 @@ if(isset($_GET['alert']))
       {
         
           echo $successMessage;
-
+          //$successMessage="";  
       }
     ?>
+ 
 <!-- Main content -->
         <section class="content">
           <div class="row">

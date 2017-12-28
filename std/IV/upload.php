@@ -94,12 +94,12 @@ if(isset($_POST['insert-image']))
 
 	if($_SESSION['username'] == 'hodextc@somaiya.edu')
 				{
-	               header("location:../includes/template.php?x=../IV/".$type."/edit_admin.php");
+	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php");
 
 				}
 				else
 				{
-					header("location:../includes/template.php?x=../IV/".$type."/edit.php&alert=update");
+					header("location:../includes/template.php?x=../IV/select_menu/edit_menu.php&alert=update");
 
 				}
 	
@@ -111,12 +111,12 @@ if(isset($_POST['insert-image']))
 if(isset($_POST['cancel'])){
 	if($_SESSION['username'] == 'hodextc@somaiya.edu')
 				{
-	               header("location:../includes/template.php?x=../IV/".$type."/edit_admin.php");
+	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php");
 
 				}
 				else
 				{
-					header("location:../includes/template.php?x=../IV/attended/edit.php");
+					header("location:../includes/template.php?x=../IV/attended/edit_menu.php");
 
 				}
 	

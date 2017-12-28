@@ -160,8 +160,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			}
 		}
 				mysqli_close($conn);
-				unset($_SESSION['id']);
-				header("refresh:1; url=template.php?x=../IV/organized/view.php");
+				if(isset($_SESSION['id'])) //if editing
+				{
+				  unset($_SESSION['id']);		
+				  header("location:template.php?x=../IV/select_menu/view_menu.php&alert=update");	
+				}
+				else //new addition
+				{
+				  header("location:template.php?x=../IV/select_menu/view_menu.php");
+				}
 				
 	}
 }

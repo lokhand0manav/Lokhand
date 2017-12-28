@@ -1,8 +1,4 @@
-<script>
-$(document).ready(function(){
-  $(".2").attr("class","active");
-});
-</script>
+
 
 <script>
 $(document).ready(function(){
@@ -50,13 +46,22 @@ if(isset($_POST['upload']))
   $_SESSION['type']   = $_POST['type']; 
   $_SESSION['id']   = $_POST['id']; 
   $_SESSION['file']   = $_POST['file']; 
+  //header("location:template.php?x=../IV/attended/form.php");
   header("location:template.php?x=../IV/upload.php");
 }
 
 if (isset($_POST['edit']))
 {
+  
   $_SESSION['id'] = $_POST['id'];
   header("location:template.php?x=../IV/attended/form.php"); 
+}
+
+if (isset($_POST['delete']))
+{
+  $_SESSION['type']   = $_POST['type']; 
+  $_SESSION['id'] = $_POST['id'];
+  header("location:../IV/delete.php"); 
 }
 ?>
 <style>
@@ -123,7 +128,7 @@ if (isset($_POST['edit']))
                               echo "<td>no status</td>";
 
                              echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'permission'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
                                       <input type = 'hidden' name = 'type' value = 'attended'>
@@ -147,7 +152,7 @@ if (isset($_POST['edit']))
                             else
                               echo "<td>no status </td>";
                             echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'report'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
                                       <input type = 'hidden' name = 'type' value = 'attended'>
@@ -171,7 +176,7 @@ if (isset($_POST['edit']))
                             else
                               echo "<td>no status </td>";
                             echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'certificate'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
                                       <input type = 'hidden' name = 'type' value = 'attended'>
@@ -185,6 +190,7 @@ if (isset($_POST['edit']))
                              echo "<td>
                                     <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
                                       <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-edit'></span>
                                       </button>
@@ -192,8 +198,10 @@ if (isset($_POST['edit']))
                                   </td>";
 
                              echo "<td>
-                                    <form action = '4_delete_review.php' method = 'POST'>
-                                      <button type = 'submit' class = 'btn btn-primary btn-sm'>
+                                    <form action = 'template.php?x=../IV/attended/edit.php' method = 'POST'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
+                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                      <button name ='delete' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-trash'></span>
                                       </button>
                                     </form>

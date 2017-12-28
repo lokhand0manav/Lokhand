@@ -58,6 +58,12 @@ if (isset($_POST['edit']))
   $_SESSION['id'] = $_POST['id'];
   header("location:template.php?x=../IV/Organized/form.php"); 
 }
+if (isset($_POST['delete']))
+{
+  $_SESSION['type']   = $_POST['type']; 
+  $_SESSION['id'] = $_POST['id'];
+  header("location:../IV/delete.php"); 
+}
 ?>
 <style>
   th{
@@ -112,8 +118,8 @@ if (isset($_POST['edit']))
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";
                             echo"<td>".$employee['date']."</td>";
-                            echo"<td>".$employee['tAudience']."</td>";
-                            echo"<td>".$employee['s_name']."</td>";
+                            echo"<td>".$employee['t_audience']."</td>";
+                            echo"<td>".$employee['staff']."</td>";
                             echo"<td>".$employee['t_from']."</td>";
                             echo"<td>".$employee['t_to']."</td>";
                           
@@ -132,10 +138,10 @@ if (isset($_POST['edit']))
                               echo "<td>no status</td>";
 
                              echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'permission'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
-                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                      <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
                                         </button>
@@ -157,10 +163,10 @@ if (isset($_POST['edit']))
                               echo "<td>no status </td>";
 
                             echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'report'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
-                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                      <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
                                         </button>
@@ -182,10 +188,10 @@ if (isset($_POST['edit']))
                               echo "<td>no status </td>";
 
                             echo "<td>
-                                    <form action = '' method = 'POST'>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'certificate'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
-                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                      <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
                                         </button>
@@ -210,10 +216,10 @@ if (isset($_POST['edit']))
                               echo "<td>no status </td>";
 
                             echo "<td>
-                                    <form action = '' method = 'POST'>
-                                      <input type = 'hidden' name = 'file' value = 'certificate'>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
+                                      <input type = 'hidden' name = 'file' value = 'attendance'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'>
-                                      <input type = 'hidden' name = 'type' value = 'attended'>
+                                      <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
                                         </button>
@@ -232,9 +238,11 @@ if (isset($_POST['edit']))
                                     </form>
                                   </td>";
 
-                             echo "<td>
-                                    <form action = '4_delete_review.php' method = 'POST'>
-                                      <button type = 'submit' class = 'btn btn-primary btn-sm'>
+                              echo "<td>
+                                    <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['f_id']."'> 
+                                      <input type = 'hidden' name = 'type' value = 'organized'>
+                                      <button name ='delete' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-trash'></span>
                                       </button>
                                     </form>
