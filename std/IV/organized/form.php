@@ -45,14 +45,15 @@ if(isset($_SESSION['id']) && !isset($_GET['count']) )
  $employee=mysqli_fetch_assoc($records);
  $count = 1;
 }
-else if(!isset($_SESSION['id']) && !isset($_GET['count']))
-{
-
-	header("location:template.php?x=../IV/organized/addcount.php"); //go to add once refreshed
-}
+// else if(!isset($_SESSION['id']) && !isset($_GET['count']))
+// {
+// 	echo $_SESSION['id'];
+// 	echo $_GET['count'];
+// 	header("location:template.php?x=../IV/select_menu/addcoun.php"); //go to add once refreshed
+// 	exit(0);
+// }
 else
 	$id=-999;
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -140,11 +141,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 			if($id!=-999)
 				{
-					$sql="UPDATE organized set ind ='$ind', city='$city', purpose='$purpose', date='$ivdate',s_name='$staff',t_from='$from',t_to='$to' where f_id= $id;";		
+					$sql="UPDATE organized set ind ='$ind', city='$city', purpose='$purpose', date='$ivdate',staff='$staff',t_from='$from',t_to='$to', t_audience='$t_audience' where f_id= $id;";		
 				}
 			else
 			{		
-			$sql="INSERT INTO organized (f_name,ind,city,purpose,date,tAudience,s_name,t_from,t_to) VALUES ('$fname','$ind','$city','$purpose','$ivdate','$t_audience','$staff','$from','$to')";
+			$sql="INSERT INTO organized (f_name,ind,city,purpose,date,t_audience,staff,t_from,t_to) VALUES ('$fname','$ind','$city','$purpose','$ivdate','$t_audience','$staff','$from','$to')";
 			}
 
 			if(!mysqli_query($conn,$sql))
@@ -235,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 					<div class="form-group col-md-8">
 					<label>Staff</label><span class="required"> *</span>
-					<input type="text" class="form-control" name="staff[]" value=<?php if($id!=-999){ echo $employee['s_name'];}?>>
+					<input type="text" class="form-control" name="staff[]" value=<?php if($id!=-999){ echo $employee['staff'];}?>>
 					<span class="error"><?php echo $serror; ?></span>
 					</div>
 

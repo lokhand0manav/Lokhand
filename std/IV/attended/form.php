@@ -44,7 +44,7 @@ if(isset($_SESSION['id']) && !isset($_GET['count']) )
 }
 else if(!isset($_SESSION['id']) && !isset($_GET['count']))
 {
-	header("location:template.php?x=../IV/attended/addcount.php"); //go to add once refreshed
+	header("location:template.php?x=../IV/select_menu/addcount.php"); //go to add once refreshed
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")

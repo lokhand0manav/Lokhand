@@ -60,6 +60,7 @@ $(document).ready(function(){
 							else
 							{	
 								$_SESSION['activity']=$_POST['activity'];
+								
 								if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 								{
 									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php&count=".$count);
@@ -77,7 +78,6 @@ $(document).ready(function(){
 			
 								header("location:template.php");
 							
-						
 					  	}
 						
 					?>
