@@ -5,11 +5,14 @@ $(document).ready(function(){
 </script>
 <?php 
 ob_start();
-if(session_status() == PHP_SESSION_NONE){
+if(session_status() == PHP_SESSION_NONE)
+{
     //session has not started
     session_start();
 }
-$conn=mysqli_connect('localhost','root','','preyash');
+$conn=connection(); //this is required, andhence GLOBALS is used IVSql.php
+$organized = organized();
+
 if($_SESSION['username']=="")
 {
   header("refresh:2,url=../login.php");
@@ -28,6 +31,13 @@ $cityerr = "";
 $perr = "";
 $taerror="";
 $serror="";
+$id=-999;
+
+$permission="";
+$report ="";
+$certificate="";
+$attendance="";
+
 function test_input($data) 
 {
 	$data = trim($data);
@@ -40,18 +50,15 @@ function test_input($data)
 if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
 {
  $id = $_SESSION['id'];
- $sql="SELECT * FROM organized where f_id = $id";
- $records=mysqli_query($conn,$sql); 
- $employee=mysqli_fetch_assoc($records);
+ $temp=mysqli_fetch_assoc(IV("*","organized",$id,"select"));
+ $employee = changeAssociation("organized",$temp);
  $count = 1;
 }
 else if(!isset($_SESSION['id']) && !isset($_GET['count']))
 {
 
-	header("location:template.php?x=../IV/organized/addcount.php"); //go to add once refreshed
+	header("location:template.php?x=../IV/select_menu/addcount.php"); //go to add once refreshed
 }
-else
-	$id=-999;
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -60,18 +67,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 
 		//the form was submitted
-    
-		$ivdate_array = $_POST['ivdate'];
 		//$fname_array = $_POST['fname'];
-		$ind_array = $_POST['ind'];
-		$city_array = $_POST['city'];
-		$purpose_array = $_POST['purpose'];
-		$from_array= $_POST['from'];
-		$t_audience_array = $_POST['t_audience'];
-		$staff_array = $_POST['staff'];
-		$to_array= $_POST['to'];
+		$ind_array = $_POST[$organized[2]];
+		$city_array = $_POST[$organized[3]];
+		$purpose_array = $_POST[$organized[4]];
+		$ivdate_array = $_POST[$organized[5]];
+		$t_audience_array = $_POST[$organized[6]];
+		$staff_array = $_POST[$organized[7]];
+		$from_array= $_POST[$organized[12]];
+		$to_array= $_POST[$organized[13]];
 		
-		for($i=0; $i<count($city_array);$i++)
+		for($i=0; $i<count($ivdate_array);$i++)
 		{
 			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
 			$fname = $username;
@@ -83,83 +89,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$staff = mysqli_real_escape_string($conn,$staff_array[$i]);	
 			$from = mysqli_real_escape_string($conn,$from_array[$i]);
 			$to = mysqli_real_escape_string($conn,$to_array[$i]);
+			if(isset($employee[8]))
+			{
+				$permission = $employee[8];
+				$report     = $employee[9];
+				$certificate = $employee[10];
+				$attendance = $employee[11];		
+			}
 			
-			if(empty($_POST['ivdate[]']))
-			{
-				$dateerr="Please enter a date";
-				$flag++;
-			}
-			if(empty($_POST['sname[]']))
-			{
-				$snameerr="Enter a name";
-				$flag++;
-			}
-			else
-			{
-				$name = test_input($_POST['sname[]']);
-				if (!preg_match("/^[a-zA-Z]*$/",$name))
-				{
-					$snameerr = "Only letters and whitespace allowed";
-					$flag++;
-				}
-			}
-			if(empty($_POST['ind[]']))
+			if(empty($_POST[$organized[2].'[]']))
 			{
 				$inderr="Please enter the details";
 				$flag++;
 			}
-			if(empty($_POST['city[]']))
+			if(empty($_POST[$organized[3].'[]']))
 			{
 				$cityerr="Enter the city";
 				$flag++;
 			}
 			else 
 			{
-				$city = test_input($_POST['city[]']);
+				$city = test_input($_POST[$organized[3].'[]']);
 				if (!preg_match("/^[a-zA-Z]*$/",$city))
 				{
 					$cityerr = "City name cannot contain number";
 					$flag++;
 				}
 			}
-			if(empty($_POST['purpose[]']))
+			if(empty($_POST[$organized[4].'[]']))
 			{
 				$perr="Please enter a date";
 				$flag++;
 			}
-			if(empty($_POST['t_audience[]']))
+			if(empty($_POST[$organized[5].'[]']))
+			{
+				$dateerr="Please enter a date";
+				$flag++;
+			}
+			if(empty($_POST[$organized[6].'[]']))
 			{
 				$taerror = "Please Enter Target Audience";
 				$flag++;
 			}
-			if(empty($_POST['staff[]']))
+			if(empty($_POST[$organized[7].'[]']))
 			{
 				$serror = "Please Enter the Staff";
 				$flag++;
 			}
 
+			$val = array($id,$fname,$ind,$city,$purpose,$ivdate,$t_audience,$staff,$permission,$report,$certificate,$attendance,$from,$to);
 			if($id!=-999)
 				{
-					$sql="UPDATE organized set ind ='$ind', city='$city', purpose='$purpose', date='$ivdate',s_name='$staff',t_from='$from',t_to='$to' where f_id= $id;";		
+					$result = IV("what","organized",$val,"update");	
 				}
-			else
-			{		
-			$sql="INSERT INTO organized (f_name,ind,city,purpose,date,tAudience,s_name,t_from,t_to) VALUES ('$fname','$ind','$city','$purpose','$ivdate','$t_audience','$staff','$from','$to')";
-			}
+				else
+				{		
+					$result = IV("what","organized",$val,"insert");
+				}
 
-			if(!mysqli_query($conn,$sql))
+			if(!$result)
 			{
 				echo"Not Inserted";
-				echo mysqli_error($conn);
-				exit(0);
-
+			
 			}
 			else
 			{
 				//echo"Record Inserted Successfully !";
 			}
 		}
-				mysqli_close($conn);
+				mysqli_close($GLOBALS[conn]);
 				if(isset($_SESSION['id'])) //if editing
 				{
 				  unset($_SESSION['id']);		
@@ -189,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				<div class="form-group col-md-10">
 
                          <label for="faculty-name">Faculty Name</label>
-                         <input required type="text" class="form-control input-lg" id="faculty-name" name="facultyName" value="<?php echo $username; ?>" readonly>
+                         <input required type="text" class="form-control input-lg" id="faculty-name" name="<?php echo $organized[1];//facultyName ?>" value="<?php echo $username; ?>" readonly>
                      </div><br/> <br/> <br/> <br/> 
 				
 				<?php
@@ -203,39 +201,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				
                 <div class="form-group col-md-6">
                	<label>Date of Visit:</label><span class="required">*</span>
-					<input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>
+					<input type="date" name="<?php echo $organized[5];//ivdate[] ?>[]" class="form-control" value=<?php if($id!=-999){ echo $employee[5];}?>>
 					<span class="error"><?php echo $dateerr; ?></span>
                 </div>
 
                      <div class="form-group col-md-6"><span class="required">*</span>
                          <label >Industry Name</label>         
-						<input type="text" class="form-control" name="ind[]" value=<?php if($id!=-999){ echo $employee['ind'];}?>>
+						<input type="text" class="form-control" name="<?php echo $organized[2];//ind[] ?>[]" value=<?php if($id!=-999){ echo $employee[2];}?>>
 					<span class="error"><?php echo $inderr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if($id!=-999){ echo $employee['purpose'];}?>
+          				<textarea rows="5" cols="5" class="form-control" name="<?php echo $organized[4];//purpose[] ?>[]"><?php if($id!=-999){ echo $employee[4];}?>
           				</textarea>
           				<span class="error"><?php echo $perr; ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                      <label>City</label><span class="required">*</span>
-					<input type="text" class="form-control" name="city[]" value=<?php if($id!=-999){ echo $employee['city'];}?>>
+					<input type="text" class="form-control" name="<?php echo $organized[3];//city[] ?>[]" value=<?php if($id!=-999){ echo $employee[3];}?>>
 					<span class="error"><?php echo $cityerr; ?></span>
                          
                      </div>
                      
                      <div class="form-group col-md-8"> 
                      <label>Target Audience</label><span class="required">*</span>
-					<input type="text" class="form-control" name="t_audience[]" value=<?php if($id!=-999){ echo $employee['tAudience'];}?>>
+					<input type="text" class="form-control" name="<?php echo $organized[6];//t_audience[] ?>[]" value=<?php if($id!=-999){ echo $employee[6];}?>>
 					<span class="error"><?php echo $taerror; ?></span>
 					</div>
 
 
 					<div class="form-group col-md-8">
 					<label>Staff</label><span class="required"> *</span>
-					<input type="text" class="form-control" name="staff[]" value=<?php if($id!=-999){ echo $employee['s_name'];}?>>
+					<input type="text" class="form-control" name="<?php echo $organized[7];//staff[] ?>[]" value=<?php if($id!=-999){ echo $employee[7];}?>>
 					<span class="error"><?php echo $serror; ?></span>
 					</div>
 
@@ -243,10 +241,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 					<label>Duration</label><span class="required"> *</span>
 					<br>
-					<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from" value=<?php if($id!=-999){ echo $employee['t_from'];}?>>
+					<b>From:</b> &emsp;<input type="date" name="<?php echo $organized[12];//from[] ?>[]" placeholder="from" value=<?php if($id!=-999){ echo $employee[12];}?>>
 					
 					&emsp;
-					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value=<?php if($id!=-999){ echo $employee['t_to'];}?>><br>
+					<b>To:</b>&emsp;<input type="date" name="<?php echo $organized[13];//to[] ?>[]" placeholder="to" value=<?php if($id!=-999){ echo $employee[13];}?>><br>
 					</div>
 
                    <?php

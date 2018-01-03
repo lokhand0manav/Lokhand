@@ -6,6 +6,7 @@ $(document).ready(function(){
    alert("are you sure");
 });
 </script>
+
 <?php
 if(session_status() == PHP_SESSION_NONE)
 	{
@@ -18,51 +19,48 @@ if(session_status() == PHP_SESSION_NONE)
     //send the user to login page
     header("location:../login.php");
     }
- 
+
+ include_once('IVSql.php');
  $id   = $_SESSION['id'];
  $type = $_SESSION['type'] ;
  unset($_SESSION['id']); 
  unset($_SESSION['type']);
 
- $conn=mysqli_connect('localhost','root','','preyash');   
+ $conn=connection();
  
- $sql="SELECT permission FROM $type where f_id='$id'";
- $records=mysqli_query($conn,$sql);
- $iv=mysqli_fetch_object($records);
- if(!strcmp($iv->permission,"NULL") && !strcmp($iv->permission,"not_applicable"))
+  //$sql="SELECT permission FROM $type where f_id='$id'";
+  
+ $iv=mysqli_fetch_object(IV("permission",$type,$id,"select"));
+ if(!strcmp(!$iv->permission,"NULL") && !strcmp($iv->permission,"not_applicable"))
  {
  	unlink($iv->permission);	
  }
  
- $sql="SELECT report FROM $type where f_id='$id'";
- $records=mysqli_query($conn,$sql);
- $iv=mysqli_fetch_object($records);
-  if(!strcmp($iv->report,"NULL") && !strcmp($iv->report,"not_applicable"))
+ $iv=mysqli_fetch_object(IV("report",$type,$id,"select"));
+  if(!strcmp($iv->report,"NULL")&& !strcmp($iv->report,"not_applicable"))
  {
  	unlink($iv->report);	
  }
 
- $sql="SELECT certificate FROM $type where f_id='$id'";
- $records=mysqli_query($conn,$sql);
- $iv=mysqli_fetch_object($records);
+// $sql="SELECT certificate FROM $type where f_id='$id'";
+$iv=mysqli_fetch_object(IV("certificate",$type,$id,"select"));
   if(!strcmp($iv->certificate,"NULL") && !strcmp($iv->certificate,"not_applicable"))
  {
  	unlink($iv->certificate);	
  }
  	
-if(strcmp($type,"organized"))
+if(strcmp($type,"organized")==0)
 {
- $sql="SELECT attendance FROM $type where f_id='$id'";
- $records=mysqli_query($conn,$sql);
- $iv=mysqli_fetch_object($records);
+$iv=mysqli_fetch_object(IV("attendance",$type,$id,"select"));
   if(!strcmp($iv->attendance,"NULL") && !strcmp($iv->attendance,"not_applicable"))
  {
  	unlink($iv->attendance);	
  }
 }
 
- $sql="DELETE FROM $type WHERE f_id='$id'";
- if(mysqli_query($conn,$sql))
+ //$sql="DELETE FROM $type WHERE f_id='$id'";
+ $check = IV("where",$type,$id,"delete");
+ if($check)
   {
   	if($_SESSION['username'] == 'hodextc@somaiya.edu')
 				{

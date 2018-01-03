@@ -10,11 +10,11 @@ if(session_status() == PHP_SESSION_NONE)
     header("location:../login.php");
     }
 
-
 //setting error variables
 $error="";
-$conn=mysqli_connect('localhost','root','','preyash');
-
+$conn=connection();
+$attended = attended();
+$organized = organized();
 //for which id=id, type=attended or organized and for the fine="permission/report or other"
   
   $type = $_SESSION['type'] ; 
@@ -33,16 +33,22 @@ if(isset($_POST['insert-image']))
 	{
 		if($_POST['applicable'] == 2)
 		{
-			
-			$query = "UPDATE $type SET $file='NULL' where f_id='$id'";
-             mysqli_query($conn,$query);
-			 $success =1;
+			if(strcmp($type,"attended")==0)
+				$query = "UPDATE $type SET $file='NULL' where $attended[0]='$id'";
+            else
+            	$query = "UPDATE $type SET $file='NULL' where $organized[0]='$id'"; 
+             
+            mysqli_query($conn,$query);
+			$success =1;
 			 
 		}
 		else if($_POST['applicable'] == 3)
 		{
-			$query = "UPDATE $type SET $file='not_applicable' where f_id='$id'";
-             mysqli_query($conn,$query);
+			if(strcmp($type,"attended")==0)
+				$query = "UPDATE $type SET $file='not_applicable' where $attended[0]='$id'";
+            else
+            	$query = "UPDATE $type SET $file='not_applicable' where $organized[0]='$id'";
+            mysqli_query($conn,$query);
 			 			 $success =1;
 
 			
@@ -59,15 +65,19 @@ if(isset($_POST['insert-image']))
 			  //$fileExt=strtolower(end(explode('.',$_FILES['image']['name'])));
 			  $targetName="../uploads/".$type."/".$file."/".$fileName;  
 			  $targetPath="../uploads/".$type."/".$file."/";
+			  
 			  if(empty($errors)==true) {
 				if (file_exists($targetName)) {   
 					unlink($targetName);
 				}      
 				 $moved = move_uploaded_file($fileTmp,$targetName);
-				 if($moved == true){
+				 if($moved == true)
+				 {
 					 //successful
-				 	
-					 $query = "UPDATE $type SET $file='".$targetName."' where f_id='$id'";
+				 	if(strcmp($type,"attended")==0)
+					 	$query = "UPDATE $type SET $file='".$targetName."' where $attended[0]='$id'";
+					else
+						$query = "UPDATE $type SET $file='".$targetName."' where $organized[0]='$id'"; 
 					 mysqli_query($conn,$query);
 					 			 $success =1;
 

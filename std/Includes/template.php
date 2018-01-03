@@ -4,7 +4,6 @@ if(session_status() == PHP_SESSION_NONE){
     //session has not started
     session_start();
 }
-$conn=mysqli_connect('localhost','root','','preyash');
 if($_SESSION['username']=="")
 {
   header("refresh:2,url=../login.php");
@@ -16,6 +15,7 @@ else
 }
 $alert = "";
 $count ="";
+
 if(isset($_GET['alert']))  
    {
      $alert = $_GET['alert'];
@@ -60,6 +60,8 @@ $successMessage="";
 
 <?php include_once('../includes/head.php'); ?>
 <?php include_once('../includes/header.php'); ?>
+<?php include_once('../IV/IVSql.php'); ?>
+
 <?php 
   
   if($_SESSION['username'] == 'hodextc@somaiya.edu')
