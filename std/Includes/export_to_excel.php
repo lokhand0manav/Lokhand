@@ -1,7 +1,6 @@
 <?php
 session_start();
-include '../Includes/connection.php';
-$table = $_SESSION['table_name']; 
+include '../Includes/connection.php'; 
 $filename = "Activity_file"; 
 $sql = $_SESSION['table_query'];
 $result = mysqli_query($conn,$sql) or die("Couldn't execute query:<br>" . mysqli_error($conn). "<br>" . mysqli_errno($conn)); 
