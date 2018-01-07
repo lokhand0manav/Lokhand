@@ -11,7 +11,7 @@ ob_start();
    }
    
 include_once("../includes/connection.php");
-$sql="SELECT ind,city,purpose,date ".$_SESSION['view_query']." ORDER BY DATE ASC";
+$sql="SELECT f_name,ind,city,purpose,date ".$_SESSION['view_query']." ORDER BY DATE ASC";
 $result=mysqli_query($conn,$sql);  
 
 ?>
@@ -20,6 +20,7 @@ $result=mysqli_query($conn,$sql);
                   <table border="1" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
+                      <th>Faculty Name</th>
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
@@ -32,6 +33,7 @@ if(mysqli_num_rows($result)>0)
                           while($employee=mysqli_fetch_assoc($result))
                           {
                             echo"<tr>";
+                            echo"<td>".$employee['f_name']."</td>";
                             echo"<td>".$employee['ind']."</td>";
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";

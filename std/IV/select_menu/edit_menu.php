@@ -43,19 +43,19 @@ if(isset($_GET['alert']))
 	<?php 
 	if(isset($_POST['submit_view']))
 	{		
-	   if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
-		{
+	 //   if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+		// {
 			
 			
-			include_once("../IV/".$_POST['activity']."/edit_admin.php");
+		// 	include_once("../IV/".$_POST['activity']."/edit.php");
 
 
-		}
-		else
-		{
+		// }
+		// else
+		// {
 			include_once("../IV/".$_POST['activity']."/edit.php");
 			
-		}
+	
 							// $_POST['submit_view']="";
 	}
 	

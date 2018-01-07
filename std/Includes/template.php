@@ -62,12 +62,12 @@ $successMessage="";
 <?php include_once('../includes/header.php'); ?>
 <?php 
   
-  if($_SESSION['username'] == 'hodextc@somaiya.edu')
-  {
-      include_once('../includes/sidebar_admin.php');
+  // if($_SESSION['username'] == 'hodextc@somaiya.edu')
+  // {
+  //     include_once('../includes/sidebar.php');
 
-  }
-  else
+  // }
+  // else
       include_once('../includes/sidebar.php'); 
 ?>
 

@@ -57,8 +57,6 @@
           if(mysqli_query($conn,$sql))
             header("refresh:1; url=../../includes/template.php?x=../IV/attended/view.php");
         }
-
-
         if($_FILES["report"]["name"]!="")
         {
           $sql="SELECT report FROM attended where f_id='$_POST[id]'";

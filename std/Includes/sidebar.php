@@ -55,7 +55,21 @@
             <ul class="treeview-menu">
               <li class="1" ><a href='template.php?x=../IV/select_menu/addcount.php'><i class="fa fa-circle-o"></i>Add Activity</a></li>
               <li class="2" ><a href='template.php?x=../IV/select_menu/edit_menu.php'><i class="fa fa-circle-o"></i>View/Edit Activity</a></li>
-              <li class="3" ><a href='template.php?x=../IV/select_menu/view_menu.php'><i class="fa fa-circle-o"></i>Analysis</a></li>
+              <?php  
+              if($_SESSION['username']=="hodextc@somaiya.edu")
+                {
+              ?>
+              <li class="3" ><a href='template.php?x=../IV/select_menu/view_menu_admin.php'><i class="fa fa-circle-o"></i>Analysis</a></li>
+              <?php 
+                }else
+                {
+                  ?>
+                    <li class="3" ><a href='template.php?x=../IV/select_menu/view_menu.php'><i class="fa fa-circle-o"></i>Analysis</a></li>
+
+               <?php 
+             }
+                ?>
+
             </ul>
         </li>
 

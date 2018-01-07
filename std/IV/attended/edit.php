@@ -31,14 +31,24 @@ $(document).ready(function(){
     header("refresh:2,url=../login.php");
     die("Login Required");
    }
+  else if($_SESSION['username']=="hodextc@somaiya.edu")
+  {
+    $username="";
+  } 
   else
   {
    $username = $_SESSION['username'];
   }
 
- //if(isset($_POST))
 $conn=mysqli_connect('localhost','root','','preyash');
-$sql="SELECT * FROM attended where f_name='$username'";
+if($username=="")
+{
+  $sql="SELECT * FROM attended";
+}
+else
+{
+  $sql="SELECT * FROM attended where f_name='$username'";
+}
 $records=mysqli_query($conn,$sql);
 
 if(isset($_POST['upload']))

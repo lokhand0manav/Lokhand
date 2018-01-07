@@ -15,10 +15,14 @@ if($_SESSION['username']=="")
   header("refresh:2,url=../login.php");
   die("Login Required");
 }
-else
+else if($_SESSION['username']!='hodextc@somaiya.edu')
 {
-  $username = $_SESSION['username'];
+  $fname = $_SESSION['username'];
 }
+else{
+	$fname="";
+}
+
 $count = $GLOBALS['count'];
 $flag=0;
 $dateerr = "";
@@ -61,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 
 		//the form was submitted
-    
+    	$fname = $_POST['fname'];
 		$ivdate_array = $_POST['ivdate'];
 		//$fname_array = $_POST['fname'];
 		$ind_array = $_POST['ind'];
@@ -75,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		for($i=0; $i<count($city_array);$i++)
 		{
 			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
-			$fname = $username;
+			// $fname = $username;
 			//$fname = mysqli_real_escape_string($conn,$fname_array[$i]);
 			$ind = mysqli_real_escape_string($conn,$ind_array[$i]);
 			$city = mysqli_real_escape_string($conn,$city_array[$i]);
@@ -186,22 +190,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 
                 </div><!-- /.box-header -->
                 <!-- form start -->
-	
+		<form role="form" method="POST" class="row" action= "template.php?x=../IV/organized/form.php" style= "margin:10px;" >
 				<div class="form-group col-md-10">
 
                          <label for="faculty-name">Faculty Name</label>
-                         <input required type="text" class="form-control input-lg" id="faculty-name" name="facultyName" value="<?php echo $username; ?>" readonly>
-                     </div><br/> <br/> <br/> <br/> 
-				
+
+                         <?php 
+                         if($fname!="")
+                         { 
+                         ?> 
+                         <input required type="text" class="form-control input-lg" id="faculty-name" name="fname" value=<?php echo $fname; ?> readonly>
+                     	 </div><br/> <br/> <br/> <br/>
+                    
+                    <?php 
+                 			}
+                 			else{			
+					?>
+						<input required type="text" class="form-control input-lg" id="faculty-name" name="fname" value=<?php if($id!=-999){ echo $employee['f_name'];}?>>
+                     	 </div><br/> <br/> <br/> <br/>
+                     	<?php 
+                     	}
+                     	 ?> 
+
 				<?php
 					for($k=0; $k<$count ; $k++)
 					{
 
 				?>
             <p>***************************************************************************************</p>
-			<form role="form" method="POST" class="row" action= "template.php?x=../IV/organized/form.php" style= "margin:10px;" >
-					
-				
                 <div class="form-group col-md-6">
                	<label>Date of Visit:</label><span class="required">*</span>
 					<input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>

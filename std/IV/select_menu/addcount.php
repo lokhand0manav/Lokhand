@@ -61,15 +61,15 @@ $(document).ready(function(){
 							{	
 								$_SESSION['activity']=$_POST['activity'];
 								
-								if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
-								{
-									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php&count=".$count);
+								// if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+								// {
+								// 	header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php&count=".$count);
 
-								}
-								else
-								{
+								// }
+								// else
+								// {
 									header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php&count=".$count);
-								}
+								
 							}
 						}
 						 

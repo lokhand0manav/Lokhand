@@ -66,7 +66,7 @@ if(strcmp($type,"organized"))
   {
   	if($_SESSION['username'] == 'hodextc@somaiya.edu')
 				{
-	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php&alert=delete");
+	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu.php&alert=delete");
 
 				}
 				else
