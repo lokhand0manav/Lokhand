@@ -62,16 +62,8 @@ $iv=mysqli_fetch_object(IV("attendance",$type,$id,"select"));
  $check = IV("where",$type,$id,"delete");
  if($check)
   {
-  	if($_SESSION['username'] == 'hodextc@somaiya.edu')
-				{
-	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php&alert=delete");
-
-				}
-				else
-				{
+  
 					header("location:../includes/template.php?x=../IV/select_menu/edit_menu.php&alert=delete");
-
-				}
 	
   }
 

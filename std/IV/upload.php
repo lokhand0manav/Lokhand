@@ -13,8 +13,6 @@ if(session_status() == PHP_SESSION_NONE)
 //setting error variables
 $error="";
 $conn=connection();
-$attended = attended();
-$organized = organized();
 //for which id=id, type=attended or organized and for the fine="permission/report or other"
   
   $type = $_SESSION['type'] ; 
@@ -34,9 +32,9 @@ if(isset($_POST['insert-image']))
 		if($_POST['applicable'] == 2)
 		{
 			if(strcmp($type,"attended")==0)
-				$query = "UPDATE $type SET $file='NULL' where $attended[0]='$id'";
+				$query = "UPDATE $type SET $file='NULL' where id='$id'";
             else
-            	$query = "UPDATE $type SET $file='NULL' where $organized[0]='$id'"; 
+            	$query = "UPDATE $type SET $file='NULL' where id='$id'"; 
              
             mysqli_query($conn,$query);
 			$success =1;
@@ -45,9 +43,9 @@ if(isset($_POST['insert-image']))
 		else if($_POST['applicable'] == 3)
 		{
 			if(strcmp($type,"attended")==0)
-				$query = "UPDATE $type SET $file='not_applicable' where $attended[0]='$id'";
+				$query = "UPDATE $type SET $file='not_applicable' where id='$id'";
             else
-            	$query = "UPDATE $type SET $file='not_applicable' where $organized[0]='$id'";
+            	$query = "UPDATE $type SET $file='not_applicable' where id='$id'";
             mysqli_query($conn,$query);
 			 			 $success =1;
 
@@ -75,9 +73,9 @@ if(isset($_POST['insert-image']))
 				 {
 					 //successful
 				 	if(strcmp($type,"attended")==0)
-					 	$query = "UPDATE $type SET $file='".$targetName."' where $attended[0]='$id'";
+					 	$query = "UPDATE $type SET $file='".$targetName."' where id='$id'";
 					else
-						$query = "UPDATE $type SET $file='".$targetName."' where $organized[0]='$id'"; 
+						$query = "UPDATE $type SET $file='".$targetName."' where id='$id'"; 
 					 mysqli_query($conn,$query);
 					 			 $success =1;
 
@@ -101,17 +99,10 @@ if(isset($_POST['insert-image']))
 	unset($_SESSION['type']);
 	unset($_SESSION['file']);
 	unset($_SESSION['id']);
+				
+	header("location:../includes/template.php?x=../IV/select_menu/edit_menu.php&alert=update");
 
-	if($_SESSION['username'] == 'hodextc@somaiya.edu')
-				{
-	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php");
-
-				}
-				else
-				{
-					header("location:../includes/template.php?x=../IV/select_menu/edit_menu.php&alert=update");
-
-				}
+			
 	
 	
 }
@@ -119,17 +110,7 @@ if(isset($_POST['insert-image']))
 
 
 if(isset($_POST['cancel'])){
-	if($_SESSION['username'] == 'hodextc@somaiya.edu')
-				{
-	               header("location:../includes/template.php?x=../IV/select_menu/edit_menu_admin.php");
-
-				}
-				else
-				{
-					header("location:../includes/template.php?x=../IV/attended/edit_menu.php");
-
-				}
-	
+	header("location:../includes/template.php?x=../IV/attended/edit_menu.php");
 }
 ?>
 

@@ -41,7 +41,7 @@ $(document).ready(function(){
   }
 
  //if(isset($_POST))
-$records = edit("organized",0);
+$records = edit("organized",$_SESSION['f_id']);
 
 if(isset($_POST['upload']))
 {
@@ -84,7 +84,6 @@ if (isset($_POST['delete']))
                   <table id="viewOrganized" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
-                      <th>Faculty Id</th>
                       <th>Faculty name</th>
                       <th>Industry Name</th>
                       <th>City</th>
@@ -103,35 +102,34 @@ if (isset($_POST['delete']))
                     </tr>
                     </thead>
                     <tbody>
-                    <?php
+                 <?php
                         //the values for id of user will be also sent from her (upload)
                         if(mysqli_num_rows($records)>0)
                         {
-                          while($temp=mysqli_fetch_assoc($records))
+                          while($employee=mysqli_fetch_assoc($records))
                           {
-                            $employee = changeAssociation("organized",$temp);
+                            $f_name = mysqli_fetch_assoc(getName($employee['f_id']))['F_NAME'];
                             echo"<tr>";
-                            echo"<td>".$employee[0]."</td>";
-                            echo"<td>".$employee[1]."</td>";
-                            echo"<td>".$employee[2]."</td>";
-                            echo"<td>".$employee[3]."</td>";
-                            echo"<td>".$employee[4]."</td>";
-                            echo"<td>".$employee[5]."</td>";
-                            echo"<td>".$employee[6]."</td>";
-                            echo"<td>".$employee[7]."</td>";
-                            echo"<td>".$employee[12]."</td>";
-                            echo"<td>".$employee[13]."</td>";
+                            echo"<td>".$f_name."</td>";
+                            echo"<td>".$employee['ind']."</td>";
+                            echo"<td>".$employee['city']."</td>";
+                            echo"<td>".$employee['purpose']."</td>";
+                            echo"<td>".$employee['date']."</td>";
+                            echo"<td>".$employee['t_audience']."</td>";
+                            echo"<td>".$employee['staff']."</td>";
+                            echo"<td>".$employee['t_from']."</td>";
+                            echo"<td>".$employee['t_to']."</td>";
                           
                             echo"<td><table class='table-bordered' ><tr>";
                             
-                            if(($employee[8]) != "")
+                            if(($employee['permission']) != "")
                             {
-                              if(($employee[8]) == "NULL")
+                              if(($employee['permission']) == "NULL")
                                 echo "<td>not yet available</td>";
-                              else if(($employee[8]) == "not_applicable") 
+                              else if(($employee['permission']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee[8]."'>View permission</td>";
+                                echo "<td> <a href = '".$employee['permission']."'>View permission</td>";
                             }
                             else
                               echo "<td>no status</td>";
@@ -139,7 +137,7 @@ if (isset($_POST['delete']))
                              echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'permission'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                       <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
@@ -149,14 +147,14 @@ if (isset($_POST['delete']))
                             echo"</tr></table></td>";  
                             
                             echo"<td><table class='table-bordered' ><tr>";
-                            if(($employee[9]) != "")
+                            if(($employee['report']) != "")
                             {
-                              if(($employee[9]) == "NULL")
+                              if(($employee['report']) == "NULL")
                                 echo "<td>not yet available</td>";
-                              else if(($employee[9]) == "not_applicable") 
+                              else if(($employee['report']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee[9]."'>View report</td>";
+                                echo "<td> <a href = '".$employee['report']."'>View report</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -164,7 +162,7 @@ if (isset($_POST['delete']))
                             echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'report'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                       <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
@@ -174,14 +172,14 @@ if (isset($_POST['delete']))
                             echo"</tr></table></td>";
 
                             echo"<td><table class='table-bordered' ><tr>";
-                            if(($employee[10]) != "")
+                            if(($employee['certificate']) != "")
                             {
-                              if(($employee[10]) == "NULL")
+                              if(($employee['certificate']) == "NULL")
                                 echo "<td>not yet available</td>";
-                              else if(($employee[10]) == "not_applicable") 
+                              else if(($employee['certificate']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee[10]."'>View certificate</td>";
+                                echo "<td> <a href = '".$employee['certificate']."'>View certificate</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -189,7 +187,7 @@ if (isset($_POST['delete']))
                             echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'certificate'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                       <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
@@ -202,14 +200,14 @@ if (isset($_POST['delete']))
                             /// Attendence
 
                             echo"<td><table class='table-bordered' ><tr>";
-                            if(($employee[11]) != "")
+                            if(($employee['attendance']) != "")
                             {
-                              if(($employee[11]) == "NULL")
+                              if(($employee['attendance']) == "NULL")
                                 echo "<td>not yet available</td>";
-                              else if(($employee[11]) == "not_applicable") 
+                              else if(($employee['attendance']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee[11]."'>View attendance</td>";
+                                echo "<td> <a href = '".$employee['attendance']."'>View attendance</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -217,7 +215,7 @@ if (isset($_POST['delete']))
                             echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'attendance'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'>
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                       <input type = 'hidden' name = 'type' value = 'organized'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-upload'></span>
@@ -230,7 +228,7 @@ if (isset($_POST['delete']))
 
                              echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'> 
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-edit'></span>
                                       </button>
@@ -239,7 +237,7 @@ if (isset($_POST['delete']))
 
                               echo "<td>
                                     <form action = 'template.php?x=../IV/organized/edit.php' method = 'POST'>
-                                      <input type = 'hidden' name = 'id' value = '".$employee[0]."'> 
+                                      <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <input type = 'hidden' name = 'type' value = 'organized'>
                                       <button name ='delete' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-trash'></span>

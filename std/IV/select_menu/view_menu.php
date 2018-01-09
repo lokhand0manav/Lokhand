@@ -23,16 +23,16 @@ $max_date ="";
 				if(empty($_POST['min_date']) && empty($_POST['max_date']))
 				{
 				//header("location:../includes/template.php");
-				$total1 = mysqli_fetch_assoc(count_query("attended",0,0));
-				$total2 = mysqli_fetch_assoc(count_query("organized",0,0));	
+				$total1 = mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],0));
+				$total2 = mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],0));	
 				}	
 				else
 				{				
 				$GLOBALS['min_date'] = $_POST['min_date'];
 				$GLOBALS['max_date']= $_POST['max_date'];
 
-				$total1= mysqli_fetch_assoc(count_query("attended",0,1)); 
-				$total2= mysqli_fetch_assoc(count_query("organized",0,1)); 
+				$total1= mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],1)); 
+				$total2= mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],1)); 
 				
 
 			 	$_POST['min_date'] = $GLOBALS['min_date']; 
@@ -41,14 +41,14 @@ $max_date ="";
 			}
 			else
 			{
-				$total1 = mysqli_fetch_assoc(count_query("attended",0,0));
-				$total2 = mysqli_fetch_assoc(count_query("organized",0,0));
+				$total1 = mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],0));
+				$total2 = mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],0));
 			}	
 
 			?>
 
 
-<div class="box">
+ <div class="box">
 	<div class='box-body'>
 			<form action="" method="POST">
 			<label for="InputDateFrom">Date from :</label>
@@ -58,7 +58,7 @@ $max_date ="";
 			<input type="date" name="max_date" value=<?php echo $GLOBALS['max_date']; ?>>
 			<input type="submit" name="update" >
 			
-			</div>	
+	</div>	
 
 	<div class="box-body">
 		
@@ -109,4 +109,5 @@ $max_date ="";
 					}
 		?>			
 	</div>
+</div>
 

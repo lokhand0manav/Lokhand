@@ -3,6 +3,7 @@ $(document).ready(function(){
   $(".1").attr("class","active");
 });
 </script>
+
 <?php 
 ob_start();
 if(session_status() == PHP_SESSION_NONE)
@@ -11,7 +12,7 @@ if(session_status() == PHP_SESSION_NONE)
     session_start();
 }
 $conn=connection();
-$attended = attended();
+
 //$conn=mysqli_connect('localhost','root','','preyash');
 
 if($_SESSION['username']=="")
@@ -32,10 +33,10 @@ $inderr = "";
 $cityerr = "";
 $perr = "";
 $id = -999;
-
 $permission="";
 $report ="";
 $certificate="";
+
 function test_input($data) 
 {
 	$data = trim($data);
@@ -44,13 +45,11 @@ function test_input($data)
 	return $data;
 }
 
-//this cond is must, if user jumps from page of updating to add, session[id] wiil be considered from update
-
+//this cond is must, if user jumps from page of updating to add, session[id] will be considered from update
 if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
 {
- $id = $_SESSION['id'];
- $temp=mysqli_fetch_assoc(IV("*","attended",$id,"select")); //function will be found in IVSql.php
- $employee = changeAssociation("attended",$temp);
+ $id = $_SESSION['id']; 
+ $employee=mysqli_fetch_assoc(IV("*","attended",$id,"select")); //function will be found in IVSql.php
  $count = 1;
 }
 else if(!isset($_SESSION['id']) && !isset($_GET['count']))
@@ -64,28 +63,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	{
 
 		//the form was submitted
- 
-		$ind_array = $_POST[$attended[2]];
-		$city_array = $_POST[$attended[3]];
-		$purpose_array = $_POST[$attended[4]];
-		$ivdate_array = $_POST[$attended[5]];
-
+    	// $fname_array=$_POST['fname'];
+    	//$fname = $_POST['fname'];
+    	$f_id = $_POST['fid'];
+		$ivdate_array = $_POST['ivdate'];
+		$ind_array = $_POST['ind'];
+		$city_array = $_POST['city'];
+		$purpose_array = $_POST['purpose'];
+		
 		for($i=0; $i<count($ivdate_array);$i++)
 		{
 			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
-			$fname = $username;
+			// $fname = mysqli_real_escape_string($conn,$fname_array[$i]);;
 			$ind = mysqli_real_escape_string($conn,$ind_array[$i]);
 			$city = mysqli_real_escape_string($conn,$city_array[$i]);
 			$purpose = mysqli_real_escape_string($conn,$purpose_array[$i]);	
-			//not important but used somehow:
-			if(isset($employee[6]))
-			{
-				$permission = $employee[6];
-				$report     = $employee[7];
-				$certificate = $employee[8];
-			}
-			
-			if(empty($_POST[$attended[5].'[]']))
+	
+			if(empty($_POST['ivdate[]']))
 			{
 				$dateerr="Please enter a date";
 				$flag++;
@@ -93,43 +87,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			
 			else   
 			{
-				$name = test_input($_POST[$attended[1].'[]']);
+				$name = test_input($_POST['fname[]']);
 				if (!preg_match("/^[a-zA-Z]*$/",$name))
 				{
 					$nameerr = "Only letters and whitespace allowed";
 					$flag++;
 				}
 			}
-			if(empty($_POST[$attended[2].'[]']))
+			if(empty($_POST['ind[]']))
 			{
 				$inderr="Please enter the details";
 				$flag++;
 			}
-			if(empty($_POST[$attended[3].'[]']))
+			if(empty($_POST['city[]']))
 			{
 				$cityerr="Enter the city";
 				$flag++;
 			}
 			else
 			{
-				$city = test_input($_POST[$attended[3].'[]']);
+				$city = test_input($_POST['city[]']);
 				if (!preg_match("/^[a-zA-Z]*$/",$city))
 				{
 					$cityerr = "City name cannot contain number";
 					$flag++;
 				}
 			}
-			if(empty($_POST[$attended[4].'[]']))
+			if(empty($_POST['purpose[]']))
 			{
 				$perr="Please enter a date";
 				$flag++;
 			}
 
-			//echo $flag;
-			//if($flag=0)
-			//{
-				//if edit or not
-				$val = array($id,$fname,$ind,$city,$purpose,$ivdate,$permission,$report,$certificate);
+				$val = array($id,$f_id,$ind,$city,$purpose,$ivdate,$permission,$report,$certificate);
 				if($id!=-999)
 				{
 					
@@ -170,10 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 
   <!-- Content Header (Page header) -->
-  
-
-
-    
+     
     <section class="content">
           <div class="row">
             <!-- left column -->
@@ -185,44 +172,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				 
                 </div><!-- /.box-header -->
                 <!-- form start -->
-	
+		<form role="form" method="POST" class="row" action= "" style= "margin:10px;" >	
 				<div class="form-group col-md-12">
 
-                         <label for="faculty-name">Faculty Name</label>
-                         <input required type="text" class="form-control input-lg" id="faculty-name" name="<?php echo $attended[1];//fname?>" value="<?php echo $username; ?>" readonly>
+                    <label for="faculty-name">Faculty Name</label>
+                        <?php
+                    	if($id!=-999) //not a new entry i.e editing as id is set
+                    	{
+                    		$f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
+                    		$f_id = $employee['f_id'];
+                    	}
+                    	else //new Entry
+                    	{	
+                    		$f_name = $_SESSION['loggedInUser'];
+                    		$f_id = $_SESSION['f_id'];	
+                    	}
+
+                    	//if HOD then give drop down
+                    	if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+                    	{
+                    	?>
+                    	<select name="fid" class="form-control input-lg" > 
+
+                    	<?php
+                              $temp="";
+                              $temp = getFacultyDetails($temp);
+                              while($fac=mysqli_fetch_assoc($temp))
+                                {
+                                    if($fac[Fac_ID]!=9) //not HOD
+                                    {
+                                      echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
+									}
+                                }
+                        ?>
+                        </select>
+
+                        <?php        
+                    	}
+                    	else
+                    	{
+                    		echo "<input required type='hidden' name='fid' value=$f_id >"; //for faculty id
+                    		echo "<input required type='text' class='form-control input-lg' id='faculty-name' name='fname' value='$f_name' readonly>";
+                    	}	
+                    	?>
+
+                         
                      </div><br/> <br/> <br/> <br/> 
-				
 				<?php
 			
 					for($k=0; $k<$count ; $k++)
 					{
 
 				?>
-            <p>********************************************************************</p>
-			<form role="form" method="POST" class="row" action= "" style= "margin:10px;" >
-					
-				
+            <p>*******************************************************************************************</p>
+							
                 <div class="form-group col-md-6">
                 <label >Industry Name</label><span class="required">*</span>         
-         	 	<input type="textarea" rows="5" cols="5" class="form-control" name="<?php echo $attended[2];//ind[]?>[]" value=<?php if($id!=-999){ echo $employee[2];}?>>
+         	 	<input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value=<?php if($id!=-999){ echo $employee['ind'];}?>>
           		<span class="error"><?php echo $inderr; ?></span>
                 </div>
 
                      <div class="form-group col-md-6">
                          <label>Date of visit:</label><span class="required">*</span>
-          				 <input type="date" name="<?php echo $attended[5];//ivdate[]?>[]" class="form-control" value=<?php if($id!=-999){ echo $employee[5];}?>>
+          				 <input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>
          				 <span class="error"><?php echo $dateerr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="<?php echo $attended[4];//purpose[]?>[]"><?php if($id!=-999){ echo $employee[4];}?>
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if($id!=-999){ echo $employee['purpose'];}?>
           				</textarea>
           				<span class="error"><?php echo $inderr; ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                          <label>City</label><span class="required">*</span>
-          				 <input type="text" class="form-control" name="<?php echo $attended[3];//city[]?>[]" value=<?php if($id!=-999){ echo $employee[3];}?>>
+          				 <input type="text" class="form-control" name="city[]" value=<?php if($id!=-999){ echo $employee['city'];}?>>
           				 <span class="error"><?php echo $cityerr; ?></span>
                      </div>
                      
@@ -240,4 +264,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
               </div>
          
         </section>
+       
        

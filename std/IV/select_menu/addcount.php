@@ -9,7 +9,7 @@ $(document).ready(function(){
 				</div><!-- /.box-header -->
                 <!-- form start -->
 				<?php 
-				echo "&emsp;Logged In User: <b>".$_SESSION['username']."</b>";
+				echo "&emsp;Logged In User: <b>".$_SESSION['loggedInUser']."</b>";
 				?>
 
                 <form role='form' action='' method='POST'>
@@ -60,16 +60,7 @@ $(document).ready(function(){
 							else
 							{	
 								$_SESSION['activity']=$_POST['activity'];
-								
-								if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
-								{
-									header("location:template.php?x=../IV/".$_SESSION['activity']."/form_admin.php&count=".$count);
-
-								}
-								else
-								{
 									header("location:template.php?x=../IV/".$_SESSION['activity']."/form.php&count=".$count);
-								}
 							}
 						}
 						 

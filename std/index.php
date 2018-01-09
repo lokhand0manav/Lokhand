@@ -4,7 +4,7 @@ session_start();
 include_once ("includes/functions.php");
 $flag = 0;
 if(isset($_GET['alert'])){
-	$flag = 1;
+    $flag = 1;
     if($_GET['alert']=="success"){
         $successMessage='<div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
@@ -13,7 +13,7 @@ if(isset($_GET['alert'])){
         </div>';  
 
     }
-	if($_GET['alert']=="error"){
+    if($_GET['alert']=="error"){
         $successMessage='<div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
             </button>
@@ -21,27 +21,27 @@ if(isset($_GET['alert'])){
         </div>';  
 
     }
-	
-}	
+    
+}   
 
 
 if(isset($_POST['login'])){
-	$errors = "";
-	$succ =0;
-	
-	if(empty($_POST['email']))
-	{
-		$errors=$errors."email id cannot be empty!!";
-		$succ=1;
-	}
-	if(empty($_POST['password']))
-	{
-		$errors=$errors."passsword cannot be empty!!";
-		$succ=1;
-	}
-	if($succ != 1)
-	{
-		
+    $errors = "";
+    $succ =0;
+    
+    if(empty($_POST['email']))
+    {
+        $errors=$errors."email id cannot be empty!!";
+        $succ=1;
+    }
+    if(empty($_POST['password']))
+    {
+        $errors=$errors."passsword cannot be empty!!";
+        $succ=1;
+    }
+    if($succ != 1)
+    {
+        
     //taking input from user
     $formUsername=validateFormData($_POST['email']);
     $formPassword=validatePassword($_POST['password']);
@@ -59,73 +59,68 @@ if(isset($_POST['login'])){
     //else store the basic user data in local variables
     else*/
 
-	if(mysqli_num_rows($result)>0){
+    if(mysqli_num_rows($result)>0){
         $row=mysqli_fetch_assoc($result);
-		$_SESSION['Fac_ID']  =$row['Fac_ID'];
+        $_SESSION['Fac_ID']  =$row['Fac_ID'];
         $_SESSION['username']=$row['Email'];
         $pass=$row['Password'];
         
         //verify if the password matches the hashed password
         $loginsuccess = 0;
 
-		
-		if($_SESSION['username'] == 'jyot.tryambake@gmail.com')
-		{
-				$hashedPassword=base64_decode($pass);
-				$loginsuccess = 1;
+        
+        if($_SESSION['username'] == 'jyot.tryambake@gmail.com')
+        {
+                $hashedPassword=base64_decode($pass);
+                $loginsuccess = 1;
 
-		}
-		else
-		{
-			if(password_verify($formPassword,$pass)){
-				$loginsuccess = 1;
-			}
-		}
+        }
+        else
+        {
+            if(password_verify($formPassword,$pass)){
+                $loginsuccess = 1;
+            }
+        }
         if($loginsuccess == 1){
             //login details are correct start the session
             //store the data in session variable
             
             $_SESSION['loggedInUser']=$row['F_NAME'];
             $_SESSION['loggedInEmail']=$row['Email'];
+            $_SESSION['f_id']=$row['Fac_ID'];
             
-		
-			if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
-			{
-				header("location:2_dashboard_hod.php");
-
-			}
-			else
-				header("location:2_dashboard.php");
+            
+        header("location:includes/template.php");
         }//end of password verified
         //if password didn't match
         else{
         /*    $error="<div class='alert alert-danger'> Wrong username,password combination.
             <a class='close' data-dismiss='alert'>&times; </a></div>";*/
-			echo "<script> alert('Incorrect Password') </script>";
+            echo "<script> alert('Incorrect Password') </script>";
 
-			
+            
         }//end of password didnot match
     }//end of num rows =1
     else{
-		//echo "<script> alert('Incorrect Username') </script>";
+        //echo "<script> alert('Incorrect Username') </script>";
 
       /*  $error="<div class='alert alert-danger'> Username not found.
             <a class='close' data-dismiss='alert'>&times; </a> </div>";*/
-			echo "<script> alert('Incorrect Username') </script>";
+            echo "<script> alert('Incorrect Username') </script>";
 
     }//end of 0 results fetched case
     
     mysqli_close($conn);
 }
 else{
-	//echo '<div class="error">'.$errors.'</div>';
-		echo "<script> alert('$errors') </script>";
+    //echo '<div class="error">'.$errors.'</div>';
+        echo "<script> alert('$errors') </script>";
 
 }
 }
 if(isset($_POST['signup']))
 {
-	header("Location:signup.php");
+    header("Location:signup.php");
 }
 ?>
 <?php include_once('head.php'); ?>
@@ -150,7 +145,7 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-	
+    
 
 }
 
@@ -168,7 +163,7 @@ body, html {
               <!-- general form elements -->
               <div class="box box-primary"  >
                 <div class="box-header with-border">
-				<?php 
+                <?php 
         if($flag == 1){
         echo $successMessage;
     }
@@ -192,15 +187,15 @@ body, html {
                   <div class="box-footer">
                     <button type="submit" name = 'login' class="btn btn-primary">Login</button>
                   </div>
-				  <div class="form-group">
-				  <label for="newuser"><h4>Are you a new user? If yes, Then </h4></label>
-				  <div class="box-footer">
+                  <div class="form-group">
+                  <label for="newuser"><h4>Are you a new user? If yes, Then </h4></label>
+                  <div class="box-footer">
                     <button type="submit" name = 'signup' class="btn btn-primary">Signup</button>
                   </div>
-				  </div>
+                  </div>
                 </form>
-				
-                	<a href="forgotpassword.php" >Forgot Password</a>
+                
+                    <a href="forgotpassword.php" >Forgot Password</a>
                 </div>
               </div>
            </div>      
