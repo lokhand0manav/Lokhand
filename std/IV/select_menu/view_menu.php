@@ -15,24 +15,32 @@ $(document).ready(function(){
 $min_date ="";
 $max_date ="";
 		
-				//header("location:../includes/template.php");
-				
+
+					if(isset($_POST['faculty']))
+					{
+  						$f_id = $_POST['faculty'];
+
+					}
+				else
+					{
+  						$f_id = $_SESSION['f_id'];
+					}
+
 			 if(isset($_POST['update']) ||isset($_POST['attended']) ||isset($_POST['organized']))
 			{
-				
+
 				if(empty($_POST['min_date']) && empty($_POST['max_date']))
-				{
-				//header("location:../includes/template.php");
-				$total1 = mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],0));
-				$total2 = mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],0));	
+				{	
+				$total1 = mysqli_fetch_assoc(count_query("attended",$f_id,0));
+				$total2 = mysqli_fetch_assoc(count_query("organized",$f_id,0));	
 				}	
 				else
 				{				
 				$GLOBALS['min_date'] = $_POST['min_date'];
 				$GLOBALS['max_date']= $_POST['max_date'];
 
-				$total1= mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],1)); 
-				$total2= mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],1)); 
+				$total1= mysqli_fetch_assoc(count_query("attended",$f_id,1)); 
+				$total2= mysqli_fetch_assoc(count_query("organized",$f_id,1)); 
 				
 
 			 	$_POST['min_date'] = $GLOBALS['min_date']; 
@@ -41,24 +49,58 @@ $max_date ="";
 			}
 			else
 			{
-				$total1 = mysqli_fetch_assoc(count_query("attended",$_SESSION['f_id'],0));
-				$total2 = mysqli_fetch_assoc(count_query("organized",$_SESSION['f_id'],0));
+				$total1 = mysqli_fetch_assoc(count_query("attended",0,0));
+				$total2 = mysqli_fetch_assoc(count_query("organized",0,0));
 			}	
 
 			?>
 
 
  <div class="box">
-	<div class='box-body'>
+	<div class='box-header with-border'>
 			<form action="" method="POST">
 			<label for="InputDateFrom">Date from :</label>
 			<input type="date" name="min_date" value=<?php echo $GLOBALS['min_date']; ?>>
 			&emsp;&emsp;
  			<label for="InputDateTo">Date To :</label>
 			<input type="date" name="max_date" value=<?php echo $GLOBALS['max_date']; ?>>
-			<input type="submit" name="update" >
 			
-	</div>	
+			
+	</div>
+	<?php
+//When HOD
+	if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+	{
+?>			<div class='box-header with-border'>
+				<h3 class='box-title'>Select Faculty</h3>
+				<select name="faculty" class="box-title" style="margin-left: 140px;">
+				<?php
+				echo "<option value = '0'>ALL</option>";
+							  $temp="";
+                              $temp = getFacultyDetails($temp);
+                              while($fac=mysqli_fetch_assoc($temp))
+                                {
+                                    if($fac[Fac_ID]!=9) //not HOD
+                                    {
+                          				 if(isset($_POST['faculty']) && $_POST['faculty']==$fac['Fac_ID'])
+                          				 {
+                          					echo "<option value = '$fac[Fac_ID]' SELECTED >$fac[F_NAME]</option>";	 	
+                          				 }
+                          				 else
+											echo "<option value = '$fac[Fac_ID]'".">$fac[F_NAME]</option>";
+									}
+                                }
+				?>	
+				</select>
+				<div class='box-footer'>
+				<button type='submit' name='update' id='submit' value='' class='btn btn-primary'>View</button>
+				
+				</div>
+				
+			</div><!-- /.box-header   -->
+<?php 
+	}
+?>		
 
 	<div class="box-body">
 		

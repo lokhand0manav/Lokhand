@@ -41,9 +41,17 @@ $(document).ready(function(){
    $username = $_SESSION['username'];
   }
 
-//$sql="SELECT * FROM attended where f_name='$username'";
-
-$records = edit("attended",$_SESSION['f_id']); 
+//the particular session will be only set in HOD login 
+if(isset($_SESSION['edit_menu_faculty']))
+{
+  $f_id = $_SESSION['edit_menu_faculty'];
+  unset($_SESSION['edit_menu_faculty']);
+}
+else
+{
+  $f_id = $_SESSION['f_id'];
+}
+$records = edit("attended",$f_id); //can be found in IVSql.php
 
 if(isset($_POST['upload']))
 {

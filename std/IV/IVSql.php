@@ -26,6 +26,7 @@
 		return $query;
 	}
 
+//get the faculty details from the facultydetails table 
 	function getFacultyDetails($f_id)
 	{
 		if(strcmp($f_id,"")==0)
@@ -37,65 +38,40 @@
 			return simpleQuery("*","facultydetails","Fac_ID = $f_id");
 		}
 	}
+
 //for returning count in view_menu
 	function count_query($from,$f_id,$isDate) 
 	{
 		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 		{
-			if($f_id="all")
-			{
-				if($isDate==0)
-				{
-					if(strcmp($from,"attended")==0)
-						
+				if($isDate==0) //is the date mentioned? 0 means not
+				{	
+					if($f_id==0) //ALL
 						return simpleQuery("count('id') as total", $from ,"1=1");
 					else
-						return simpleQuery("count('id') as total", $from ,"1=1");
-				}
-				else
-				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("count('id') as total", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");	
-					else
-						return simpleQuery("count('id') as total", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
-				}
-			}
-			else
-			{
-				if($isDate==0)
-				{
-					if(strcmp($from,"attended")==0)
 						return simpleQuery("count('id') as total", $from ,"f_id='".$f_id."'");
-					else
-						return simpleQuery("count('id') as total", $from ,"$f_id='".$f_id."'");
 				}
 				else
 				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");	
+					if($f_id==0) //ALL
+						return simpleQuery("count('id') as total", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
 					else
-						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");	
+						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
 
 				}
-			}
+	
 		}
 		else
 		{
 			if($isDate==0)
 			{
-
-				if(strcmp($from,"attended")==0)
-					return simpleQuery("count('id') as total", $from ,"f_id = '".$f_id."'");
-				else
-					return simpleQuery("count('id') as total", $from ,"f_id = '".$f_id."'");
+				return simpleQuery("count('id') as total", $from ,"f_id = '".$f_id."'");
 
 			}
 			else
 			{
-				if(strcmp($from,"attended")==0)
-					return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'"); //no where condition
-				else
-					return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'"); //no where condition
+			
+				return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'"); //no where condition
 
 			}	
 		}
@@ -109,56 +85,34 @@
 
 		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 		{
-			if($f_id="all")
-			{
+			
 				if($isDate==0)
 				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("ind,city,purpose,date", $from ,"1=1 ORDER BY DATE ASC");
-					else
+					if($f_id==0) //ALL
 						return simpleQuery("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+					else
+						return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
 				}
 				else
 				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("ind,city,purpose,date", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-					else
+					if($f_id==0) //ALL faculty
 						return simpleQuery("ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
-				}
-			}
-			else
-			{
-				if($isDate==0)
-				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("ind,city,purpose,date", $from ,"f_id='".$f_id."' ORDER BY DATE ASC");
 					else
-						return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."' ORDER BY DATE ASC");
+						return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+
 				}
-				else
-				{
-					if(strcmp($from,"attended")==0)
-						return simpleQuery("ind,city,purpose,date", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-					else
-						return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
-				}
-			}
+		
 		}
 		else
 		{
 			if($isDate==0)
 			{
-				if(strcmp($from,"attended")==0)
-					return simpleQuery("ind,city,purpose,date", $from ,"f_id = '".$f_id."' ORDER BY DATE ASC");
-				else
-					return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+				return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
 			}
 			else
 			{
-				if(strcmp($from,"attended")==0)
-					return simpleQuery("ind,city,purpose,date", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
-				else
-					return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
+				
+				return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
 			}
 
 		}	
@@ -171,75 +125,54 @@
 
 		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 		{
-			if($f_id="all")
-			{
+			
 				if($isDate==0)
 				{
-					if(strcmp($from,"attended")==0)
-						return simpleQueryReturn("ind,city,purpose,date", $from ,"1=1 ORDER BY DATE ASC");
+					if($f_id==0) //ALL faculty
+						return simpleQueryReturn("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
 					else
-					    return simpleQueryReturn("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+						return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");	
 				}
 				else
 				{
-					if(strcmp($from,"attended")==0)
-						return simpleQueryReturn("ind,city,purpose,date", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-					else
+					if($f_id==0) //ALL faculty
 						return simpleQueryReturn("ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-				}
-			}
-			else
-			{
-				if($isDate==0)
-				{
-					if(strcmp($from,"attended")==0)
-						return simpleQueryReturn("ind,city,purpose,date", $from ,"f_id='".$f_id."' ORDER BY DATE ASC");
 					else
-						return simpleQueryReturn("ind,city,purpose,date",$from,"f_idded[1]='".$f_id."' ORDER BY DATE ASC");
+						return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+
 				}
-				else
-				{
-					if(strcmp($from,"attended")==0)
-						return simpleQueryReturn("ind,city,purpose,date", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-					else
-						return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
-				}
-			}
+			
 		}
 		else
 		{
 			if($isDate==0)
 			{
-				if(strcmp($from,"attended")==0)
-					 simpleQueryReturn("ind,city,purpose,date", $from ,"f_id = '".$f_id."' ORDER BY DATE ASC");
-				else
-					return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+
+				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
 			}
 			else
 			{
-				if(strcmp($from,"attended")==0)
-					 simpleQueryReturn("ind,city,purpose,date", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
-				else
-					return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
+		
+				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
 			}
 
 		}	
 	}
 
-//both for attended and organized and admin aswell
+//both for attended and organized and admin aswell, in edit.php
 	function edit($from,$f_id) 
 	{
 
 		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 		{
-			return simpleQuery("*",$from,"1=1");
+			if($f_id==0) //0 is for all
+				return simpleQuery("*",$from,"1=1");
+			else
+				return simpleQuery("*",$from,"f_id = '".$f_id."'");
 		}
 		else
 		{
-				if(strcmp($from,"attended")==0)
-					return simpleQuery("*",$from,"f_id = '".$f_id."'");		
-				else
-					return simpleQuery("*",$from,"f_id = '".$f_id."'");
+			return simpleQuery("*",$from,"f_id = '".$f_id."'");
 		}
 	}
 

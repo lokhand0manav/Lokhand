@@ -14,26 +14,27 @@ if(isset($_POST['attended']))
   {
     if(empty($_POST['min_date']) && empty($_POST['max_date']))
     {
-      $result = view("attended",$_SESSION['f_id'],0);   
-      $sql = viewReturn("attended",$_SESSION['f_id'],0); //for query return
+      $result = view("attended",$f_id,0);   
+      $sql = viewReturn("attended",$f_id,0); //for query return
     }
     else
     {
-      $result = view("attended",$_SESSION['f_id'],1);
-      $sql = viewReturn("attended",$_SESSION['f_id'],1);
+      $result = view("attended",$f_id,1);
+      $sql = viewReturn("attended",$f_id,1);
     }
-  }  
+  } 
+
 if(isset($_POST['organized']))
   {
     if(empty($_POST['min_date']) && empty($_POST['max_date']))
     {
-      $result = view("organized",$_SESSION['f_id'],0);
-      $sql = viewReturn("organized",$_SESSION['f_id'],0);
+      $result = view("organized",$f_id,0);
+      $sql = viewReturn("organized",$f_id,0);
     }
     else
     {
-      $result = view("organized",$_SESSION['f_id'],1); // 1 is for date
-      $sql = viewReturn("organized",$_SESSION['f_id'],0);
+      $result = view("organized",$f_id,1); // 1 is for date
+      $sql = viewReturn("organized",$f_id,1);
     }
   }
 
