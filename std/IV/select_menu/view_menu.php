@@ -49,8 +49,8 @@ $max_date ="";
 			}
 			else
 			{
-				$total1 = mysqli_fetch_assoc(count_query("attended",0,0));
-				$total2 = mysqli_fetch_assoc(count_query("organized",0,0));
+				$total1 = mysqli_fetch_assoc(count_query("attended",$f_id,0));
+				$total2 = mysqli_fetch_assoc(count_query("organized",$f_id,0));
 			}	
 
 			?>
@@ -91,17 +91,14 @@ $max_date ="";
 									}
                                 }
 				?>	
-				</select>
-				<div class='box-footer'>
-				<button type='submit' name='update' id='submit' value='' class='btn btn-primary'>View</button>
-				
-				</div>
-				
+				</select>		
 			</div><!-- /.box-header   -->
 <?php 
 	}
 ?>		
-
+	<div class='box-footer'>
+		<button type='submit' name='update' id='submit' value='' class='btn btn-primary'>View</button>
+	</div>
 	<div class="box-body">
 		
 		<table class="table table-striped table-bordered">

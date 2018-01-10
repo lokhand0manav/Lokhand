@@ -201,7 +201,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                                 {
                                     if($fac[Fac_ID]!=9) //not HOD
                                     {
-                                      echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
+										if($id!=-999 && $fac['Fac_ID']==$f_id) //not a new entry i.e editing as id is set
+                                      		echo "<option value = '$fac[Fac_ID]' SELECTED>$fac[F_NAME]</option>";
+										else
+                                      		echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
 									}
                                 }
                         ?>

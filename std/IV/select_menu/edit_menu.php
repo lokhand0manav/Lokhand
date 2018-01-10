@@ -73,8 +73,8 @@ if(isset($_GET['alert']))
 	<?php 
 	if(isset($_POST['submit_view']))
 	{		
-	  	$_SESSION['edit_menu_faculty'] = $_POST['faculty']; 
-		
+	  	if(isset($_POST['faculty']))
+	  		$_SESSION['edit_menu_faculty'] = $_POST['faculty']; 	
 		include_once("../IV/".$_POST['activity']."/edit.php");// $_POST['submit_view']="";
 	}
 	

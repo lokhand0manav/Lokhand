@@ -46,7 +46,7 @@ function test_input($data)
 	return $data;
 }
 
-//this cond is must, if user jumps from page of updating to add, session[id] wiil be considered from update
+//this cond is must, if user jumps from page of updating to add, session[id] will be considered from update
 if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
 {
  $id = $_SESSION['id'];
@@ -59,13 +59,7 @@ else if(!isset($_SESSION['id']) && !isset($_GET['count']))
 
 	header("location:template.php?x=../IV/select_menu/addcount.php"); //go to add once refreshed
 }
-// else if(!isset($_SESSION['id']) && !isset($_GET['count']))
-// {
-// 	echo $_SESSION['id'];
-// 	echo $_GET['count'];
-// 	header("location:template.php?x=../IV/select_menu/addcoun.php"); //go to add once refreshed
-// 	exit(0);
-// }
+
 else
 	$id=-999;
 
@@ -229,7 +223,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                                 {
                                     if($fac[Fac_ID]!=9) //not HOD
                                     {
-                                      echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
+                                      	if($id!=-999 && $fac['Fac_ID']==$f_id) //not a new entry i.e editing as id is set
+                                      		echo "<option value = '$fac[Fac_ID]' SELECTED>$fac[F_NAME]</option>";
+										else
+                                      		echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
+
 									}
                                 }
                         ?>
