@@ -46,14 +46,14 @@
 		{
 				if($isDate==0) //is the date mentioned? 0 means not
 				{	
-					if($f_id==0) //ALL
+					if($f_id==0 || $f_id==9) //ALL//9 is for HOD
 						return simpleQuery("count('id') as total", $from ,"1=1");
 					else
 						return simpleQuery("count('id') as total", $from ,"f_id='".$f_id."'");
 				}
 				else
 				{
-					if($f_id==0) //ALL
+					if($f_id==0 || $f_id==9) //ALL//9 is for HOD
 						return simpleQuery("count('id') as total", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
 					else
 						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
@@ -88,7 +88,7 @@
 			
 				if($isDate==0)
 				{
-					if($f_id==0) //ALL
+					if($f_id==0) //ALL,
 						return simpleQuery("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
 					else
 						return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
