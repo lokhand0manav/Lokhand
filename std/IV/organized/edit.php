@@ -108,7 +108,7 @@ if (isset($_POST['delete']))
                         {
                           while($employee=mysqli_fetch_assoc($records))
                           {
-                            $f_name = mysqli_fetch_assoc(getName($employee['f_id']))['F_NAME'];
+                            $f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
                             echo"<tr>";
                             echo"<td>".$f_name."</td>";
                             echo"<td>".$employee['ind']."</td>";

@@ -29,8 +29,38 @@ if(isset($_GET['alert']))
 					<option value="attended"  <?php if(isset($_POST['activity'])){if($_POST['activity']=="attended") change();}?>>Attended</option>
 					<option value="organized" <?php if(isset($_POST['activity'])){if($_POST['activity']=="organized") change();}?>>Organized</option>
 				</select>
+
 			</div><!-- /.box-header   -->
-			
+<?php
+//When HOD
+	if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+	{
+?>			<div class='box-header with-border'>
+				<h3 class='box-title'>Select Faculty</h3>
+				<select name="faculty" class="box-title" style="margin-left: 140px;">
+				<?php
+				echo "<option value = '0'>ALL</option>";
+							  $temp="";
+                              $temp = getFacultyDetails($temp);
+                              while($fac=mysqli_fetch_assoc($temp))
+                                {
+                                    if($fac[Fac_ID]!=9) //not HOD
+                                    {
+                          				 if(isset($_POST['faculty']) && $_POST['faculty']==$fac['Fac_ID'])
+                          				 {
+                          					echo "<option value = '$fac[Fac_ID]' SELECTED >$fac[F_NAME]</option>";	 	
+                          				 }
+                          				 else
+											echo "<option value = '$fac[Fac_ID]'".">$fac[F_NAME]</option>";
+									}
+                                }
+				?>	
+				</select>
+				
+			</div><!-- /.box-header   -->
+<?php 
+	}
+?>			
 			<div class='box-footer'>
 				<button type='submit' name='submit_view' id='submit' value='' class='btn btn-primary'>View</button>
 				<button type='submit' name='cancel' id='cancel' value='' class='btn btn-primary'>Cancel</button>
