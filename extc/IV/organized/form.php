@@ -201,12 +201,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				<?php
 					for($k=0; $k<$count ; $k++)
 					{
+						//show faculty names multiple time only when HOD, not when user
+						echo "<div class='form-group col-md-12 box-header with-border'>";
+                        if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+                        	echo "<label for='faculty-name'>Faculty Name</label>";
+                    	else
+                    		if($k==0)
+                    			echo "<label for='faculty-name'>Faculty Name</label>";
 
-				?>
-				<div class="form-group col-md-12 box-header with-border">
-
-                         <label for="faculty-name">Faculty Name</label>
-                         <?php
                     	if($id!=-999) //not a new entry i.e editing as id is set
                     	{
                     		$f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
@@ -245,8 +247,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     	}
                     	else
                     	{
-                    		echo "<input required type='hidden' name='fid[]' value=$f_id >"; //for faculty id
-                    		echo "<input required type='text' class='form-control input-lg' id='faculty-name' name='fname' value='$f_name' readonly>";
+                    		if($k==0)
+                    		 {
+                    		 echo "<input required type='hidden' name='fid[]' value=$f_id >"; //for faculty id
+                    		 echo "<input required type='text' class='form-control input-lg' id='faculty-name' name='fname' value='$f_name' readonly>";
+                    		 }
+                    		 else
+                    		 {
+                    		 echo "<input required type='hidden' name='fid[]' value=$f_id >"; //for faculty id
+                    		 echo "<input required type='hidden' class='form-control input-lg' id='faculty-name' name='fname' value='$f_name'>";
+                    		 }
                     	}	
                     	?>
 
@@ -305,7 +315,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 					?>
 					<br/>
                     <div class="form-group col-md-12">
-                         <a href="template.php?x=select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
+                         <a href="template.php?x=IV/select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
 
                          <input name="add" type="submit" class="btn btn-success pull-right btn-lg">
                     </div>
