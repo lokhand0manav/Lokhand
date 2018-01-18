@@ -7,6 +7,13 @@
 		return $conn;
 	}
 
+
+	// function getSessionName($username)
+	// {
+
+	// 		return simpleQuery("F_NAME","facultydetails","Email = $_SESSION[username]");
+	// }
+
 //this is simpleQuery, carrying simple structure of a query, call through various functions
 	function simpleQuery($what,$from,$where) 
 	{
@@ -89,16 +96,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL
-						return simpleQuery("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
 					else
-						return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQuery("ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
 					else
-						return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
 
 				}
 		
@@ -129,16 +136,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
 					else
-						return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");	
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
 					else
-						return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
 
 				}
 			

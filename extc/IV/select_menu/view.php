@@ -44,23 +44,40 @@ if(isset($_POST['organized']))
     $date_display=$_POST['min_date']." To ".$_POST['max_date'];
 ?>
 
-<h4> Date: <b><i><?php echo $date_display;  ?></i></b></h4>  
+<h4> Date: <b><i><?php echo $date_display;   ?></i></b></h4>  
 <div class="scroll">
                   <table border="1" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
+                      <?php 
+                      if($_SESSION['username']=="hodextc@somaiya.edu")
+                        { ?>
+                      <th>Faculty Name</th>
+                      <?php 
+                    }else{
+                      ?>
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
                       <th>Date</th>
                      </tr> 
 
+                     <?php 
+                     } ?>
+
 <?php 
 if(mysqli_num_rows($result)>0)
                       {
                           while($employee=mysqli_fetch_assoc($result))
                           {
+
                             echo"<tr>";
+                            
+                            if($_SESSION['username']=="hodextc@somaiya.edu")
+                            {
+                            $f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
+                            echo "<td>".$f_name."</td>";
+                            }
                             echo"<td>".$employee['ind']."</td>";
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";
