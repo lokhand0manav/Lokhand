@@ -38,9 +38,13 @@ if(isset($_POST['organized']))
     }
   }
 
-
+  if(empty($_POST['min_date']) && empty($_POST['max_date']))
+    $date_display=" - NULL ";
+  else
+    $date_display=$_POST['min_date']." To ".$_POST['max_date'];
 ?>
 
+<h4> Date: <b><i><?php echo $date_display;  ?></i></b></h4>  
 <div class="scroll">
                   <table border="1" class="table table-striped table-bordered ">
                     <thead>
@@ -53,7 +57,7 @@ if(isset($_POST['organized']))
 
 <?php 
 if(mysqli_num_rows($result)>0)
-                  {
+                      {
                           while($employee=mysqli_fetch_assoc($result))
                           {
                             echo"<tr>";
@@ -68,10 +72,17 @@ if(mysqli_num_rows($result)>0)
   </thead>
  </table>
 </div>
-        <div>
+
+
+                  <div>
                     <?php 
                      $_SESSION['table_query'] = $sql;
                      ?>
                     <a href="IV/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
+
+                    <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon">Print</span></a>
                   </div>
+
+
+    
 

@@ -52,6 +52,7 @@ else
 }
 
 $records = edit($organized,$f_id); //can be found in IVSql.php
+$sql = editReturn($organized,$f_id);//return query
 
 if(isset($_POST['upload']))
 {

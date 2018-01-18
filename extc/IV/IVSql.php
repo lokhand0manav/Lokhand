@@ -175,7 +175,21 @@
 			return simpleQuery("*",$from,"f_id = '".$f_id."'");
 		}
 	}
+	function editReturn($from,$f_id) 
+	{
 
+		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
+		{
+			if($f_id==0) //0 is for all
+				return simpleQueryReturn("*",$from,"1=1");
+			else
+				return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
+		}
+		else
+		{
+			return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
+		}
+	}
 //this is the core function, used in form.php,update.php,delete.php can be used in attended, organized and admin of both
 //*note for developer : for time being all the if else statement(HOD) have same blocks of statement, if no changes are found remove*	
 	function IV($what,$from,$arr,$select)

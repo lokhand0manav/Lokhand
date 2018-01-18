@@ -18,7 +18,6 @@ $(document).ready(function(){
 });
 </script>
 
-
 <?php
   if(session_status() == PHP_SESSION_NONE)
    {
@@ -45,6 +44,7 @@ else
   $f_id = $_SESSION['f_id'];
 }
 $records = edit($attended,$f_id); //can be found in IVSql.php
+$sql = editReturn($attended,$f_id);//return query
 
 if(isset($_POST['upload']))
 {
@@ -223,6 +223,14 @@ if (isset($_POST['delete']))
                   <button type=submit name='add' class="btn btn-primary" >Add Activity
                   </button>
                   </form>
+                  <div>
+                    <?php 
+                     $_SESSION['table_query'] = $sql;
+                     ?>
+                    <a href="IV/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
+
+                    <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon">Print</span></a>
+                  </div>
     
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
