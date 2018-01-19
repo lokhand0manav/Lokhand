@@ -217,7 +217,7 @@
 								if(strcmp($from,"IV_attended")==0)
 							 	{
 							 	
-										$sql = "UPDATE $from set f_id ='$arr[1]' ,ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]', date='$arr[5]' where id= $arr[0];";
+										$sql = "UPDATE $from set f_id ='$arr[1]' ,ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]', date='$arr[5]',t_from='$arr[9]',t_to='$arr[10]' where id= $arr[0];";
 							 			$result=mysqli_query($GLOBALS['conn'],$sql);
 							 			mysqli_close($GLOBALS['conn']);
 										return $result;		
@@ -233,12 +233,18 @@
 							 	}
 							 break;
 			
+			case "upload" :		$sql = "UPDATE $from SET $what='$arr[0]' where id='$arr[1]'";
+								$result=mysqli_query($GLOBALS['conn'],$sql);
+								mysqli_close($GLOBALS['conn']);
+								return $result;	
+								break; 
+			
 			case "insert" :  
 								if(strcmp($from,"IV_attended")==0)
 								{
 								
 										//$conn=connection();
-										$sql="INSERT INTO $from (f_id,ind,city,purpose,date) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[5]')";
+										$sql="INSERT INTO $from (f_id,ind,city,purpose,date,t_from,t_to) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[5]','$arr[9]','$arr[10]')";
 										$result=mysqli_query($GLOBALS['conn'],$sql);
 										return $result;	
 									

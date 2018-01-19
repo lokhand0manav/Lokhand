@@ -18,7 +18,7 @@ $conn=connection();
   $type = $_SESSION['type'] ; 
   $id   = $_SESSION['id']   ; 
   $file = $_SESSION['file'] ; 
-
+  
 
 //check if the insert was pressed
 //QUERY for the applicable not applicabe will be found here
@@ -31,17 +31,20 @@ if(isset($_POST['insert-image']))
 	{
 		if($_POST['applicable'] == 2)
 		{
-            	$query = "UPDATE $type SET $file='NULL' where id='$id'"; 
-             
-            mysqli_query($conn,$query);
-			$success =1;
+            	//$query = "UPDATE $type SET $file='NULL' where id='$id'"; 
+				//mysqli_query($conn,$query);
+             	$val=array("NULL",$id);
+             	IV($file,$type,$val,"upload");
+         		$success =1;
 			 
 		}
 		else if($_POST['applicable'] == 3)
 		{
-            	$query = "UPDATE $type SET $file='not_applicable' where id='$id'";
-            mysqli_query($conn,$query);
-			 			 $success =1;
+            	//$query = "UPDATE $type SET $file='not_applicable' where id='$id'";
+				//mysqli_query($conn,$query);
+				$val=array("not_applicable",$id);
+             	IV($file,$type,$val,"upload");
+           		$success =1;
 
 			
 		}
@@ -50,7 +53,7 @@ if(isset($_POST['insert-image']))
 			if(isset($_FILES['image']))
 			{
 			  $errors= array();
-			  $fileName = $_FILES['image']['name'];
+			  $fileName = "$id".$_FILES['image']['name'];
 			  $fileSize = $_FILES['image']['size'];
 			  $fileTmp = $_FILES['image']['tmp_name'];
 			  $fileType = $_FILES['image']['type'];
@@ -66,8 +69,10 @@ if(isset($_POST['insert-image']))
 				 if($moved == true)
 				 {
 					 //successful
-						$query = "UPDATE $type SET $file='".$targetName."' where id='$id'"; 
-					 mysqli_query($conn,$query);
+						//$query = "UPDATE $type SET $file='".$targetName."' where id='$id'"; 
+					 	//mysqli_query($conn,$query);
+				 		$val=array($targetName,$id);
+             			IV($file,$type,$val,"upload");
 					 			 $success =1;
 
 					

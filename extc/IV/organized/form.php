@@ -3,6 +3,11 @@ $(document).ready(function(){
   $(".1").attr("class","active");
 });
 </script>
+<style>
+.error {
+    color: red;
+}
+</style>
 <?php 
 ob_start();
 if(session_status() == PHP_SESSION_NONE)
@@ -22,9 +27,11 @@ else
 {
   $username = $_SESSION['username'];
 }
+
 $count = $GLOBALS['count'];
 $flag=0;
 $dateerr = "";
+$derror = "";
 $fnameerr = "";
 $inderr = "";
 $cityerr = "";
@@ -57,7 +64,7 @@ if(isset($_SESSION['id']) && !isset($_GET['count']) )
 else if(!isset($_SESSION['id']) && !isset($_GET['count']))
 {
 
-	header("location:template.php?x=IV/select_menu/addcount.php"); //go to add once refreshed
+	//header("location:template.php?x=IV/select_menu/addcount.php"); //go to add once refreshed
 }
 
 else
@@ -94,91 +101,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$from = mysqli_real_escape_string($conn,$from_array[$i]);
 			$to = mysqli_real_escape_string($conn,$to_array[$i]);
 			
-			if(empty($_POST['ivdate[]']))
+			if(empty($_POST['ivdate'][$i]))
 			{
 				$dateerr="Please enter a date";
 				$flag++;
 			}
-			if(empty($_POST['sname[]']))
-			{
-				$snameerr="Enter a name";
-				$flag++;
-			}
-			else
-			{
-				$name = test_input($_POST['sname[]']);
-				if (!preg_match("/^[a-zA-Z]*$/",$name))
-				{
-					$snameerr = "Only letters and whitespace allowed";
-					$flag++;
-				}
-			}
-			if(empty($_POST['ind[]']))
+			
+			if(empty($_POST['ind'][$i]))
 			{
 				$inderr="Please enter the details";
 				$flag++;
 			}
-			if(empty($_POST['city[]']))
+			if(empty($_POST['city'][$i]))
 			{
 				$cityerr="Enter the city";
 				$flag++;
 			}
 			else 
 			{
-				$city = test_input($_POST['city[]']);
+				$city = test_input($_POST['city'][$i]);
 				if (!preg_match("/^[a-zA-Z]*$/",$city))
 				{
 					$cityerr = "City name cannot contain number";
 					$flag++;
 				}
 			}
-			if(empty($_POST['purpose[]']))
+			if(empty($_POST['purpose'][$i]))
 			{
 				$perr="Please enter a date";
 				$flag++;
 			}
-			if(empty($_POST['t_audience[]']))
+			if(empty($_POST['t_audience'][$i]))
 			{
 				$taerror = "Please Enter Target Audience";
 				$flag++;
 			}
-			if(empty($_POST['staff[]']))
+			if(empty($_POST['staff'][$i]))
 			{
 				$serror = "Please Enter the Staff";
 				$flag++;
 			}
-
-			$val = array($id,$f_id,$ind,$city,$purpose,$ivdate,$t_audience,$staff,$permission,$report,$certificate,$attendance,$from,$to);
-			if($id!=-999)
+			if(empty($_POST['from'][$i]) && empty($_POST['to'][$i]))
 				{
-
-					$result = IV("what",$organized,$val,"update");	
+					$derror="Enter the duration";
+					$flag++;
 				}
-				else
-				{		
-					$result = IV("what",$organized,$val,"insert");
+				else if((strtotime($_POST['from'][$i]))>(strtotime($_POST['to'][$i])))
+				{
+					$derror="Incorrect date entered. Date from cannot be greater than Date to";
+					$flag++;
 				}
 		
-			if(!$result)
+			if($flag==0)
 			{
-				echo"Not Inserted";
-			
+				$val = array($id,$f_id,$ind,$city,$purpose,$ivdate,$t_audience,$staff,$permission,$report,$certificate,$attendance,$from,$to);
+				if($id!=-999)
+					{
+						$result = IV("what",$organized,$val,"update");	
+						unset($_SESSION['id']);		
+				  		header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=organized");	
+					}
+					else
+					{		
+						$result = IV("what",$organized,$val,"insert");
+						header("location:template.php?x=IV/select_menu/edit_menu.php&type=organized");
+					}
 			}
 			else
 			{
-				//echo"Record Inserted Successfully !";
+				//$result= 0;
 			}
+			
 		}
-				mysqli_close($GLOBALS[conn]);
-				if(isset($_SESSION['id'])) //if editing
-				{
-				  unset($_SESSION['id']);		
-				  header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=organized");	
-				}
-				else //new addition
-				{
-				  header("location:template.php?x=IV/select_menu/edit_menu.php&type=organized");
-				}
+			
 				
 	}
 }
@@ -264,39 +259,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
            
                 <div class="form-group col-md-6">
                	<label>Date of Visit:</label><span class="required">*</span>
-					<input type="date" name="ivdate[]" class="form-control" value=<?php if($id!=-999){ echo $employee['date'];}?>>
+					<input type="date" name="ivdate[]" class="form-control" value=<?php if(isset($_POST['ivdate'][$k])){echo $_POST['ivdate'][$k];} else if($id!=-999){ echo $employee['date'];}?>>
 					<span class="error"><?php echo $dateerr; ?></span>
                 </div>
 
                      <div class="form-group col-md-6"><span class="required">*</span>
                          <label >Industry Name</label>         
-						<input type="text" class="form-control" name="ind[]" value=<?php if($id!=-999){ echo $employee['ind'];}?>>
+						<input type="text" class="form-control" name="ind[]" value=<?php if(isset($_POST['ind'][$k])){echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>>
 					<span class="error"><?php echo $inderr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if($id!=-999){ echo $employee['purpose'];}?>
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if(isset($_POST['purpose'][$k])){echo $_POST['purpose'][$k];} else if($id!=-999){ echo $employee['purpose'];} ?>
           				</textarea>
           				<span class="error"><?php echo $perr; ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                      <label>City</label><span class="required">*</span>
-					<input type="text" class="form-control" name="city[]" value=<?php if($id!=-999){ echo $employee['city'];}?>>
+					<input type="text" class="form-control" name="city[]" value=<?php if(isset($_POST['city'][$k])){echo $_POST['city'][$k];} else if($id!=-999){ echo $employee['city'];}?>>
 					<span class="error"><?php echo $cityerr; ?></span>
                          
                      </div>
                      
                      <div class="form-group col-md-8"> 
                      <label>Target Audience</label><span class="required">*</span>
-					<input type="text" class="form-control" name="t_audience[]" value=<?php if($id!=-999){ echo $employee['t_audience'];}?>>
+					<input type="text" class="form-control" name="t_audience[]" value=<?php if(isset($_POST['t_audience'][$k])){echo $_POST['t_audience'][$k];} else if($id!=-999){ echo $employee['t_audience'];} ?>>
 					<span class="error"><?php echo $taerror; ?></span>
 					</div>
 
 
 					<div class="form-group col-md-8">
 					<label>Staff</label><span class="required"> *</span>
-					<input type="text" class="form-control" name="staff[]" value=<?php if($id!=-999){ echo $employee['staff'];}?>>
+					<input type="text" class="form-control" name="staff[]" value=<?php if(isset($_POST['staff'][$k])){echo $_POST['staff'][$k];} else if($id!=-999){ echo $employee['staff'];} ?>>
 					<span class="error"><?php echo $serror; ?></span>
 					</div>
 
@@ -304,12 +299,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 					<label>Duration</label><span class="required"> *</span>
 					<br>
-					<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from" value=<?php if($id!=-999){ echo $employee['t_from'];}?>>
+					<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from" value=<?php if(isset($_POST['from'][$k])){echo $_POST['from'][$k];} else if($id!=-999){ echo $employee['t_from'];}?>>
 					
 					&emsp;
-					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value=<?php if($id!=-999){ echo $employee['t_to'];}?>><br>
+					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value=<?php if(isset($_POST['to'][$k])){echo $_POST['to'][$k];} else if($id!=-999){ echo $employee['t_to'];}?>><br>
+					<span class="error"><?php echo $derror; ?></span>
 					</div>
- <p>***************************************************************************************</p>
+ <p>***************************************************************************************************</p>
                    <?php
 					}
 					?>
