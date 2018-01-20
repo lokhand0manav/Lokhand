@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
  if(!isset($_SESSION['loggedInUser'])){
     //send the iser to login page
@@ -7,9 +8,10 @@ session_start();
 				include_once 'dompdf/dompdf_config.inc.php';
 				include_once("includes/connection.php");
 
-				   
+				 $display =   $_SESSION['display'] ;
 				$Fac_ID = $_SESSION['Fac_ID'];	
 				$set = $_SESSION['set'];
+				
 				if($set == 1)
 				{
 					$from_date =  $_SESSION['from_date'] ;
@@ -31,7 +33,7 @@ session_start();
 							$sql = "select * from faculty where Fac_ID = $Fac_ID and Paper_type = 'conference' and Paper_N_I = 'national'";
 						}
 						else if($set == 1 )
-							$sql1 = "select * from faculty where Date_from >= '$from_date' and Date_from <= '$to_date' and Fac_ID = $Fac_ID and Paper_type = 'conference' and Paper_N_I = 'national'" ;
+							$sql = "select * from faculty where Date_from >= '$from_date' and Date_from <= '$to_date' and Fac_ID = $Fac_ID and Paper_type = 'conference' and Paper_N_I = 'national'" ;
 
 						
 						if($res1 = mysqli_query($conn,$sql)){
@@ -241,7 +243,7 @@ session_start();
 					}
 					
 					
-				$op = "<table  border='1' class='table table-stripped table-bordered' id = 'example1'>
+				$op = "<p align='center'  style='font-size:20px'><strong>K.J.Somaiya College of Engineering</strong></p>"."<p align='center'>(Autonomous College affiliated to University of Mumbai)</p>"."<table  border='1' class='table table-stripped table-bordered' id = 'example1'>
 				<tr> 
 							
  							<td><strong>Total Publications Count</strong></td>

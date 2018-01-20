@@ -265,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
                      <div class="form-group col-md-6"><span class="required">*</span>
                          <label >Industry Name</label>         
-						<input type="text" class="form-control" name="ind[]" value=<?php if(isset($_POST['ind'][$k])){echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>>
+						<input type="text" class="form-control" name="ind[]" value='<?php if(isset($_POST['ind'][$k])){echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>'>
 					<span class="error"><?php echo $inderr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
@@ -284,14 +284,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                      
                      <div class="form-group col-md-8"> 
                      <label>Target Audience</label><span class="required">*</span>
-					<input type="text" class="form-control" name="t_audience[]" value=<?php if(isset($_POST['t_audience'][$k])){echo $_POST['t_audience'][$k];} else if($id!=-999){ echo $employee['t_audience'];} ?>>
+					<input type="text" class="form-control" name="t_audience[]" value='<?php if(isset($_POST['t_audience'][$k])){echo $_POST['t_audience'][$k];} else if($id!=-999){ echo $employee['t_audience'];} ?>'>
 					<span class="error"><?php echo $taerror; ?></span>
 					</div>
 
 
 					<div class="form-group col-md-8">
 					<label>Staff</label><span class="required"> *</span>
-					<input type="text" class="form-control" name="staff[]" value=<?php if(isset($_POST['staff'][$k])){echo $_POST['staff'][$k];} else if($id!=-999){ echo $employee['staff'];} ?>>
+					<input type="text" class="form-control" name="staff[]" value='<?php if(isset($_POST['staff'][$k])){echo $_POST['staff'][$k];} else if($id!=-999){ echo $employee['staff'];} ?>'>
 					<span class="error"><?php echo $serror; ?></span>
 					</div>
 
@@ -305,7 +305,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 					<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value=<?php if(isset($_POST['to'][$k])){echo $_POST['to'][$k];} else if($id!=-999){ echo $employee['t_to'];}?>><br>
 					<span class="error"><?php echo $derror; ?></span>
 					</div>
- <p>***************************************************************************************************</p>
+ <p>************************************************************************************</p>
                    <?php
 					}
 					?>

@@ -1,13 +1,25 @@
-<?php
+<?PHP
+  // Original PHP code by Chirp Internet: www.chirp.com.au
+  // Please acknowledge use of this code by including this header.
 session_start();
-include '../Includes/connection.php'; 
-$filename = "Activity_file"; 
-$sql = $_SESSION['table_query'];
-$result = mysqli_query($conn,$sql) or die("Couldn't execute query:<br>" . mysqli_error($conn). "<br>" . mysqli_errno($conn)); 
+$sql = $_SESSION['table_query']; //query returned
+include '../Includes/connection.php'; //connection
+  
+  function cleanData(&$str) //function used for cleaning the data, without this date will be printedas #######
+  {
+    if($str == 't') $str = 'TRUE';
+    if($str == 'f') $str = 'FALSE';
+    if(preg_match("/^0/", $str) || preg_match("/^\+?\d{8,}$/", $str) || preg_match("/^\d{4}.\d{1,2}.\d{1,2}/", $str)) {
+      $str = "'$str";
+    }
+    if(strstr($str, '"')) $str = '"' . str_replace('"', '""', $str) . '"';
+  }
 
-
-$colnames = [
-	'F_NAME' =>"Faculty Name",
+  // filename for download
+  $filename = "Department_IV" . date('Ymd') . ".csv"; //can change the extension to .csv
+  
+  $colnames = [
+  'F_NAME' =>"Faculty Name",
     'ind' => "Industry Name",
     'city' => "City",
     'purpose' => "Purpose",
@@ -22,39 +34,34 @@ $colnames = [
     'staff' => "Staff"
   ];
 
+  header("Content-Disposition: attachment; filename=\"$filename\"");
+  header("Content-Type: text/csv");
 
-$file_ending = "xls";
-header("Content-Type: application/xls");
-header("Content-Disposition: attachment; filename=$filename.xls");
-header("Pragma: no-cache"); 
-header("Expires: 0");
-$sep = "\t"; 
-$names = mysqli_fetch_fields($result) ;
-foreach($names as $name){
-    print ($colnames[$name->name] . $sep);
+  $out = fopen("php://output", 'w');
+
+  $flag = false;
+  $result = mysqli_query($conn,$sql) or die("Couldn't execute query:<br>" . mysqli_error($conn). "<br>" . mysqli_errno($conn)); 
+  //$result = pg_query("SELECT * FROM table ORDER BY field") or die('Query failed!');
+  while($row = mysqli_fetch_assoc($result)) 
+  {
+    if(!$flag) 
+    {
+      // display field/column names as first row
+      $column_name = array();
+      $names = mysqli_fetch_fields($result) ;
+      foreach($names as $name){
+        $column_name[] = $colnames[$name->name];
+        //print ($colnames[$name->name] . $sep);
+      }
+      
+      fputcsv($out, $column_name, ',', '"');
+      //fputcsv($out, array_keys($row), ',', '"'); //fputcsv is used to put the csv data
+      $flag = true; //after making this true, the key names wont be printed again
     }
+    array_walk($row, __NAMESPACE__ . '\cleanData');//walk each element of array into cleandata function
+    fputcsv($out, array_values($row), ',', '"'); //putting values in .csv files without any formatting but as cleanedData
+  }
 
-print("\n");
-
-while($row = mysqli_fetch_row($result)) {
-    $schema_insert = "";
-    for($j=0; $j<mysqli_num_fields($result);$j++) {
-        if(!isset($row[$j]))
-        {
-            $schema_insert .= "NULL".$sep;
-        }
-        elseif ($row[$j] != "")
-            $schema_insert .= "$row[$j]".$sep;
-        else
-        {
-         	  $schema_insert .= "".$sep;
-        }
-    }
-    $schema_insert = str_replace($sep."$", "", $schema_insert);
-    $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
-    $schema_insert .= "\t";
-    print(trim($schema_insert));
-    print "\n";
-}
+  fclose($out);
+  exit;
 ?>
-

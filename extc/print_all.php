@@ -207,8 +207,8 @@ session_start();
 						$confall6 = "NIL";
 					}
 					
-					$op = "<table  border ='1' class='' id = 'example1'>
-					<tr> 
+					$op = "<p align='center'  style='font-size:20px'><strong>K.J.Somaiya College of Engineering</strong></p>"."<p align='center'>(Autonomous College affiliated to University of Mumbai)</p>"."<table  border='1' class='table table-stripped table-bordered' id = 'example1'>
+				<tr> 
 							
  							<td><strong>From date</strong></td>
 							<td><strong>"."$from_date"."</strong></td>
@@ -467,9 +467,8 @@ session_start();
 						$confall6 = "NIL";
 					}
 					
-					$op = "<table  border = '0.5' class='' id = 'example1'>
-					
-					<tr> 
+					$op = "<p align='center'  style='font-size:20px'><strong>K.J.Somaiya College of Engineering</strong></p>"."<p align='center'>(Autonomous College affiliated to University of Mumbai)</p>"."<table  border='1' class='table table-stripped table-bordered' id = 'example1'>
+				<tr> 
 							
  							<td><strong>Faculty Name</strong></td>
 							<td><strong>"."$name"."</strong></td>
@@ -734,9 +733,8 @@ session_start();
 					}
 					
 					
-					$op = "<table border='0.5' class='' id = 'example1'>
-					
-					<tr> 
+					$op = "<p align='center'  style='font-size:20px'><strong>K.J.Somaiya College of Engineering</strong></p>"."<p align='center'>(Autonomous College affiliated to University of Mumbai)</p>"."<table  border='1' class='table table-stripped table-bordered' id = 'example1'>
+				<tr> 
 							
  							<td><strong>Faculty Name</strong></td>
 							<td><strong>"."$name"."</strong></td>

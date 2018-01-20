@@ -254,7 +254,7 @@ overflow:scroll;
 	</div>
 	            <div class="text-left"><a href="actcount.php"type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus">Add Paper</span></a>
 	            <a href="count_all.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Count Publications</span></a> 
-	            <a href="mail_reminder.php" type="button" class="btn btn-success btn-sm" target="_blank"><span class="glyphicon ">Mail Reminder</span></a> </div>
+	            <a href="export_to_excel_publication_hod.php" type="button" class="btn btn-success btn-sm" target="_blank"><span class="glyphicon ">export to excel</span></a> </div>
 
     </div>
 	

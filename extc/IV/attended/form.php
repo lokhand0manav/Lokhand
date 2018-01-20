@@ -217,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     	}
                     	else
                     	{
-							if($k==0)
+							if($k==0)//when normal user, show the name only once
                     		 {
                     		 echo "<input required type='hidden' name='fid[]' value=$f_id >"; //for faculty id
                     		 echo "<input required type='text' class='form-control input-lg' id='faculty-name' name='fname' value='$f_name' readonly>";
@@ -235,13 +235,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 							
                 	 <div class="form-group col-md-6">
                 		 <label >Industry Name</label><span class="required">*</span>         
-         	 			 <input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value="<?php if(isset($_POST['ind'][$k])){ echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>">
+         	 			 <input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value='<?php if(isset($_POST['ind'][$k])){ echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>'>
           				 <span class="error"><?php echo $inderr; ?></span>
                 	 </div>
 
                      <div class="form-group col-md-6">
                          <label>Date of visit:</label><span class="required">*</span>
-          				 <input type="date" name="ivdate[]" class="form-control" value="<?php if(isset($_POST['ivdate'][$k])){echo $_POST['ivdate'][$k];} else if($id!=-999){ echo $employee['date'];}?>">
+          				 <input type="date" name="ivdate[]" class="form-control" value='<?php if(isset($_POST['ivdate'][$k])){echo $_POST['ivdate'][$k];} else if($id!=-999){ echo $employee['date'];}?>'>
          				 <span class="error"><?php echo $dateerr; ?></span>
                      </div>
                      <div class="form-group col-md-12">
@@ -253,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
                      <div class="form-group col-md-8"> 
                          <label>City</label><span class="required">*</span>
-          				 <input type="text" class="form-control" name="city[]" value="<?php if(isset($_POST['city'][$k])){echo $_POST['city'][$k];} else if($id!=-999){ echo $employee['city'];} ?>">
+          				 <input type="text" class="form-control" name="city[]" value=<?php if(isset($_POST['city'][$k])){echo $_POST['city'][$k];} else if($id!=-999){ echo $employee['city'];} ?>>
           				 <span class="error"><?php echo $cityerr; ?></span>
                      </div>
 

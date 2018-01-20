@@ -188,13 +188,28 @@
 		if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
 		{
 			if($f_id==0) //0 is for all
-				return simpleQueryReturn("*",$from,"1=1");
+			{
+				if(strcmp($from,"IV_attended")==0)
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
+				else
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
+				//return simpleQueryReturn("*",$from,"1=1");
+			}	
 			else
-				return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
+				if(strcmp($from,"IV_attended")==0)
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+				else
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+
 		}
 		else
 		{
-			return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
+			if(strcmp($from,"IV_attended")==0)
+				return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+			else
+				return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+
+			//return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
 		}
 	}
 //this is the core function, used in form.php,update.php,delete.php can be used in attended, organized and admin of both
