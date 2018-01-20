@@ -1452,7 +1452,7 @@ function execute_query()
 			if($count1 != 0)
 			{
 			?>
-	<a href="print_all.php?display=<?php echo $display;?>" class="btn btn-warning btn-lg" target="_blank">Print</a> 
+	<a href="print_all.php" class="btn btn-warning btn-lg" target="_blank">Print</a> 
 			<?php } ?>
 
 			

@@ -54,16 +54,13 @@ if(isset($_POST['organized']))
                         { ?>
                       <th>Faculty Name</th>
                       <?php 
-                    }else{
+                        }
                       ?>
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
                       <th>Date</th>
                      </tr> 
-
-                     <?php 
-                     } ?>
 
 <?php 
 if(mysqli_num_rows($result)>0)
