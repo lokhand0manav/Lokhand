@@ -26,10 +26,27 @@ ob_start();
 
    $result=mysqli_query($conn,$sql);  
    $dompdf = new DOMPDF();
-  
+   if(isset($_GET['flag']))
+   {
+    $table="<table border=1 width=100% align=center>
+            <tr>
+            <th>Activity Name</th>
+            <th>Total Number of Activity</th>
+            </tr>
+            <tr>
+            <td align=center>$_GET[type]</td>
+            <td align=center>$_GET[count]</td>
+            </tr>
+            </table>
+            <br>
+            <hr>
+            <center><p>Date :$_GET[date]</p></center>
+            <hr>
+           ";
+   } 
   if(mysqli_num_rows($result)>0)
                       {
-                        $table ="<table border=1>
+                        $table =$table."<table border=1 width=100%>
                            <thead>
                             
                             <tr>
@@ -63,7 +80,9 @@ ob_start();
 <?php 
    
                   $dompdf->load_html($table);
-                   $dompdf->render();
-                $dompdf->stream("hello.pdf");
+                  $dompdf->render();
+                  $dompdf->set_paper('a4', 'portrait');
+                  //$dompdf->stream("hello.pdf");
+                  $dompdf->stream('hi',array('Attachment'=>0));
 
 ?>

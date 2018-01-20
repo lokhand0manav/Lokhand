@@ -9,18 +9,20 @@ ob_start();
    {
     header("refresh:2,url=index.php");
    }
-  
+$isType;  
 if(isset($_POST['attended']))
   {
     if(empty($_POST['min_date']) && empty($_POST['max_date']))
     {
       $result = view($attended,$f_id,0);   
       $sql = viewReturn($attended,$f_id,0); //for query return
+      $isType = "Attended";
     }
     else
     {
       $result = view($attended,$f_id,1);
       $sql = viewReturn($attended,$f_id,1);
+      $isType = "Attended";
     }
   } 
 
@@ -30,11 +32,13 @@ if(isset($_POST['organized']))
     {
       $result = view($organized,$f_id,0);
       $sql = viewReturn($organized,$f_id,0);
+      $isType = "Organized";
     }
     else
     {
       $result = view($organized,$f_id,1); // 1 is for date
       $sql = viewReturn($organized,$f_id,1);
+      $isType = "Organized";
     }
   }
 
@@ -91,10 +95,11 @@ if(mysqli_num_rows($result)>0)
                   <div>
                     <?php 
                      $_SESSION['table_query'] = $sql;
-                     ?>
-                    <a href="IV/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
-
-                    <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon">Print</span></a>
+                    
+                    echo "<a href= 'IV/export_to_excel.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' ><span class='glyphicon'>Export</span></a>";
+                    echo " ";
+                    echo "<a href='IV/printToPDF.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' target='_blank'><span class='glyphicon'>Print</span></a>";
+                    ?>
                   </div>
 
 

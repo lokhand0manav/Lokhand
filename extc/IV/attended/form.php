@@ -265,7 +265,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 						<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value="<?php if(isset($_POST['to'][$k])){echo $_POST['to'][$k];} else if($id!=-999){ echo $employee['t_to'];}?>"><br>
 						<span class="error"><?php echo $derror; ?></span>
 					</div>
-                     <p>**************************************************************************************************</p>
+                     <p>**********************************************************************************</p>
      
                    <?php
 					}

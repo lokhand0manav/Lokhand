@@ -4,7 +4,13 @@
 session_start();
 $sql = $_SESSION['table_query']; //query returned
 include '../Includes/connection.php'; //connection
-  
+$isAnalysis = 0; //is analysis
+
+if(isset($_GET['flag']))
+{
+ $GLOBALS['isAnalysis'] = 1; 
+} 
+
   function cleanData(&$str) //function used for cleaning the data, without this date will be printedas #######
   {
     if($str == 't') $str = 'TRUE';
@@ -42,6 +48,19 @@ include '../Includes/connection.php'; //connection
   $flag = false;
   $result = mysqli_query($conn,$sql) or die("Couldn't execute query:<br>" . mysqli_error($conn). "<br>" . mysqli_errno($conn)); 
   //$result = pg_query("SELECT * FROM table ORDER BY field") or die('Query failed!');
+  if($isAnalysis==1)
+  {
+    $temp=array("Activity Name","Total Number of Activities");
+    fputcsv($out, $temp,',','"');
+    $temp= array($_GET['type'],$_GET['count']);
+    fputcsv($out, $temp,',','"');
+    $temp=array("---------------------------------------------------------------------------");
+    fputcsv($out,$temp,',','"');
+    $temp=array("Date",$_GET['date']);
+    fputcsv($out, $temp,',','"');
+    $temp=array("---------------------------------------------------------------------------");
+    fputcsv($out,$temp,',','"');
+  }
   while($row = mysqli_fetch_assoc($result)) 
   {
     if(!$flag) 

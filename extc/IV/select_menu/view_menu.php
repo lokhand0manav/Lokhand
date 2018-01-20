@@ -8,7 +8,8 @@ $(document).ready(function(){
 });
 
 </script>
-<?php  
+<?php 
+
 $min_date ="";
 $max_date ="";
 		
@@ -135,13 +136,14 @@ $max_date ="";
 		if (isset($_POST['attended'])) 
 					{
 					//$_SESSION['view_query']=$attended_sql;
+					$total = $total1['total'];
 					include_once("IV/select_menu/view.php");
 					}
 				
 				if (isset($_POST['organized'])) {
 					//$_SESSION['view_query']=$organized_sql;
-					include_once("IV/select_menu/view.php");
-					
+					$total = $total2['total'];
+					include_once("IV/select_menu/view.php");	
 					}
 		?>			
 	</div>

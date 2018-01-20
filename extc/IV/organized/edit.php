@@ -140,7 +140,7 @@ if (isset($_POST['delete']))
                               else if(($employee['permission']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['permission']."'>View permission</td>";
+                                echo "<td> <a href = '".$employee['permission']."' target='_blank'>View permission</td>";
                             }
                             else
                               echo "<td>no status</td>";
@@ -164,7 +164,7 @@ if (isset($_POST['delete']))
                               else if(($employee['report']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['report']."'>View report</td>";
+                                echo "<td> <a href = '".$employee['report']."' target='_blank'>View report</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -188,7 +188,7 @@ if (isset($_POST['delete']))
                               else if(($employee['certificate']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['certificate']."'>View certificate</td>";
+                                echo "<td> <a href = '".$employee['certificate']."' target='_blank'>View certificate</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -215,7 +215,7 @@ if (isset($_POST['delete']))
                               else if(($employee['attendance']) == "not_applicable") 
                                 echo "<td>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['attendance']."'>View attendance</td>";
+                                echo "<td> <a href = '".$employee['attendance']."' target='_blank'>View attendance</td>";
                             }
                             else
                               echo "<td>no status </td>";
@@ -274,7 +274,7 @@ if (isset($_POST['delete']))
                      ?>
                     <a href="IV/export_to_excel.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon ">Export</span></a>
 
-                    <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm"><span class="glyphicon">Print</span></a>
+                    <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm" target="_blank"><span class="glyphicon">Print</span></a>
                   </div>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->

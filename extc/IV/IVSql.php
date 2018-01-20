@@ -136,16 +136,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id ORDER BY DATE ASC");
 					else
-						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","f_id = '".$f_id."' ORDER BY DATE ASC");	
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
 					else
-						return simpleQueryReturn("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
 
 				}
 			
@@ -205,9 +205,9 @@
 		else
 		{
 			if(strcmp($from,"IV_attended")==0)
-				return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
 			else
-				return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
 
 			//return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
 		}
