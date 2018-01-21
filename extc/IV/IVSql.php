@@ -96,16 +96,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY date ASC");
 					else
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
 					else
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
 
 				}
 		
@@ -114,12 +114,12 @@
 		{
 			if($isDate==0)
 			{
-				return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+				return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
 			}
 			else
 			{
 				
-				return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
+				return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC"); //no where condition
 			}
 
 		}	
@@ -136,16 +136,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id ORDER BY DATE ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id ORDER BY date ASC");
 					else
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","f_id = '".$f_id."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' ORDER BY date ASC");	
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");	
 					else
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
 
 				}
 			
@@ -155,12 +155,12 @@
 			if($isDate==0)
 			{
 
-				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY DATE ASC");
+				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
 			}
 			else
 			{
 		
-				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY DATE ASC"); //no where condition
+				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC"); //no where condition
 			}
 
 		}	

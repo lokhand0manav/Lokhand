@@ -67,8 +67,7 @@ $(document).ready(function(){
 					if(isset($_POST['cancel']))
 					  	{
 			
-								header("location:template.php");
-							
+							header("location:template.php?x=IV/select_menu/edit_menu.php");						
 					  	}
 						
 					?>

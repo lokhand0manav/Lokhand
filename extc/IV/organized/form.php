@@ -328,8 +328,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
-          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if(isset($_POST['purpose'][$k])){echo $_POST['purpose'][$k];} else if($id!=-999){ echo $employee['purpose'];} ?>
-          				</textarea>
+          				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if(isset($_POST['purpose'][$k])){echo $_POST['purpose'][$k];} else if($id!=-999){ echo $employee['purpose'];} ?></textarea>
           				<span class="error"><?php if($flag[$k]!=0){echo $perr[$k];} ?></span>
                      </div>
 

@@ -46,9 +46,9 @@ ob_start();
    } 
   if(mysqli_num_rows($result)>0)
                       {
+
                         $table =$table."<table border=1 width=100%>
                            <thead>
-                            
                             <tr>
                             ".$selection."<th>Industry Name</th>
                             <th>City</th>
@@ -62,8 +62,7 @@ ob_start();
 
                           	if($_SESSION['username']=="hodextc@somaiya.edu")
                             {
-                            $f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
-                            $table = $table."<td>".$f_name."</td>";
+                            $table = $table."<td>".$employee['F_NAME']."</td>";
                         	}
                         	
 

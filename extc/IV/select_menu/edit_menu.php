@@ -95,7 +95,7 @@ if(isset($_GET['alert']))
 ?>			
 			<div class='box-footer'>
 				<button type='submit' name='submit_view' id='submit' value='' class='btn btn-primary'>View</button>
-				<button type='submit' name='cancel' id='cancel' value='' class='btn btn-primary'>Cancel</button>
+				<!--<button type='submit' name='cancel' id='cancel' value='' class='btn btn-primary'>Cancel</button> add if needed-->
 			</div>
 			
 		</form>
@@ -123,7 +123,7 @@ if(isset($_GET['alert']))
 
 	if(isset($_POST['cancel']))
 	{	
-		header("location:template.php");		
+			//add if needed, //add the button as well	
 	}
 	
 	?>
