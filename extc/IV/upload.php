@@ -18,10 +18,8 @@ $conn=connection();
   $type = $_SESSION['type'] ; 
   $id   = $_SESSION['id']   ; 
   $file = $_SESSION['file'] ; 
-  
 
 //check if the insert was pressed
-//QUERY for the applicable not applicabe will be found here
 if(isset($_POST['insert-image']))
   {
 	$success =0;
@@ -33,6 +31,11 @@ if(isset($_POST['insert-image']))
 		{
             	//$query = "UPDATE $type SET $file='NULL' where id='$id'"; 
 				//mysqli_query($conn,$query);
+             	$iv=mysqli_fetch_object(IV($file,$type,$id,"select"));
+             	if(strcmp($iv->$file,"NULL")!=0 && strcmp($iv->$file,"")!=0 &&strcmp($iv->$file,"not_applicable")!=0)//check if already has image uploaded
+             	{
+             		unlink($iv->$file);
+             	}
              	$val=array("NULL",$id);
              	IV($file,$type,$val,"upload");
          		$success =1;
@@ -42,6 +45,11 @@ if(isset($_POST['insert-image']))
 		{
             	//$query = "UPDATE $type SET $file='not_applicable' where id='$id'";
 				//mysqli_query($conn,$query);
+				$iv=mysqli_fetch_object(IV($file,$type,$id,"select"));
+             	if(strcmp($iv->$file,"NULL")!=0 && strcmp($iv->$file,"")!=0 &&strcmp($iv->$file,"not_applicable")!=0)//check if already has image uploaded
+             	{
+             		unlink($iv->$file);
+             	}
 				$val=array("not_applicable",$id);
              	IV($file,$type,$val,"upload");
            		$success =1;
@@ -71,6 +79,11 @@ if(isset($_POST['insert-image']))
 					 //successful
 						//$query = "UPDATE $type SET $file='".$targetName."' where id='$id'"; 
 					 	//mysqli_query($conn,$query);
+				 		$iv=mysqli_fetch_object(IV($file,$type,$id,"select"));
+             			if(strcmp($iv->$file,"NULL")!=0 && strcmp($iv->$file,"")!=0 &&strcmp($iv->$file,"not_applicable")!=0)//check if already has image uploaded
+             			{
+             				unlink($iv->$file);
+             			}	
 				 		$val=array($targetName,$id);
              			IV($file,$type,$val,"upload");
 					 			 $success =1;
@@ -97,15 +110,15 @@ if(isset($_POST['insert-image']))
 	unset($_SESSION['id']);
 	
 	if(strcmp($type,"IV_attended")==0)			
-	 header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");	
+	 header("location:IV.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");	
 	else 
-	 header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=organized");	
+	 header("location:IV.php?x=IV/select_menu/edit_menu.php&alert=update&type=organized");	
 }
 	
 
 
 if(isset($_POST['cancel'])){
-	header("location:template.php?x=IV/select_menu/edit_menu.php");
+	header("location:IV.php?x=IV/select_menu/edit_menu.php");
 }
 ?>
 

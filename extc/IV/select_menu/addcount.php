@@ -60,14 +60,14 @@ $(document).ready(function(){
 							else
 							{	
 								$_SESSION['activity']=$_POST['activity'];
-									header("location:template.php?x=IV/".$_SESSION['activity']."/form.php&count=".$count);
+									header("location:IV.php?x=IV/".$_SESSION['activity']."/form.php&count=".$count);
 							}
 						}
 						 
 					if(isset($_POST['cancel']))
 					  	{
 			
-							header("location:template.php?x=IV/select_menu/edit_menu.php");						
+							header("location:IV.php?x=IV/select_menu/edit_menu.php");						
 					  	}
 						
 					?>

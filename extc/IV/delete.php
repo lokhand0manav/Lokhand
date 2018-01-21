@@ -1,7 +1,7 @@
 <script>
 $(document).ready(function(){
     // $("select").change(function(){
-    //     $(location).attr('href', 'template.php?x=../IV/'+$(this).val()+'/edit.php');
+    //     $(location).attr('href', 'IV.php?x=../IV/'+$(this).val()+'/edit.php');
     // });
    alert("are you sure");
 });
@@ -64,9 +64,9 @@ $iv=mysqli_fetch_object(IV("attendance",$type,$id,"select"));
   {
           
   if(strcmp($type,"IV_attended")==0) 
-					header("location:../template.php?x=IV/select_menu/edit_menu.php&alert=delete&type=attended");
+					header("location:../IV.php?x=IV/select_menu/edit_menu.php&alert=delete&type=attended");
 	else
-          header("location:../template.php?x=IV/select_menu/edit_menu.php&alert=delete&type=organized");
+          header("location:../IV.php?x=IV/select_menu/edit_menu.php&alert=delete&type=organized");
 
   }
 

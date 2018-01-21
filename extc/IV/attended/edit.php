@@ -1,7 +1,7 @@
 <script>
 $(document).ready(function(){
     // $("select").change(function(){
-    //     $(location).attr('href', 'template.php?x=../IV/'+$(this).val()+'/edit.php');
+    //     $(location).attr('href', 'IV.php?x=../IV/'+$(this).val()+'/edit.php');
     // });
     var table = $('#viewAttended').DataTable( {       
         scrollX:  true,
@@ -51,14 +51,14 @@ if(isset($_POST['upload']))
   $_SESSION['type']   = $attended; 
   $_SESSION['id']   = $_POST['id']; 
   $_SESSION['file']   = $_POST['file']; 
-  header("location:template.php?x=IV/upload.php");
+  header("location:IV.php?x=IV/upload.php");
 }
 
 if (isset($_POST['edit']))
 {
   
   $_SESSION['id'] = $_POST['id'];
-  header("location:template.php?x=IV/attended/form.php"); 
+  header("location:IV.php?x=IV/attended/form.php"); 
 }
 
 if (isset($_POST['delete']))
@@ -135,7 +135,7 @@ if (isset($_POST['delete']))
                               echo "<td>no status</td>";
 
                              echo "<td>
-                                    <form action = 'template.php?x=IV/attended/edit.php' method = 'POST'>
+                                    <form action = 'IV.php?x=IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'permission'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
 
@@ -159,7 +159,7 @@ if (isset($_POST['delete']))
                             else
                               echo "<td>no status </td>";
                             echo "<td>
-                                    <form action = 'template.php?x=IV/attended/edit.php' method = 'POST'>
+                                    <form action = 'IV.php?x=IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'report'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
@@ -182,7 +182,7 @@ if (isset($_POST['delete']))
                             else
                               echo "<td>no status </td>";
                             echo "<td>
-                                    <form action = 'template.php?x=IV/attended/edit.php' method = 'POST'>
+                                    <form action = 'IV.php?x=IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'file' value = 'certificate'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'>
                                         <button name ='upload' type = 'submit' class = 'btn btn-primary btn-sm'>
@@ -193,7 +193,7 @@ if (isset($_POST['delete']))
                             echo"</tr></table></td>";
 
                              echo "<td>
-                                    <form action = 'template.php?x=IV/attended/edit.php' method = 'POST'>
+                                    <form action = 'IV.php?x=IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-edit'></span>
@@ -202,7 +202,7 @@ if (isset($_POST['delete']))
                                   </td>";
 
                              echo "<td>
-                                    <form action = 'template.php?x=IV/attended/edit.php' method = 'POST'>
+                                    <form action = 'IV.php?x=IV/attended/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <button name ='delete' type = 'submit' class = 'btn btn-primary btn-sm'>
                                         <span class='glyphicon glyphicon-trash'></span>
@@ -222,7 +222,7 @@ if (isset($_POST['delete']))
                   </table>
                
                 </div>
-                  <form method='POST' action="template.php?x=IV/select_menu/addcount.php">
+                  <form method='POST' action="IV.php?x=IV/select_menu/addcount.php">
                     
                   <button type=submit name='add' class="btn btn-primary" >Add Activity
                   </button>

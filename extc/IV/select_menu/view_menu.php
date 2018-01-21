@@ -3,7 +3,7 @@
 $(document).ready(function(){
   $(".3").attr("class","active");
   $("button.close").click(function(){
-  	window.location.replace("template.php?x=IV/select_menu/view_menu.php");
+  	window.location.replace("IV.php?x=IV/select_menu/view_menu.php");
   });
 });
 

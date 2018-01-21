@@ -31,7 +31,7 @@ else
   $username = $_SESSION['username'];
 }
 
-$count = $GLOBALS['count']; //will be found in template.php
+$count = $GLOBALS['count']; //will be found in IV.php
 
 $flag=array();
 //-----------------------------
@@ -197,11 +197,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			if($id!=-999)
 			{
 				unset($_SESSION['id']);		
-				header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");	
+				header("location:IV.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");	
 			}	
 			else
 			{
-				header("location:template.php?x=IV/select_menu/edit_menu.php&alert=success&type=attended");
+				header("location:IV.php?x=IV/select_menu/edit_menu.php&alert=success&type=attended");
 			}
 		}	
 	}
@@ -330,7 +330,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				   ?>
 					<br/>
                     <div class="form-group col-md-12">
-                         <a href="template.php?x=IV/select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
+                         <a href="IV.php?x=IV/select_menu/addcount.php" type="button" class="btn btn-warning btn-lg">Cancel</a>
 
                          <input name="add" type="submit" class="btn btn-success pull-right btn-lg">
                     </div>

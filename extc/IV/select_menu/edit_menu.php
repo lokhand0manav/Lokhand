@@ -19,7 +19,7 @@ $(document).ready(function(){
   $(".2").attr("class","active");
   $("button.close").click(function(){
   	var temp = getUrlParameter('type');
-  	window.location.replace("template.php?x=IV/select_menu/edit_menu.php&type="+temp);
+  	window.location.replace("IV.php?x=IV/select_menu/edit_menu.php&type="+temp);
   });
 
 
@@ -46,14 +46,14 @@ function change()
 }
 if(isset($_GET['alert']))
 			{
-				//header("Refresh:0;url=../includes/template.php?x=../IV/select_menu/edit_menu.php");
+				//header("Refresh:0;url=../includes/IV.php?x=../IV/select_menu/edit_menu.php");
 				
 			}
 ?>
 <div class="box">
 	<div class="box-body">
 
-		<form class="view" role='form' id='form' action='template.php?x=IV/select_menu/edit_menu.php' method='POST'>
+		<form class="view" role='form' id='form' action='IV.php?x=IV/select_menu/edit_menu.php' method='POST'>
 			<!-- ===== Select Activity==== -->
 			<div class='box-header with-border'>
 				<h3 class='box-title'>View/Edit Activities</h3>

@@ -49,16 +49,11 @@
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li class="1" ><a href='template.php?x=IV/select_menu/addcount.php'><i class="fa fa-circle-o"></i>Add Activity</a></li>
-              <li class="2" ><a href='template.php?x=IV/select_menu/edit_menu.php'><i class="fa fa-circle-o"></i>View/Edit Activity</a></li>
-              <li class="3" ><a href='template.php?x=IV/select_menu/view_menu.php'><i class="fa fa-circle-o"></i>Analysis</a></li>
+              <li class="1" ><a href='IV.php?x=IV/select_menu/addcount.php'><i class="fa fa-circle-o"></i>Add Activity</a></li>
+              <li class="2" ><a href='IV.php?x=IV/select_menu/edit_menu.php'><i class="fa fa-circle-o"></i>View/Edit Activity</a></li>
+              <li class="3" ><a href='IV.php?x=IV/select_menu/view_menu.php'><i class="fa fa-circle-o"></i>Analysis</a></li>
             </ul>
         </li>
-        <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
