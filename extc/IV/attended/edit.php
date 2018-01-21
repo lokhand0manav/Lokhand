@@ -94,6 +94,8 @@ if (isset($_POST['delete']))
                       <th>City</th>
                       <th>Purpose</th>
                       <th>Date</th>
+                      <th>from</th>
+                      <th>To</th>
                       <th>Permission</th>
                       <th>Report</th>
                       <th>Certificate</th>
@@ -115,7 +117,9 @@ if (isset($_POST['delete']))
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";
                             echo"<td>".$employee['date']."</td>";
-                          
+                            echo"<td>".$employee['t_from']."</td>";
+                            echo"<td>".$employee['t_to']."</td>";
+
                             echo"<td><table class='table-bordered' ><tr>";
                             
                             if(($employee['permission']) != "")

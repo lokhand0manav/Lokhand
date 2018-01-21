@@ -3,11 +3,13 @@ $(document).ready(function(){
   $(".1").attr("class","active");
 });
 </script>
+
 <style>
 .error {
     color: red;
 }
 </style>
+
 <?php 
 ob_start();
 if(session_status() == PHP_SESSION_NONE)
@@ -28,18 +30,30 @@ else
 {
   $username = $_SESSION['username'];
 }
+
 $count = $GLOBALS['count']; //will be found in template.php
-$flag=0;
-$dateerr = "";
-$derror = "";
-$nameerr = "";
-$inderr = "";
-$cityerr = "";
-$perr = "";
+
+$flag=array();
+//-----------------------------
+$dateerr = array();
+$derror = array();
+$nameerr = array();
+$inderr = array();
+$cityerr = array();
+$perr = array();
+$permission=array();
+$report = array();
+$certificate= array();
+//-------------------------------
+ $f_id = array();
+ $ivdate= array();
+ $ind= array();
+ $city= array();
+ $purpose= array();
+ $from = array();
+ $to = array();
+//-------------------------------
 $id = -999;
-$permission="";
-$report ="";
-$certificate="";
 
 function test_input($data) 
 {
@@ -49,12 +63,47 @@ function test_input($data)
 	return $data;
 }
 
+
+
 //this cond is must, if user jumps from page of updating to add, session[id] will be considered from update
 if(isset($_SESSION['id']) && !isset($_GET['count']) ) 
 {
  $id = $_SESSION['id']; 
  $employee=mysqli_fetch_assoc(IV("*",$attended,$id,"select")); //function will be found in IVSql.php
  $count = 1;
+}
+
+function isNoError($flags)
+{
+		for($i=0;$i<$GLOBALS['count'];$i++)
+		 {	
+			 if($flags[$i]==0)
+			 {
+			 	continue;
+			 }
+			 else
+			 {
+			 	return 0;
+			 }
+
+		 }
+		 return 1;
+}
+//setting arrays----------------------
+for($i=0;$i<$count;$i++)
+{
+ $flag[$i] = 0;
+ //--------------------
+ $dateerr[$i] = "";
+ $derror[$i] = "";
+ $nameerr[$i] = "";
+ $inderr[$i] = "";
+ $cityerr[$i] = "";
+ $perr[$i] = "";
+ //------------------------
+ $permission[$i]="";
+ $report[$i] = "";
+ $certificate[$i]= "";
 }
 
 
@@ -75,80 +124,86 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$to_array= $_POST['to'];
 		
 		
-
-		
 		for($i=0; $i<count($ivdate_array);$i++)
 		{
+			$flag[$i]=0;
+			$f_id[$i] = mysqli_real_escape_string($conn,$f_id_array[$i]);
+			$ivdate[$i] = mysqli_real_escape_string($conn,$ivdate_array[$i]);
+			$ind[$i] = mysqli_real_escape_string($conn,$ind_array[$i]);
+			$city[$i] = mysqli_real_escape_string($conn,$city_array[$i]);
+			$purpose[$i] = mysqli_real_escape_string($conn,$purpose_array[$i]);	
+			$from[$i] = mysqli_real_escape_string($conn,$from_array[$i]);
+			$to[$i] = mysqli_real_escape_string($conn,$to_array[$i]);
 			
-			$f_id = mysqli_real_escape_string($conn,$f_id_array[$i]);
-			$ivdate = mysqli_real_escape_string($conn,$ivdate_array[$i]);
-			$ind = mysqli_real_escape_string($conn,$ind_array[$i]);
-			$city = mysqli_real_escape_string($conn,$city_array[$i]);
-			$purpose = mysqli_real_escape_string($conn,$purpose_array[$i]);	
-			$from = mysqli_real_escape_string($conn,$from_array[$i]);
-			$to = mysqli_real_escape_string($conn,$to_array[$i]);
 			if(empty($_POST['ivdate'][$i]))
 			{
-				$dateerr="Please enter a date";
-				$flag++;
+				$dateerr[$i]="Please enter a date";
+				$flag[$i]++;
 			}
 			if(empty($_POST['ind'][$i]))
 			{
-				$inderr="Please enter the details";
-				$flag++;
+				$inderr[$i]="Please enter the details";
+				$flag[$i]++;
 			}
 			if(empty($_POST['city'][$i]))
 			{
-				$cityerr="Enter the city";
-				$flag++;
+				$cityerr[$i]="Enter the city";
+				$flag[$i]++;
 			}
 			else
 			{
-				$city = test_input($_POST['city'][$i]);
-				if (!preg_match("/^[a-zA-Z]*$/",$city))
+				$city[$i] = test_input($_POST['city'][$i]);
+				if (!preg_match("/^[a-zA-Z]*$/",$city[$i]))
 				{
-					$cityerr = "City name cannot contain number";
-					$flag++;
+					$cityerr[$i] = "City name cannot contain number";
+					$flag[$i]++;
 				}
 			}
 			if(empty($_POST['purpose'][$i]))
 			{
-				$perr="Please enter a date";
-				$flag++;
+				$perr[$i]="Please enter Purpose";
+				$flag[$i]++;
 			}
 			if(empty($_POST['from'][$i]) && empty($_POST['to'][$i]))
 			{
-				$derror="Enter the duration";
-				$flag++;
+				$derror[$i]="Enter the duration";
+				$flag[$i]++;
 			}
 			else if((strtotime($_POST['from'][$i]))>(strtotime($_POST['to'][$i])))
 			{
-				$derror="Incorrect date entered. Date from cannot be greater than Date to";
-				$flag++;
+				$derror[$i]="Incorrect date entered. Date from cannot be greater than Date to";
+				$flag[$i]++;
 			}
 		
-			if($flag==0)
+		}
+		
+		if(isNoError($flag))
+		{	 	
+			for($i=0;$i<$count;$i++)	
 			{
-				$val = array($id,$f_id,$ind,$city,$purpose,$ivdate,$permission,$report,$certificate,$from,$to);
+
+				$val = array($id,$f_id[$i],$ind[$i],$city[$i],$purpose[$i],$ivdate[$i],$permission[$i],$report[$i],$certificate[$i],$from[$i],$to[$i]);
 				if($id!=-999)
 				{				
-					$result = IV("what",$attended,$val,"update");
-					unset($_SESSION['id']);		
-				    header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");
+					$result = IV("what",$attended,$val,"update");					
 					//$sql="UPDATE attended set f_name ='$fname' ,ind ='$ind', city='$city', purpose='$purpose', date='$ivdate' where f_id= $id;";		
 				}
 				else
-				{
-					
-				 	$result = IV("what",$attended,$val,"insert");
-				 	header("location:template.php?x=IV/select_menu/edit_menu.php&type=attended");
+				{					
+				 	$result = IV("what",$attended,$val,"insert");				 	
 				 	//$sql="INSERT INTO attended (f_name,ind,city,purpose,date) VALUES ('$fname','$ind','$city','$purpose','$ivdate')";
 				}
 			}
-
-
-		}
-				
+			if($id!=-999)
+			{
+				unset($_SESSION['id']);		
+				header("location:template.php?x=IV/select_menu/edit_menu.php&alert=update&type=attended");	
+			}	
+			else
+			{
+				header("location:template.php?x=IV/select_menu/edit_menu.php&alert=success&type=attended");
+			}
+		}	
 	}
 }
 ?>
@@ -171,6 +226,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			
 					for($k=0; $k<$count ; $k++)
 					{
+						//echo $f_id[$k];$ind[$k],$city[$k],$purpose[$k],$ivdate[$k],$permission[$k],$report[$k],$certificate[$k],$from[$k],$to[$k];
+						//echo isNoError($flag);
 						//show faculty names multiple time only when HOD, not when user
 						echo "<div class='form-group col-md-12 box-header with-border'>";
                         if($_SESSION['username'] == 'hodextc@somaiya.edu' || $_SESSION['username'] == 'member@somaiya.edu')
@@ -206,8 +263,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                                     {
 										if($id!=-999 && $fac['Fac_ID']==$f_id) //not a new entry i.e editing as id is set
                                       		echo "<option value = '$fac[Fac_ID]' SELECTED>$fac[F_NAME]</option>";
+										else if(isset($_POST['fid']) && $fac['Fac_ID']==$_POST['fid'][$k])
+                                      		echo "<option value = '$fac[Fac_ID]' SELECTED>$fac[F_NAME]</option>";
 										else
-                                      		echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
+											echo "<option value = '$fac[Fac_ID]'>$fac[F_NAME]</option>";
 									}
                                 }
                         ?>
@@ -236,25 +295,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 	 <div class="form-group col-md-6">
                 		 <label >Industry Name</label><span class="required">*</span>         
          	 			 <input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value='<?php if(isset($_POST['ind'][$k])){ echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>'>
-          				 <span class="error"><?php echo $inderr; ?></span>
+          				 <span class="error"><?php if($flag[$k]!=0){echo $inderr[$k];} ?></span>
                 	 </div>
 
                      <div class="form-group col-md-6">
                          <label>Date of visit:</label><span class="required">*</span>
           				 <input type="date" name="ivdate[]" class="form-control" value='<?php if(isset($_POST['ivdate'][$k])){echo $_POST['ivdate'][$k];} else if($id!=-999){ echo $employee['date'];}?>'>
-         				 <span class="error"><?php echo $dateerr; ?></span>
+         				 <span class="error"><?php if($flag[$k]!=0){echo $dateerr[$k];} ?></span>
                      </div>
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
           				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if(isset($_POST['purpose'][$k])){echo $_POST['purpose'][$k];} else if($id!=-999){ echo $employee['purpose'];} ?>
           				</textarea>
-          				<span class="error"><?php echo $inderr; ?></span>
+          				<span class="error"><?php if($flag[$k]!=0){echo $perr[$k];} ?></span>
                      </div>
 
                      <div class="form-group col-md-8"> 
                          <label>City</label><span class="required">*</span>
           				 <input type="text" class="form-control" name="city[]" value=<?php if(isset($_POST['city'][$k])){echo $_POST['city'][$k];} else if($id!=-999){ echo $employee['city'];} ?>>
-          				 <span class="error"><?php echo $cityerr; ?></span>
+          				 <span class="error"><?php if($flag[$k]!=0){echo $cityerr[$k];} ?></span>
                      </div>
 
 					<div class="form-group col-md-12">	
@@ -263,7 +322,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 						<b>From:</b> &emsp;<input type="date" name="from[]" placeholder="from" value="<?php if(isset($_POST['from'][$k])){echo $_POST['from'][$k];} else if($id!=-999){ echo $employee['t_from'];}?>">	
 						&emsp;
 						<b>To:</b>&emsp;<input type="date" name="to[]" placeholder="to" value="<?php if(isset($_POST['to'][$k])){echo $_POST['to'][$k];} else if($id!=-999){ echo $employee['t_to'];}?>"><br>
-						<span class="error"><?php echo $derror; ?></span>
+						<span class="error"><?php if($flag[$k]!=0){echo $derror[$k];} ?></span>
 					</div>
                      <p>**********************************************************************************</p>
      
