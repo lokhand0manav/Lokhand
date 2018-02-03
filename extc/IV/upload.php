@@ -118,7 +118,10 @@ if(isset($_POST['insert-image']))
 
 
 if(isset($_POST['cancel'])){
-	header("location:IV.php?x=IV/select_menu/edit_menu.php");
+	if(strcmp($type,"IV_attended")==0)
+		header("location:IV.php?x=IV/select_menu/edit_menu.php&type=attended");
+	else
+		header("location:IV.php?x=IV/select_menu/edit_menu.php&type=organized");
 }
 ?>
 
@@ -163,8 +166,8 @@ include('scripting.php');
                 <!--       <button name="cancel" type="submit" class="btn btn-warning btn-lg">Cancel</button> -->
 		 
                          <div class="pull-right"> 
-						 
-                             <button name="insert-image" type="submit" class="btn btn-success  btn-lg">Insert</button>
+						 	 <button name="insert-image" type="submit" class="btn btn-success  btn-lg">Insert</button>
+                             <button name="cancel" type="submit" class="btn btn-success  btn-lg">Cancel</button>
                          </div>
                     </div> 
                  </form>

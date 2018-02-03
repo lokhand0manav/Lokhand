@@ -61,9 +61,9 @@
 				else
 				{
 					if($f_id==0 || $f_id==9) //ALL
-						return simpleQuery("count('id') as total", $from , "date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
+						return simpleQuery("count('id') as total", $from , "t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."'");		
 					else
-						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'");		
+						return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."'");		
 
 				}
 	
@@ -78,7 +78,7 @@
 			else
 			{
 			
-				return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."'"); //no where condition
+				return simpleQuery("count('id') as total", $from , "f_id='".$f_id."'AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."'"); //no where condition
 
 			}	
 		}
@@ -96,16 +96,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"1=1 ORDER BY date ASC");
+						return simpleQuery("f_id,ind,city,purpose",$from,"1=1 ORDER BY t_from ASC");
 					else
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
+						return simpleQuery("f_id,ind,city,purpose",$from,"f_id = '".$f_id."' ORDER BY date ASC");
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
+						return simpleQuery("f_id,ind,city,purpose",$from,"t_from >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY t_from ASC");
 					else
-						return simpleQuery("f_id,ind,city,purpose,date",$from,"f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
+						return simpleQuery("f_id,ind,city,purpose",$from,"f_id = '".$f_id."' AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."' ORDER BY t_from ASC");
 
 				}
 		
@@ -114,12 +114,12 @@
 		{
 			if($isDate==0)
 			{
-				return simpleQuery("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
+				return simpleQuery("ind,city,purpose",$from,"f_id = '".$f_id."' ORDER BY t_from ASC");
 			}
 			else
 			{
 				
-				return simpleQuery("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC"); //no where condition
+				return simpleQuery("ind,city,purpose",$from,"f_id='".$f_id."'AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."' ORDER BY t_from ASC"); //no where condition
 			}
 
 		}	
@@ -136,16 +136,16 @@
 				if($isDate==0)
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id ORDER BY date ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id ORDER BY t_from ASC");
 					else
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' ORDER BY date ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' ORDER BY t_from ASC");	
 				}
 				else
 				{
 					if($f_id==0) //ALL faculty
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");	
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."' ORDER BY t_from ASC");	
 					else
-						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose,date",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC");
+						return simpleQueryReturn("facultydetails.F_NAME,ind,city,purpose",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."' AND t_from >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY t_from ASC");
 
 				}
 			
@@ -155,12 +155,12 @@
 			if($isDate==0)
 			{
 
-				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id = '".$f_id."' ORDER BY date ASC");
+				return simpleQueryReturn("ind,city,purpose",$from,"f_id = '".$f_id."' ORDER BY t_from ASC");
 			}
 			else
 			{
 		
-				return simpleQueryReturn("ind,city,purpose,date",$from,"f_id='".$f_id."'AND date >='".$GLOBALS['min_date']."' AND date <='".$GLOBALS['max_date']."' ORDER BY date ASC"); //no where condition
+				return simpleQueryReturn("ind,city,purpose",$from,"f_id='".$f_id."'AND t_from >='".$GLOBALS['min_date']."' AND t_from <='".$GLOBALS['max_date']."' ORDER BY t_from ASC"); //no where condition
 			}
 
 		}	
@@ -190,24 +190,24 @@
 			if($f_id==0) //0 is for all
 			{
 				if(strcmp($from,"IV_attended")==0)
-					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
 				else
-					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id");
 				//return simpleQueryReturn("*",$from,"1=1");
 			}	
 			else
 				if(strcmp($from,"IV_attended")==0)
-					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
 				else
-					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
+					return simpleQueryReturn("facultydetails.F_NAME,$from.ind,$from.city,$from.purpose,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from.", facultydetails ","facultydetails.Fac_ID=$from.f_id AND f_id = '".$f_id."'");
 
 		}
 		else
 		{
 			if(strcmp($from,"IV_attended")==0)
-				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.date,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
+				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.permission,$from.report,$from.certificate,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
 			else
-				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.date,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
+				return simpleQueryReturn("$from.ind,$from.city,$from.purpose,$from.t_audience,$from.staff,$from.permission,$from.report,$from.certificate,$from.attendance,$from.t_from,$from.t_to",$from,"f_id = '".$f_id."'");
 
 			//return simpleQueryReturn("*",$from,"f_id = '".$f_id."'");
 		}
@@ -232,7 +232,7 @@
 								if(strcmp($from,"IV_attended")==0)
 							 	{
 							 	
-										$sql = "UPDATE $from set f_id ='$arr[1]' ,ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]', date='$arr[5]',t_from='$arr[9]',t_to='$arr[10]' where id= $arr[0];";
+										$sql = "UPDATE $from set f_id ='$arr[1]' ,ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]',t_from='$arr[8]',t_to='$arr[9]' where id= $arr[0];";
 							 			$result=mysqli_query($GLOBALS['conn'],$sql);
 							 			mysqli_close($GLOBALS['conn']);
 										return $result;		
@@ -241,7 +241,7 @@
 							    else //organized
 							 	{
 							 		
-										$sql = "UPDATE $from set f_id ='$arr[1]', ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]', date='$arr[5]',t_audience='$arr[6]',staff='$arr[7]',t_from='$arr[12]',t_to='$arr[13]' where id= $arr[0];";
+										$sql = "UPDATE $from set f_id ='$arr[1]', ind ='$arr[2]', city='$arr[3]', purpose='$arr[4]', t_audience='$arr[5]',staff='$arr[6]',t_from='$arr[11]',t_to='$arr[12]' where id= $arr[0];";
 							 			$result=mysqli_query($GLOBALS['conn'],$sql);
 							 			mysqli_close($GLOBALS['conn']);
 										return $result;			
@@ -259,7 +259,7 @@
 								{
 								
 										//$conn=connection();
-										$sql="INSERT INTO $from (f_id,ind,city,purpose,date,t_from,t_to) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[5]','$arr[9]','$arr[10]')";
+										$sql="INSERT INTO $from (f_id,ind,city,purpose,t_from,t_to) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[8]','$arr[9]')";
 										$result=mysqli_query($GLOBALS['conn'],$sql);
 										return $result;	
 									
@@ -267,7 +267,7 @@
 								else
 								{
 					
-										$sql="INSERT INTO $from (f_id,ind,city,purpose,date,t_audience,staff,t_from,t_to) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[5]','$arr[6]','$arr[7]','$arr[12]','$arr[13]')";
+										$sql="INSERT INTO $from (f_id,ind,city,purpose,t_audience,staff,t_from,t_to) VALUES ('$arr[1]','$arr[2]','$arr[3]','$arr[4]','$arr[5]','$arr[6]','$arr[11]','$arr[12]')";
 										$result=mysqli_query($GLOBALS['conn'],$sql);
 										return $result;	
 								

@@ -35,7 +35,7 @@ $count = $GLOBALS['count']; //will be found in IV.php
 
 $flag=array();
 //-----------------------------
-$dateerr = array();
+//$dateerr = array();
 $derror = array();
 $nameerr = array();
 $inderr = array();
@@ -49,7 +49,7 @@ $certificate= array();
 $attendance=array();
 //-------------------------------
  $f_id = array();
- $ivdate= array();
+ //$ivdate= array();
  $ind= array();
  $city= array();
  $purpose= array();
@@ -99,7 +99,7 @@ for($i=0;$i<$count;$i++)
 {
  $flag[$i] = 0;
  //--------------------
- $dateerr[$i] = "";
+ //$dateerr[$i] = "";
  $derror[$i] = "";
  $nameerr[$i] = "";
  $inderr[$i] = "";
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     	// $fname_array=$_POST['fname'];
     	//$fname = $_POST['fname'];
     	$f_id_array = $_POST['fid'];
-		$ivdate_array = $_POST['ivdate'];
+		//$ivdate_array = $_POST['ivdate'];
 		$ind_array = $_POST['ind'];
 		$purpose_array = $_POST['purpose'];
 		$city_array = $_POST['city'];
@@ -134,11 +134,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$to_array= $_POST['to'];
 		
 		
-		for($i=0; $i<count($ivdate_array);$i++)
+		for($i=0; $i<count($from_array);$i++)
 		{
 			$flag[$i]=0;
 			$f_id[$i] = mysqli_real_escape_string($conn,$f_id_array[$i]);
-			$ivdate[$i] = mysqli_real_escape_string($conn,$ivdate_array[$i]);
+			//$ivdate[$i] = mysqli_real_escape_string($conn,$ivdate_array[$i]);
 			$ind[$i] = mysqli_real_escape_string($conn,$ind_array[$i]);
 			$purpose[$i] = mysqli_real_escape_string($conn,$purpose_array[$i]);	
 			$city[$i] = mysqli_real_escape_string($conn,$city_array[$i]);
@@ -147,11 +147,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$from[$i] = mysqli_real_escape_string($conn,$from_array[$i]);
 			$to[$i] = mysqli_real_escape_string($conn,$to_array[$i]);
 			
-			if(empty($_POST['ivdate'][$i]))
+			/*if(empty($_POST['ivdate'][$i]))
 			{
 				$dateerr[$i]="Please enter a date";
 				$flag[$i]++;
-			}
+			}*/
 			if(empty($_POST['ind'][$i]))
 			{
 				$inderr[$i]="Please enter the details";
@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			for($i=0;$i<$count;$i++)	
 			{
 
-				$val = array($id,$f_id[$i],$ind[$i],$city[$i],$purpose[$i],$ivdate[$i],$t_audience[$i],$staff[$i],$permission[$i],$report[$i],$certificate[$i],$attendance[$i],$from[$i],$to[$i]);
+				$val = array($id,$f_id[$i],$ind[$i],$city[$i],$purpose[$i],/*$ivdate[$i],*/$t_audience[$i],$staff[$i],$permission[$i],$report[$i],$certificate[$i],$attendance[$i],$from[$i],$to[$i]);
 				if($id!=-999)
 				{				
 					$result = IV("what",$organized,$val,"update");					
@@ -315,17 +315,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                          
                 </div><br/> <br/> <br/> <br/> 
 							
-                	 <div class="form-group col-md-6">
+                	 <div class="form-group col-md-12">
                 		 <label >Industry Name</label><span class="required">*</span>         
          	 			 <input type="textarea" rows="5" cols="5" class="form-control" name="ind[]" value='<?php if(isset($_POST['ind'][$k])){ echo $_POST['ind'][$k];} else if($id!=-999){ echo $employee['ind'];}?>'>
           				 <span class="error"><?php if($flag[$k]!=0){echo $inderr[$k];} ?></span>
                 	 </div>
-
+                	 <!--<?php /*
                      <div class="form-group col-md-6">
                          <label>Date of visit:</label><span class="required">*</span>
           				 <input type="date" name="ivdate[]" class="form-control" value='<?php if(isset($_POST['ivdate'][$k])){echo $_POST['ivdate'][$k];} else if($id!=-999){ echo $employee['date'];}?>'>
          				 <span class="error"><?php if($flag[$k]!=0){echo $dateerr[$k];} ?></span>
-                     </div>
+                     </div>*/?>-->
                      <div class="form-group col-md-12">
                          <label >Purpose</label><span class="required">*</span>        
           				<textarea rows="5" cols="5" class="form-control" name="purpose[]"><?php if(isset($_POST['purpose'][$k])){echo $_POST['purpose'][$k];} else if($id!=-999){ echo $employee['purpose'];} ?></textarea>

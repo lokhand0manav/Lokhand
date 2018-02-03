@@ -92,6 +92,10 @@ if (isset($_POST['delete']))
                 <div class="box-body">
                         <br>
                   <div class="scroll">
+                  <?php
+                   if(mysqli_num_rows($records)>0)
+                        {
+                  ?>
                   <table id="viewOrganized" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
@@ -99,7 +103,7 @@ if (isset($_POST['delete']))
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
-                      <th>Date</th>
+                  <!--<th>Date</th>-->
                       <th>Target Audience</th>
                       <th>Staff</th>
                       <th>from</th>
@@ -115,35 +119,33 @@ if (isset($_POST['delete']))
                     <tbody>
                  <?php
                         //the values for id of user will be also sent from her (upload)
-                        if(mysqli_num_rows($records)>0)
-                        {
                           while($employee=mysqli_fetch_assoc($records))
                           {
                             $f_name = mysqli_fetch_assoc(getFacultyDetails($employee['f_id']))['F_NAME'];
                             echo"<tr>";
-                            echo"<td>".$f_name."</td>";
-                            echo"<td>".$employee['ind']."</td>";
-                            echo"<td>".$employee['city']."</td>";
-                            echo"<td>".$employee['purpose']."</td>";
-                            echo"<td>".$employee['date']."</td>";
-                            echo"<td>".$employee['t_audience']."</td>";
-                            echo"<td>".$employee['staff']."</td>";
-                            echo"<td>".$employee['t_from']."</td>";
-                            echo"<td>".$employee['t_to']."</td>";
+                            echo"<td align='center'>".$f_name."</td>";
+                            echo"<td align='center'>".$employee['ind']."</td>";
+                            echo"<td align='center'>".$employee['city']."</td>";
+                            echo"<td align='center'>".$employee['purpose']."</td>";
+                          //echo"<td>".$employee['date']."</td>";
+                            echo"<td align='center'>".$employee['t_audience']."</td>";
+                            echo"<td align='center'>".$employee['staff']."</td>";
+                            echo"<td align='center' width='10%'>".date("d-m-Y",strtotime($employee['t_from']))."</td>";
+                            echo"<td align='center' width='10%'>".date("d-m-Y",strtotime($employee['t_to']))."</td>";
                           
                             echo"<td><table class='table-bordered' ><tr>";
                             
                             if(($employee['permission']) != "")
                             {
                               if(($employee['permission']) == "NULL")
-                                echo "<td>not yet available</td>";
+                                echo "<td width='100%'>not yet available</td>";
                               else if(($employee['permission']) == "not_applicable") 
-                                echo "<td>not applicable</td>";
+                                echo "<td width='100%'>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['permission']."' target='_blank'>View permission</td>";
+                                echo "<td width='100%'> <a href = '".$employee['permission']."' target='_blank'>View permission</td>";
                             }
                             else
-                              echo "<td>no status</td>";
+                              echo "<td width='100%'>no status</td>";
 
                              echo "<td>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
@@ -160,14 +162,14 @@ if (isset($_POST['delete']))
                             if(($employee['report']) != "")
                             {
                               if(($employee['report']) == "NULL")
-                                echo "<td>not yet available</td>";
+                                echo "<td width='100%'>not yet available</td>";
                               else if(($employee['report']) == "not_applicable") 
-                                echo "<td>not applicable</td>";
+                                echo "<td width='100%'>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['report']."' target='_blank'>View report</td>";
+                                echo "<td width='100%'> <a href = '".$employee['report']."' target='_blank'>View report</td>";
                             }
                             else
-                              echo "<td>no status </td>";
+                              echo "<td width='100%'>no status </td>";
 
                             echo "<td>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
@@ -184,14 +186,14 @@ if (isset($_POST['delete']))
                             if(($employee['certificate']) != "")
                             {
                               if(($employee['certificate']) == "NULL")
-                                echo "<td>not yet available</td>";
+                                echo "<td width='100%'>not yet available</td>";
                               else if(($employee['certificate']) == "not_applicable") 
-                                echo "<td>not applicable</td>";
+                                echo "<td width='100%'>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['certificate']."' target='_blank'>View certificate</td>";
+                                echo "<td width='100%'> <a href = '".$employee['certificate']."' target='_blank'>View certificate</td>";
                             }
                             else
-                              echo "<td>no status </td>";
+                              echo "<td width='100%'>no status </td>";
 
                             echo "<td>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
@@ -211,14 +213,14 @@ if (isset($_POST['delete']))
                             if(($employee['attendance']) != "")
                             {
                               if(($employee['attendance']) == "NULL")
-                                echo "<td>not yet available</td>";
+                                echo "<td width='100%'>not yet available</td>";
                               else if(($employee['attendance']) == "not_applicable") 
-                                echo "<td>not applicable</td>";
+                                echo "<td width='100%'>not applicable</td>";
                               else
-                                echo "<td> <a href = '".$employee['attendance']."' target='_blank'>View attendance</td>";
+                                echo "<td width='100%'> <a href = '".$employee['attendance']."' target='_blank'>View attendance</td>";
                             }
                             else
-                              echo "<td>no status </td>";
+                              echo "<td width='100%'>no status </td>";
 
                             echo "<td>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
@@ -233,7 +235,7 @@ if (isset($_POST['delete']))
                             
                             echo "</tr></table>";
 
-                             echo "<td>
+                             echo "<td align='center'>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <button name = 'edit' type = 'submit' class = 'btn btn-primary btn-sm'>
@@ -242,7 +244,7 @@ if (isset($_POST['delete']))
                                     </form>
                                   </td>";
 
-                              echo "<td>
+                              echo "<td align='center'>
                                     <form action = 'IV.php?x=IV/organized/edit.php' method = 'POST'>
                                       <input type = 'hidden' name = 'id' value = '".$employee['id']."'> 
                                       <button name ='delete' type = 'submit' class = 'btn btn-primary btn-sm'>
@@ -255,7 +257,7 @@ if (isset($_POST['delete']))
                          }
                          else
                          {
-                           echo "<div class='alert alert-warning'>You have no papers</div>";
+                           echo "<div class='alert alert-warning'>There are no IV Activities</div>";
                          } 
                     ?>
                     </tbody>
@@ -263,12 +265,18 @@ if (isset($_POST['delete']))
                   </table>
                
                 </div>
-                <form method='POST' action="IV.php?x=IV/select_menu/addcount.php">
-                    
-                  <button type=submit name='add' class="btn btn-primary" >Add Activity
-                  </button>
-                  </form>
-                  <div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <form method='POST' action="IV.php?x=IV/select_menu/addcount.php">              
+                    <button type=submit name='add' class="btn btn-primary" >Add Activity
+                    </button>
+                    </form>
+                  </div>
+                   <?php
+                    if(mysqli_num_rows($records)>0)
+                        {
+                  ?> 
+                  <div class="col-md-2">
                     <?php 
                      $_SESSION['table_query'] = $sql;
                      ?>
@@ -276,6 +284,11 @@ if (isset($_POST['delete']))
 
                     <a href="IV/printToPDF.php" type="button" class="btn btn-success btn-sm" target="_blank"><span class="glyphicon">Print</span></a>
                   </div>
+                 </div>
+                </div> 
+                  <?php
+                  }
+                  ?>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
 

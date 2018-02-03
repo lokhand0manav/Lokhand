@@ -45,11 +45,15 @@ if(isset($_POST['organized']))
   if(empty($_POST['min_date']) && empty($_POST['max_date']))
     $date_display=" - NULL ";
   else
-    $date_display=$_POST['min_date']." To ".$_POST['max_date'];
+    $date_display=date("d-m-Y",strtotime($_POST['min_date']))." To ".date("d-m-Y",strtotime($_POST['max_date']));
 ?>
 
 <h4> Date: <b><i><?php echo $date_display;   ?></i></b></h4>  
 <div class="scroll">
+  <?php
+  if(mysqli_num_rows($result)>0)
+                      {
+  ?>
                   <table border="1" class="table table-striped table-bordered ">
                     <thead>
                     <tr>
@@ -63,12 +67,11 @@ if(isset($_POST['organized']))
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
-                      <th>Date</th>
+                  <!--<th>Date</th>-->
                      </tr> 
 
 <?php 
-if(mysqli_num_rows($result)>0)
-                      {
+
                           while($employee=mysqli_fetch_assoc($result))
                           {
 
@@ -82,10 +85,13 @@ if(mysqli_num_rows($result)>0)
                             echo"<td>".$employee['ind']."</td>";
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";
-                            echo"<td>".$employee['date']."</td>";
+                            //echo"<td>".$employee['date']."</td>";
                             echo "</tr>";
                            }  
-                         }                          
+                         }
+                         else
+                            echo "<div class='alert alert-warning'>There no IV Activities</div>";
+                          
  ?>
   </thead>
  </table>
@@ -93,12 +99,14 @@ if(mysqli_num_rows($result)>0)
 
 
                   <div>
-                    <?php 
-                     $_SESSION['table_query'] = $sql;
-                    
-                    echo "<a href= 'IV/export_to_excel.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' ><span class='glyphicon'>Export</span></a>";
-                    echo " ";
-                    echo "<a href='IV/printToPDF.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' target='_blank'><span class='glyphicon'>Print</span></a>";
+                    <?php
+                      if(mysqli_num_rows($result)>0)
+                      { 
+                        $_SESSION['table_query'] = $sql;
+                        echo "<a href= 'IV/export_to_excel.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' ><span class='glyphicon'>Export</span></a>";
+                        echo " ";
+                        echo "<a href='IV/printToPDF.php?flag=1&type=$isType&count=$total&date=$date_display' type='button' class='btn btn-success btn-sm' target='_blank'><span class='glyphicon'>Print</span></a>";
+                      }
                     ?>
                   </div>
 
