@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				$city[$i] = test_input($_POST['city'][$i]);
 				if (!preg_match("/^[a-zA-Z]*$/",$city[$i]))
 				{
-					$cityerr[$i] = "City name cannot contain number";
+					$cityerr[$i] = "City name cannot contain number,space";
 					$flag[$i]++;
 				}
 			}

@@ -67,6 +67,10 @@ if (isset($_POST['delete']))
   $_SESSION['id'] = $_POST['id'];
   header("location:IV/delete.php"); 
 }
+if(isset($_POST['add']))
+{
+  header("location:IV.php?x=IV/select_menu/addcount.php&type=Attended");
+}
 ?>
 <style>
   th{
@@ -227,7 +231,7 @@ if (isset($_POST['delete']))
                 </div>
                 <div class="row">
                   <div class="col-md-2">
-                    <form method='POST' action="IV.php?x=IV/select_menu/addcount.php">   
+                    <form method='POST' action="IV.php?x=IV/attended/edit.php">   
                     <button type=submit name='add' class="btn btn-primary" >Add Activity</button>
                     </form>
                   </div>

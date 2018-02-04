@@ -49,7 +49,7 @@ $iv=mysqli_fetch_object(IV("certificate",$type,$id,"select"));
  	unlink("../".$iv->certificate);	
  }
  	
-if(strcmp($type,"organized")==0)
+if(strcmp($type,"iv_organized")!=0)
 {
 $iv=mysqli_fetch_object(IV("attendance",$type,$id,"select"));
   if(strcmp($iv->attendance,"NULL")!=0 && strcmp($iv->attendance,"not_applicable")!=0 && strcmp($iv->attendance,"")!=0)

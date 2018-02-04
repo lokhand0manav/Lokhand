@@ -3,6 +3,13 @@ $(document).ready(function(){
   $(".1").attr("class","active");
 });
 </script>	
+<?php 
+function change()
+{
+	echo "SELECTED";
+}
+
+?>
               <div class='box box-primary'>
                 <div class='box-header with-border'>
                   <h3 class='box-title'>Form for applying activity</h3>
@@ -22,8 +29,8 @@ $(document).ready(function(){
                  		<!-- ===== Select Activity==== -->
                  	<b>Select Activity:</b> 	
                     <select name="activity">
-  					<option value="attended">Attended</option>
-  					<option value="organized">Organized</option>
+  					<option value="attended" <?php if(isset($_GET['type'])){ if(strcmp($_GET['type'],"Attended")==0){change();}}?>>Attended</option>
+  					<option value="organized"<?php if(isset($_GET['type'])){ if(strcmp($_GET['type'],"Organized")==0){change();}}?>>Organized</option>
   					</select>
 
                     
@@ -39,6 +46,7 @@ $(document).ready(function(){
                 
                 </div>
                 <?php
+
 				  	$username = $_SESSION['username'];
 					if ($_SERVER["REQUEST_METHOD"] == "POST") 
 						{

@@ -22,7 +22,7 @@ if(isset($_GET['flag']))
   }
 
   // filename for download
-  $filename = "Department_IV" . date('Ymd') . ".csv"; //can change the extension to .csv
+  $filename = "Department_IV" . date('dmY') . ".csv"; //can change the extension to .csv
   
   $colnames = [
   'F_NAME' =>"Faculty Name",
@@ -77,7 +77,9 @@ if(isset($_GET['flag']))
       //fputcsv($out, array_keys($row), ',', '"'); //fputcsv is used to put the csv data
       $flag = true; //after making this true, the key names wont be printed again
     }
-    array_walk($row, __NAMESPACE__ . '\cleanData');//walk each element of array into cleandata function
+    $row['t_to']  = date("d-m-Y",strtotime($row['t_to']));
+    $row['t_from']= date("d-m-Y",strtotime($row['t_from']));
+    array_walk($row, __NAMESPACE__ . '\cleanData');//walk each element of array into cleandata function    
     fputcsv($out, array_values($row), ',', '"'); //putting values in .csv files without any formatting but as cleanedData
   }
 

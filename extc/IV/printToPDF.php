@@ -15,20 +15,28 @@ ob_start();
 
    $conn=mysqli_connect('localhost','root','','department');
 		
+   $header="<p align='center'  style='font-size:20px'><strong>K.J.Somaiya College of Engineering</strong></p>"."<p align='center'>(Autonomous College affiliated to University of Mumbai)</p><hr>"; 
+
+   $f_name = mysqli_fetch_assoc(getFacultyDetails($_SESSION['f_id']))['F_NAME'];
+
+
 	 if($_SESSION['username']=="hodextc@somaiya.edu")
 	{
 		$selection="<th>Faculty Name</th>";
 	}
-	else
-		$selection="";	
+	else{
+	$selection="";	
+  }
+
+   $table=$header."";
    $sql = $_SESSION['table_query'];
-   $table="";
+  
 
    $result=mysqli_query($conn,$sql);  
    $dompdf = new DOMPDF();
    if(isset($_GET['flag']))
    {
-    $table="<table border=1 width=100% align=center>
+    $table=$header."<table border=1 width=100% align=center>
             <tr>
             <th>Activity Name</th>
             <th>Total Number of Activity</th>
@@ -40,20 +48,23 @@ ob_start();
             </table>
             <br>
             <hr>
-            <center><p>Date :$_GET[date]</p></center>
+            <p>Faculty Name: ".$f_name."</p> 
+            <p>Date :$_GET[date]</p>  
+            </pre>
             <hr>
            ";
    } 
+
   if(mysqli_num_rows($result)>0)
                       {
-
-                        $table =$table."<table border=1 width=100%>
+                        $table =$table."<table border=1 width=100% cellspacing=0px;>
                            <thead>
                             <tr>
                             ".$selection."<th>Industry Name</th>
                             <th>City</th>
                             <th>Purpose</th>
-                            <th>Date</th>
+                            <th>From</th>
+                            <th>To</th>
                             </tr>" ;
 
                           while($employee=mysqli_fetch_assoc($result))
@@ -63,13 +74,12 @@ ob_start();
                           	if($_SESSION['username']=="hodextc@somaiya.edu")
                             {
                             $table = $table."<td>".$employee['F_NAME']."</td>";
-                        	}
-                        	
-
+                        	  }
                             $table = $table."<td>".$employee['ind']."</td>";
                             $table = $table."<td>".$employee['city']."</td>";
                             $table = $table."<td>".$employee['purpose']."</td>";
-                            $table = $table."<td>".$employee['date']."</td>";
+                            $table = $table."<td>".date("d-m-Y",strtotime($employee['t_from']))."</td>";
+                            $table = $table."<td>".date("d-m-Y",strtotime($employee['t_to']))."</td>";
                             $table = $table."</tr>";
                            }  
                          }                          

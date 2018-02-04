@@ -67,7 +67,8 @@ if(isset($_POST['organized']))
                       <th>Industry Name</th>
                       <th>City</th>
                       <th>Purpose</th>
-                  <!--<th>Date</th>-->
+                      <th>From</th>
+                      <th>To</th>
                      </tr> 
 
 <?php 
@@ -85,7 +86,8 @@ if(isset($_POST['organized']))
                             echo"<td>".$employee['ind']."</td>";
                             echo"<td>".$employee['city']."</td>";
                             echo"<td>".$employee['purpose']."</td>";
-                            //echo"<td>".$employee['date']."</td>";
+                            echo"<td>".date("d-m-Y",strtotime($employee['t_from']))."</td>";
+                            echo"<td>".date("d-m-Y",strtotime($employee['t_to']))."</td>";
                             echo "</tr>";
                            }  
                          }
